@@ -247,7 +247,7 @@ object DownloadDebugLog {
     fun buildExportText(context: Context, task: DownloadTaskEntity): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         return buildString {
-            appendLine("云析（YunX）下载调试日志")
+            appendLine("甘露解析（LGAnalysis）下载调试日志")
             appendLine("导出时间：${sdf.format(Date())}")
             appendLine("应用版本：${appVersion(context)}")
             appendLine("设备：${Build.MANUFACTURER} ${Build.MODEL}")

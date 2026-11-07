@@ -3,8 +3,8 @@
 ; Source: the portable output folder (release\YunX-Desktop\) which already contains
 ; the custom launcher and skiko native libs.
 
-#define AppName "云析"
-#define AppNameEn "YunX-Desktop"
+#define AppName "甘露解析"
+#define AppNameEn "LGAnalysis"
 #define AppCompany "tidain"
 #define AppExe "YunX-Desktop.exe"
 ; 版本号单一来源：仓库根 version.txt —— installer-package.ps1 读取后经 /DAppVersion 传入。
@@ -18,9 +18,9 @@ AppId={{7C1E5F9A-3B2D-4E68-9C4F-A1D2B3C4E5F6}
 AppName={#AppName}
 AppVersion={#AppVersion}
 AppPublisher={#AppNameEn}
-AppPublisherURL=https://github.com/tidain/YunX-Desktop
-AppSupportURL=https://github.com/tidain/YunX-Desktop/issues
-AppUpdatesURL=https://github.com/tidain/YunX-Desktop/releases
+AppPublisherURL=https://github.com/PointersMZX/LGAnalysis
+AppSupportURL=https://github.com/PointersMZX/LGAnalysis/issues
+AppUpdatesURL=https://github.com/PointersMZX/LGAnalysis/releases
 ; 安装程序自身的文件版本信息（资源管理器 → setup.exe 属性 → 详细信息）
 VersionInfoVersion={#AppVersion}
 VersionInfoProductName={#AppName}

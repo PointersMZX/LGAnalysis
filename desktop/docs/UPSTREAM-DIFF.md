@@ -1,7 +1,7 @@
 # 与上游的差异（Windows 桌面版 vs Android 版）
 
-- 上游（Android）：[CYQawa/YunX](https://github.com/CYQawa/YunX)
-- 本仓库（Windows 桌面移植）：[tidain/YunX-Desktop](https://github.com/tidain/YunX-Desktop)
+- 上游（Android）：[PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis)
+- 本仓库（Windows 桌面移植）：[PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis)
 
 **沿用上游的部分**：网盘分享链接的解析协议、下载引擎（Range 分片并发、弹性区按字节顺序分配、
 断点续传、失败重试、全局限速）、界面框架与主题体系（Compose + Material 3、深色模式 + 种子色）、
@@ -143,7 +143,7 @@
 | `f381914`(#131/#132) | 115 网盘支持（登录 / 云盘管理 / 分享 / 转存 / 下载） | **数据层**：新增 `Pan115Api` / `Pan115Constants` / `Pan115Crypto`（后者把上游 `android.util.Base64` 换成 `java.util.Base64`）；**模型**：`ShareInfo` 增 `warning`（非致命提示），`ShareExpire` 增 115 专属档位（101..105 + `PAN115_OPTIONS`/`pan115Duration`/`pan115CodeOf`/`pan115CodeOfText`）；**仓库**：`Pan115AccountRepository`（Cookie 落库，登出走 `CookieCleaner` 清 `115.com`）与 `Pan115ResolveRepository`（`share/snap` 列目录 → 分享直链；大文件退回「转存临时目录 + 电脑端加密取链」，接入桌面 `TransferSpaceGuard` 空间前置校验）；**DB**：`Pan115AccountEntity`/DAO/`SecureAccountDaos`/`AppDatabase`（新建 `pan115_account` 表，Cookie 加密落库）；**登录**：桌面走既有 JCEF 内嵌浏览器（`Pan115LoginScreen`）打开 115.com，检测 `UID`+`SEID` 后按 `Pan115Constants.filterLoginCookies` 只保留会话字段再用 `/user/info` 校验；**下载**：`DownloadPlatform.PAN115` + `enqueueDownload` 用「登录 Cookie + 取链响应 900s CDN Cookie」拼接、`User-Agent` 用客户端串 `CLIENT_UA`、`Referer` 用 115 域（三处缺失任一 CDN 均 403）；**云盘页**：`Pan115CloudViewModel` + `Pan115CloudScreen`/`Pan115SaveSheet`/`Pan115AccountSheet`（结构对齐 123 云盘页，非照搬 Android UI）；**配套**：网盘页 115 卡片 + 配额（`DriveQuotaViewModel` 并发拉 `getQuota`）、收藏/解析平台标签、认证备份导入导出、`BrowserCookieImporter` 域名后缀、关于/引导页平台列表。**未做端到端真机验证**（无 115 账号，登录/转存/直链需用户自测）。 |
 | `2761069`(#135) | 网盘创建文件夹 | 桌面按上游覆盖面做全 7 个平台：`Pan115CloudViewModel`/`QuarkCloudViewModel`/`UCCoudViewModel`/`XunleiCloudViewModel`/`BaiduCloudViewModel`/`C139CloudViewModel`/`Pan123CloudViewModel` 各加 `createFolder`；`Pan123Api` 补 `createDir`（复用 `upload_request`，`type=1`）、`C139Api` 补 `createDir`（`hcy/file/create`，`type=folder`）+ 对应 Constants；7 个云盘页标题行加「新建文件夹」入口，共用 `CloudCreateFolderDialog`（**窗口内覆盖层 `FadeAlertDialog`，按项目约定不使用 Popup/material3 AlertDialog**），含名称本地校验。各平台父目录/根目录约定不同（百度绝对路径、迅雷根为空串、其余 `"0"`/`"/"`）。 |
 | `5d614f6`(#136) | 夸克免转存下载（分享凭证直取直链）+ 设置项开关 | `QuarkApi.getShareDownloadLinkWithoutSave`（`fids`/`fids_token`/`pwd_id`/`stoken` 交给 `file/download`，Cookie 用账号态）+ `ShareResolveRepository.getShareDownloadLinkWithoutSave`（默认回退 `getShareDownloadLink`，仅夸克覆写）+ `QuarkResolveRepository` 覆写；`ResolveViewModel.resolveShareLink` 收敛「单文件 / 批量」两处登录态取链，开关关掉走老转存流程、夸克个别分享类型失败自动回退转存；设置页「下载」组新增「免转存下载」开关（`SettingsRepository.quarkNoSaveDownload`，默认开），经 `noSaveDownloadProvider` 注入即时生效。**放置判断**：该开关是功能性取链方式选择（默认即正常行为），不是「实验性功能」页那些高风险调参（HTTP/2、读缓冲、慢连接抢占），故放在主设置页「下载」分组，与上游一致。 |
-| `b6a251b`(#130) | QQ 群链接 | 上游在引导页/设置页/关于页引入 `AppLinks`。桌面在**关于页**新增「QQ 交流群」卡片（群号 `635207650`）：Windows 无 `mqqapi://` scheme 的可靠保证，故点击**复制群号**并提示，供用户在 QQ 中搜索加群。 |
+| `b6a251b`(#130) | QQ 群链接 | 上游在引导页/设置页/关于页引入 `AppLinks`。桌面在**关于页**新增「QQ 交流群」卡片（群号 `335753296`）：Windows 无 `mqqapi://` scheme 的可靠保证，故点击**复制群号**并提示，供用户在 QQ 中搜索加群。 |
 | `ShareLinkParser`（随 `f381914`） | 115 链接形态 | `SharePlatform` 增 `PAN115`；新增 `115(?:cdn|rc)?\.com/s/(sw…)`、口令形态 `115…com/(sw…)-(码)`、`?password=` 三个正则与解析分支；兼容既有 6 平台形态不被误伤（探针 69 项全过）。 |
 
 #### 跳过

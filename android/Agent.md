@@ -563,8 +563,8 @@ FileNameText(text = file.fname, style = MaterialTheme.typography.bodyLarge, font
 
 | 通道 | 端点 | 说明 |
 | --- | --- | --- |
-| 正式版（默认） | `RELEASES_LATEST_URL` = `/repos/CYQawa/YunX/releases/latest` | GitHub 只会返回最新的**非** Pre-release、**非** Draft 版本 |
-| 预发布（开关打开） | `RELEASES_LIST_URL` = `/repos/CYQawa/YunX/releases` | 返回数组、按发布时间倒序；取第一条 `draft == false` 且 `tag_name` 非空的版本，因此**可能命中 Pre-release** |
+| 正式版（默认） | `RELEASES_LATEST_URL` = `/repos/PointersMZX/LGAnalysis/releases/latest` | GitHub 只会返回最新的**非** Pre-release、**非** Draft 版本 |
+| 预发布（开关打开） | `RELEASES_LIST_URL` = `/repos/PointersMZX/LGAnalysis/releases` | 返回数组、按发布时间倒序；取第一条 `draft == false` 且 `tag_name` 非空的版本，因此**可能命中 Pre-release** |
 
 - 统一入口 `UpdateChecker.fetchLatestRelease(includePrerelease: Boolean = false)`；`fetchBody()` 负责 HTTP 与错误文案（403/429 限流提示、404「仓库暂无 Release」），`parseRelease()` 负责解析并回填 `Release.prerelease`。
 - 两个调用点都在 `app/src/main/kotlin/com/yunx/app/ui/MainScreen.kt`（启动检查 + 手动检查），都传 `ThemeController.acceptPrereleaseUpdate`；**切换开关后不会自动重查**，下一次手动检查（或重启后的启动检查）才生效。
@@ -573,7 +573,7 @@ FileNameText(text = file.fname, style = MaterialTheme.typography.bodyLarge, font
 **说明正文的装饰过滤（`UpdateChecker.cleanReleaseNotes`）**：`UpdateSheet` 是用**纯文本** `Text()` 显示
 `release.body` 的（没上 markdown/HTML 渲染），而 GitHub Release 正文开头那两样东西只是装饰：
 ① capsule-render 的波浪头图 `<img src="https://capsule-render.vercel.app/api?..." />`；
-② QQ 群徽章 `[![QQ交流群](https://img.shields.io/badge/...&logo=qq&logoColor=white)](http://qm.qq.com/cgi-bin/qm/qr?...&group_code=635207650)`。
+② QQ 群徽章 `[![QQ交流群](https://img.shields.io/badge/...&logo=qq&logoColor=white)](http://qm.qq.com/cgi-bin/qm/qr?...&group_code=335753296)`。
 它们在 GitHub 页面上是图片，到我们这儿只会显示成一长串 URL，白占那 220dp 的高度 ⇒ 在 `parseRelease()`
 里清洗一次（**只此一处**：`UpdateSheet` 与 `netdiskDownloadUrl()` 读到的都是清洗后的那份）。
 ★ 用户明确要求「其他不要去掉」，所以规则只认这两类：不认 shields.io 的通用徽章、不认别的图床 `<img>`；
@@ -599,9 +599,9 @@ QQ 群号与仓库地址**只允许**写在 `app/src/main/kotlin/com/yunx/app/ut
 
 | 常量 | 值 | 用在哪 |
 | --- | --- | --- |
-| `AppLinks.QQ_GROUP` | `635207650` | 引导页首页胶囊、设置页「关于」组 |
-| `AppLinks.GITHUB_REPO` | `https://github.com/CYQawa/YunX` | 引导页 / 关于页卡片跳转、设置页「关于」组 |
-| `AppLinks.GITHUB_REPO_DISPLAY` | `github.com/CYQawa/YunX` | 界面文字展示（不带协议头） |
+| `AppLinks.QQ_GROUP` | `335753296` | 引导页首页胶囊、设置页「关于」组 |
+| `AppLinks.GITHUB_REPO` | `https://github.com/PointersMZX/LGAnalysis` | 引导页 / 关于页卡片跳转、设置页「关于」组 |
+| `AppLinks.GITHUB_REPO_DISPLAY` | `github.com/PointersMZX/LGAnalysis` | 界面文字展示（不带协议头） |
 
 - 入口清单：`app/src/main/kotlin/com/yunx/app/ui/screens/OnboardingScreen.kt` 的 `QQGroupPill`（欢迎页 GitHub 卡片下方，点击拉起 QQ 群卡片）；
   `app/src/main/kotlin/com/yunx/app/ui/screens/SettingsScreen.kt` 的「关于」组最后两项 —— 「QQ 交流群」（点击拉起 QQ 群卡片，长按复制群号）、

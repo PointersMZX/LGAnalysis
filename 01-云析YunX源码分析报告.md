@@ -11,7 +11,7 @@
 
 | 项 | 内容 |
 |---|---|
-| 名称 | 云析 · YunX（Android 端 CYQawa/YunX；官方 Windows 桌面版 tidain/YunX-Desktop，作者独立维护） |
+| 名称 | 云析 · YunX（Android 端 PointersMZX/LGAnalysis；官方 Windows 桌面版 PointersMZX/LGAnalysis，作者独立维护） |
 | 定位 | **粘贴网盘分享链接/视频作品链接 → 直接解析出直链并高速下载**（正是上一轮 Voyage 悬案「网盘解析」的同类完整实现） |
 | 协议 | **AGPL-3.0**（作者明示：完全免费开源，收费版本均为二次打包诈骗） |
 | 技术栈 | Android：Kotlin + Jetpack Compose M3 + OkHttp 4.12 + Room + Media3/Coil3（285 个 .kt，约 8.9 万行）；桌面：Compose Multiplatform + JCEF(Chromium 132) + sqlite-jdbc（282 个 .kt，约 9.2 万行）+ 自带 native/darkmode.cpp；浏览器扩展：Chrome/Edge MV3 |

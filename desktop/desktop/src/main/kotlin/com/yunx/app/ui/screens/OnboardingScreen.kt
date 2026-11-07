@@ -90,7 +90,10 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 /** QQ 交流群群号（桌面端无 mqqapi scheme 保证，点击复制群号供用户在 QQ 中搜索） */
-private const val QQ_GROUP = "635207650"
+private const val QQ_GROUP = "335753296"
+
+/** QQ 官方加群短链（浏览器打开出现加群卡片；群号换绑时这里和 QQ_GROUP 要一起改） */
+private const val QQ_GROUP_JOIN_URL = "https://qm.qq.com/q/soFNtWRytq"
 
 /** 引导页总页数：欢迎 / 功能特性 / 协议与声明 / 存储与安全 */
 private const val PAGE_COUNT = 4
@@ -281,7 +284,7 @@ private fun WelcomePage() {
         // 应用图标：圆角 + 投影，形成"浮在 blob 上"的观感
         Image(
             painter = painterResource("about_icon.png"),
-            contentDescription = "云析图标",
+            contentDescription = "甘露解析图标",
             modifier = Modifier
                 .size(120.dp)
                 .shadow(elevation = 10.dp, shape = RoundedCornerShape(28.dp))
@@ -289,7 +292,7 @@ private fun WelcomePage() {
 
         Spacer(modifier = Modifier.height(26.dp))
         Text(
-            text = "云析",
+            text = "甘露解析",
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface
@@ -353,7 +356,7 @@ private fun FactChip(text: String) {
 private fun GitHubCard() {
     Card(
         onClick = {
-            DesktopActions.openUrl("https://github.com/tidain/YunX-Desktop")
+            DesktopActions.openUrl("https://github.com/PointersMZX/LGAnalysis")
         },
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
@@ -388,7 +391,7 @@ private fun GitHubCard() {
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "github.com/tidain/YunX-Desktop",
+                    text = "github.com/PointersMZX/LGAnalysis",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -413,8 +416,10 @@ private fun GitHubCard() {
 private fun QQGroupPill() {
     Card(
         onClick = {
+            // 打开官方加群短链（浏览器出现加群卡片）；顺带复制群号，进群搜索也方便
+            DesktopActions.openUrl(QQ_GROUP_JOIN_URL)
             DesktopActions.copyToClipboard(QQ_GROUP)
-            SnackbarController.show("QQ 群号已复制：$QQ_GROUP")
+            SnackbarController.show("已打开加群链接，群号已复制：$QQ_GROUP")
         },
         shape = CircleShape,
         colors = CardDefaults.cardColors(
@@ -608,7 +613,7 @@ private fun TermsPage() {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "云析是开源工具，以下是使用条款与免责说明",
+            text = "甘露解析是开源工具，以下是使用条款与免责说明",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -640,7 +645,7 @@ private fun TermsPage() {
             icon = Icons.Outlined.Code,
             title = "开源协议",
             paragraphs = listOf(
-                "本项目基于 GNU AGPL-3.0 协议开源，源码公开于 github.com/tidain/YunX-Desktop。"
+                "本项目基于 GNU AGPL-3.0 协议开源，源码公开于 github.com/PointersMZX/LGAnalysis。"
             )
         )
 

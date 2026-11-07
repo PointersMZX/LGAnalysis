@@ -23,7 +23,7 @@ object BaiduConstants {
     const val APP_ID = "250528"
 
     /** 临时转存目录名（对齐抓包） */
-    const val TEMP_DIR_NAME = "YunX临时转存"
+    const val TEMP_DIR_NAME = "甘露解析临时转存"
 
     /** 关键 Cookie 字段，缺失 BDUSS 则视为未登录 */
     fun isValidCookie(cookie: String?): Boolean =

@@ -151,7 +151,7 @@ object WindowsToastNotifier {
         val completed = lastTotalSum > 0 && lastDoneSum >= lastTotalSum
         lastDoneSum = 0; lastTotalSum = 0
         if (completed) {
-            sendLine("done|${esc("云析 · 下载完成")}|${esc("全部任务已下载完毕")}")
+            sendLine("done|${esc("甘露解析 · 下载完成")}|${esc("全部任务已下载完毕")}")
             closeQuietly()
         } else {
             sendLine("exit")
@@ -181,7 +181,7 @@ object WindowsToastNotifier {
         try {
             val key = "Software\\Classes\\AppUserModelId\\$AUMID"
             Advapi32Util.registryCreateKey(WinReg.HKEY_CURRENT_USER, key)
-            Advapi32Util.registrySetStringValue(WinReg.HKEY_CURRENT_USER, key, "DisplayName", "云析")
+            Advapi32Util.registrySetStringValue(WinReg.HKEY_CURRENT_USER, key, "DisplayName", "甘露解析")
             iconFile()?.toURI()?.toString()?.let {
                 Advapi32Util.registrySetStringValue(WinReg.HKEY_CURRENT_USER, key, "IconUri", it)
             }

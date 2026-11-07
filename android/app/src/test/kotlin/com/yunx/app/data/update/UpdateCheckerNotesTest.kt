@@ -35,7 +35,7 @@ class UpdateCheckerNotesTest {
     private val v128Body = """
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=300&section=header&text=YunX&desc=%E4%BA%91%E6%9E%90%20%C2%B7%20%E7%BD%91%E7%9B%98%E5%88%86%E4%BA%AB%E9%93%BE%E6%8E%A5%E8%A7%A3%E6%9E%90%E4%B8%8E%E9%AB%98%E9%80%9F%E4%B8%8B%E8%BD%BD&fontSize=64&fontColor=ffffff&descSize=16&animation=fadeIn&fontAlignY=40&descAlignY=55" />
 
-[![QQ交流群](https://img.shields.io/badge/QQ%E7%BE%A4-635207650-12B7F5?style=flat-square&logo=qq&logoColor=white)](http://qm.qq.com/cgi-bin/qm/qr?...&group_code=635207650)
+[![QQ交流群](https://img.shields.io/badge/QQ%E7%BE%A4-335753296-12B7F5?style=flat-square&logo=qq&logoColor=white)](http://qm.qq.com/cgi-bin/qm/qr?...&group_code=335753296)
 
 # YunX（云析） v1.2.8
 
@@ -62,7 +62,7 @@ class UpdateCheckerNotesTest {
 * @tidain made their first contribution in #115 #128
 
 
-**Full Changelog**: https://github.com/CYQawa/YunX/compare/v1.2.7...v1.2.8
+**Full Changelog**: https://github.com/PointersMZX/LGAnalysis/compare/v1.2.7...v1.2.8
 
 [网盘下载](https://pan.quark.cn/s/ab15b5f0a155)
 """.trimIndent()
@@ -77,7 +77,7 @@ class UpdateCheckerNotesTest {
         assertFalse(cleaned.contains("img.shields.io"))
         assertFalse(cleaned.contains("qm.qq.com"))
         // 说明正文从版本标题开始，头顶不留空行（说明区只有 220dp，空行白占高度）
-        assertTrue(cleaned.startsWith("# YunX（云析） v1.2.8"))
+        assertTrue(cleaned.startsWith("# YunX（甘露解析） v1.2.8"))
     }
 
     /** 「其他不要给我去了」：原文里除那两行以外的每一行都必须原样还在 */
@@ -99,7 +99,7 @@ class UpdateCheckerNotesTest {
         assertTrue(cleaned.contains("- 新增 115 网盘支持：登录 / 云盘管理 / 分享 / 转存 / 下载"))
         assertTrue(cleaned.contains("## 通知"))
         assertTrue(cleaned.contains("* @tidain made their first contribution in #115 #128"))
-        assertTrue(cleaned.contains("**Full Changelog**: https://github.com/CYQawa/YunX/compare/v1.2.7...v1.2.8"))
+        assertTrue(cleaned.contains("**Full Changelog**: https://github.com/PointersMZX/LGAnalysis/compare/v1.2.7...v1.2.8"))
         assertTrue(cleaned.contains("[网盘下载](https://pan.quark.cn/s/ab15b5f0a155)"))
     }
 

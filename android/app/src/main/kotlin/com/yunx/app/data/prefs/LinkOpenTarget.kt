@@ -46,8 +46,8 @@ enum class LinkOpenTarget(
     LANZOU("com.yunx.app.link.LanzouLink", "蓝奏云 / 优享版", "lanzou*.com/…"),
     MAGNET("com.yunx.app.link.MagnetLink", "磁力链接", "magnet:?xt=…"),
     YUNX("com.yunx.app.link.YunxLink", "yunx:// 自有协议", "yunx://resolve?url=…"),
-    SHARE("com.yunx.app.link.ShareLink", "分享菜单", "其它 App「分享 → 云析」"),
-    PROCESS_TEXT("com.yunx.app.link.ProcessTextLink", "选中文本解析", "长按选中文字 →「用云析解析」");
+    SHARE("com.yunx.app.link.ShareLink", "分享菜单", "其它 App「分享 → 甘露解析」"),
+    PROCESS_TEXT("com.yunx.app.link.ProcessTextLink", "选中文本解析", "长按选中文字 →「用甘露解析解析」");
 
     /** SharedPreferences 键（默认开） */
     val prefKey: String

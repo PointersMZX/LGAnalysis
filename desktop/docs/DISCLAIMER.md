@@ -4,7 +4,7 @@
 
 ## 免责声明
 
-1. **项目性质**：本项目（含上游 [CYQawa/YunX](https://github.com/CYQawa/YunX)）仅供个人学习、研究与
+1. **项目性质**：本项目（含上游 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis)）仅供个人学习、研究与
    技术交流使用，属于非商业性质的开源项目，不提供任何形式的官方技术支持与担保。
 2. **禁止商用**：本项目完全免费开源，**任何形式的收费下载、倒卖均属欺诈**。若您付费购买到了本项目，
    请立即退款并向对应平台举报。
@@ -38,7 +38,7 @@
 
 ## 开源协议
 
-本项目基于上游 [CYQawa/YunX](https://github.com/CYQawa/YunX) 移植，
+本项目基于上游 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis) 移植，
 同样以 [GNU AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html) 协议开源，详见根目录 [LICENSE](../LICENSE)。
 
 若你使用了本项目的代码，请同样以 AGPL-3.0 开放源代码。

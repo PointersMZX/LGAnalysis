@@ -1,4 +1,4 @@
-YunX (云析) is an open-source share-link parser and high-speed downloader for Android: paste a share link and download it right away — cloud drives and video platforms alike.
+YunX (甘露解析) is an open-source share-link parser and high-speed downloader for Android: paste a share link and download it right away — cloud drives and video platforms alike.
 
 Features
 - Cloud-drive share links: Quark, UC, Xunlei, Baidu, 139, 123, 115, GuangYa, Lanzou and Lanzou Premium, with automatic passcode matching

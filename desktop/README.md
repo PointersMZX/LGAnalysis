@@ -10,14 +10,14 @@
 视频：哔哩哔哩 / 小红书 / 抖音 / 微博 / 快手 / AcFun / Pixiv；另支持磁力 / BT 种子 / ed2k 等 P2P 链接。
 Range 分片并发 + 断点续传，B 站高清自动合轨。
 
-[![Release](https://img.shields.io/github/v/release/tidain/YunX-Desktop?style=flat-square\&label=release\&color=4C8BF5)](https://github.com/tidain/YunX-Desktop/releases/latest)
-[![Stars](https://img.shields.io/github/stars/tidain/YunX-Desktop?style=flat-square\&logo=github\&color=4C8BF5)](https://github.com/tidain/YunX-Desktop/stargazers)
+[![Release](https://img.shields.io/github/v/release/PointersMZX/LGAnalysis?style=flat-square\&label=release\&color=4C8BF5)](https://github.com/PointersMZX/LGAnalysis/releases/latest)
+[![Stars](https://img.shields.io/github/stars/PointersMZX/LGAnalysis?style=flat-square\&logo=github\&color=4C8BF5)](https://github.com/PointersMZX/LGAnalysis/stargazers)
 [![License](https://img.shields.io/badge/license-AGPL--3.0-blue?style=flat-square)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-0078D6?style=flat-square\&logo=windows\&logoColor=white)](#构建)
 [![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=flat-square\&logo=kotlin\&logoColor=white)](https://kotlinlang.org/)
 [![Compose](https://img.shields.io/badge/Compose%20Multiplatform-Desktop-4285F4?style=flat-square\&logo=jetpackcompose\&logoColor=white)](https://www.jetbrains.com/lp/compose-multiplatform/)
 
-[下载最新版](https://github.com/tidain/YunX-Desktop/releases/latest) · [功能](docs/FEATURES.md) · [使用](docs/USAGE.md) · [浏览器插件](#浏览器插件) · [构建](docs/BUILD.md) · [常见问题](#常见问题) · [与安卓版差异](docs/UPSTREAM-DIFF.md)
+[下载最新版](https://github.com/PointersMZX/LGAnalysis/releases/latest) · [功能](docs/FEATURES.md) · [使用](docs/USAGE.md) · [浏览器插件](#浏览器插件) · [构建](docs/BUILD.md) · [常见问题](#常见问题) · [与安卓版差异](docs/UPSTREAM-DIFF.md)
 
 </div>
 
@@ -26,7 +26,7 @@ Range 分片并发 + 断点续传，B 站高清自动合轨。
 > **云析永远免费开源。** 如果你是在任何地方「花钱买到」的，说明你被骗了，请立即退款。
 > 任何收费版本均为二次打包的诈骗版本，与本项目无关。
 
-> **本项目使用 AGPL-3.0 开源协议。** 与安卓版 [CYQawa/YunX](https://github.com/CYQawa/YunX)
+> **本项目使用 AGPL-3.0 开源协议。** 与安卓版 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis)
 > 同属云析项目；若你使用了本项目的代码，请同样以 AGPL-3.0 开放源代码。
 
 ## 简介
@@ -150,7 +150,7 @@ Range 分片并发 + 断点续传，B 站高清自动合轨。
 `installer` 会在这一步失败）。JDK、Gradle、Inno Setup 均无需手动安装。
 
 ```powershell
-git clone https://github.com/tidain/YunX-Desktop.git
+git clone https://github.com/PointersMZX/LGAnalysis.git
 cd YunX-Desktop
 
 .\run.ps1 run        # 编译并启动（开发，含 darkmode.dll）
@@ -166,7 +166,7 @@ cd YunX-Desktop
 <details>
 <summary><b>为什么从「第三方移植」变成了「官方桌面版」？</b></summary>
 
-项目早期确实是社区移植（安卓版 [CYQawa/YunX](https://github.com/CYQawa/YunX) 的 Windows 移植）。
+项目早期确实是社区移植（安卓版 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis) 的 Windows 移植）。
 **2026 年 10 月 2 日上午 8:40**，桌面版作者（tidain）加入安卓版仓库成为协作者，
 桌面版自此与安卓版同属一个项目，作为云析的**官方 Windows 桌面端**维护；
 两端的代码、发布节奏与分发方式仍各自独立。
@@ -199,7 +199,7 @@ cd YunX-Desktop
 
 ## 支持开发
 
-- **GitHub Star**：给 [tidain/YunX-Desktop](https://github.com/tidain/YunX-Desktop) 点个 Star ⭐
+- **GitHub Star**：给 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis) 点个 Star ⭐
 
 - **提交 Issues**：发现 Bug 或有功能建议欢迎反馈
 
@@ -217,17 +217,17 @@ cd YunX-Desktop
 
 ## 开源协议
 
-本项目与安卓版 [CYQawa/YunX](https://github.com/CYQawa/YunX) 同属云析项目，同样以
+本项目与安卓版 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis) 同属云析项目，同样以
 [GNU AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html) 协议开源，详见 [LICENSE](LICENSE)。
 完整的免责与合规说明见 **[免责声明](docs/DISCLAIMER.md)**。
 
 ## 更多
 
-- 安卓版仓库：<https://github.com/CYQawa/YunX>
+- 安卓版仓库：<https://github.com/PointersMZX/LGAnalysis>
 
-- PC 版仓库：<https://github.com/tidain/YunX-Desktop>
+- PC 版仓库：<https://github.com/PointersMZX/LGAnalysis>
 
-- 问题与建议：<https://github.com/tidain/YunX-Desktop/issues>
+- 问题与建议：<https://github.com/PointersMZX/LGAnalysis/issues>
 
 ## 友情链接
 - 云析的Docker社区移植版（基于本仓库修改，作为本仓库的下游分支）：[mu-zi-lee/YunX-Docker](https://github.com/mu-zi-lee/YunX-Docker)
@@ -236,8 +236,8 @@ cd YunX-Desktop
 
 <sub><sup>Contributors</sup></sub>
 
-<a href="https://github.com/tidain/YunX-Desktop/graphs/contributors">
-  <img alt="contributors" src="https://contrib.rocks/image?repo=tidain/YunX-Desktop" />
+<a href="https://github.com/PointersMZX/LGAnalysis/graphs/contributors">
+  <img alt="contributors" src="https://contrib.rocks/image?repo=PointersMZX/LGAnalysis" />
 </a>
 
 ## Star History

@@ -156,7 +156,6 @@ fun SettingsScreen(
     scrollBehavior: TopAppBarScrollBehavior,
     onThemeClick: () -> Unit,
     onAboutClick: () -> Unit,
-    onSupportClick: () -> Unit,
     /** 打开「实验性功能」二级页 */
     onExperimentalClick: () -> Unit,
     /** 打开「引擎管理」二级页（下载引擎 / 视频预览引擎） */
@@ -521,19 +520,12 @@ fun SettingsScreen(
         SectionLabel("关于")
         SettingsItem(
             icon = Icons.Outlined.Info,
-            title = "关于云析",
+            title = "关于甘露解析",
             description = "版本信息、支持平台与技术说明",
             onClick = onAboutClick,
             onLongClick = { showDevMenu = true } // 长按打开隐藏开发调试菜单
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-        SettingsItem(
-            icon = Icons.Outlined.VolunteerActivism,
-            title = "支持开发",
-            description = "微信扫码捐赠，支持项目持续维护",
-            onClick = onSupportClick
-        )
     }
 
     // 导出日志方式选择弹窗
@@ -937,7 +929,7 @@ fun SettingsScreen(
                     val target = DesktopActions.saveFile(
                         defaultName = backupManager.defaultBackupFileName(encrypted),
                         title = "导出认证信息",
-                        filters = listOf("云析认证备份 (*.yunx)" to "*.yunx", "所有文件 (*.*)" to "*.*"),
+                        filters = listOf("甘露解析认证备份 (*.yunx)" to "*.yunx", "所有文件 (*.*)" to "*.*"),
                         defaultExtension = "yunx"
                     ) ?: return@launch
                     val saved = withContext(Dispatchers.IO) {

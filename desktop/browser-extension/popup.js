@@ -1,7 +1,7 @@
 /**
- * 云析下载助手 —— popup 脚本
- * 展示云析连接状态、开关设置、当前页面嗅探到的资源（带分类与图片/视频预览），
- * 并可一键交给云析下载；B 站视频页额外提供专属卡片（清晰度 + 下载方式）。
+ * 甘露解析下载助手 —— popup 脚本
+ * 展示甘露解析连接状态、开关设置、当前页面嗅探到的资源（带分类与图片/视频预览），
+ * 并可一键交给甘露解析下载；B 站视频页额外提供专属卡片（清晰度 + 下载方式）。
  * 同时负责外观（自动 / 亮 / 暗）的读取、应用与持久化。
  */
 
@@ -34,9 +34,9 @@ const FALLBACK_QUALITIES = [120, 116, 112, 80, 64, 32, 16];
  * 已适配的「视频平台专属卡片」识别表（顺序即优先级）。
  *
  * - [quality] = true 的平台（目前只有 B 站）会展示「清晰度 + 下载方式」两个下拉，
- *   并在页面里读取当前播放清晰度；其余平台只给一个「交给云析下载」按钮 ——
- *   它们的清晰度档位插件端读不到，交给云析解析时按平台最高可用档处理。
- * - [re] 只做「是不是这个平台的视频页」的粗判，真正的链接识别与短链展开在云析侧完成。
+ *   并在页面里读取当前播放清晰度；其余平台只给一个「交给甘露解析下载」按钮 ——
+ *   它们的清晰度档位插件端读不到，交给甘露解析解析时按平台最高可用档处理。
+ * - [re] 只做「是不是这个平台的视频页」的粗判，真正的链接识别与短链展开在甘露解析侧完成。
  */
 const VIDEO_PLATFORMS = [
   {
@@ -281,7 +281,7 @@ function makeItem(r) {
 
   const btn = document.createElement('button');
   btn.className = 'dl-btn';
-  btn.textContent = '云析下载';
+  btn.textContent = '甘露解析下载';
   btn.addEventListener('click', async () => {
     btn.disabled = true;
     btn.textContent = '处理中';
@@ -295,20 +295,20 @@ function makeItem(r) {
     });
     if (!resp || !resp.ok) {
       btn.disabled = false;
-      btn.textContent = '云析下载';
-      $('hint').textContent = (resp && resp.error) || '提交失败：请确认云析正在运行。';
+      btn.textContent = '甘露解析下载';
+      $('hint').textContent = (resp && resp.error) || '提交失败：请确认甘露解析正在运行。';
       return;
     }
     if (resp.action === 'accept') {
-      btn.textContent = '已交给云析';
-      $('hint').textContent = '已交给云析下载（在云析弹窗里确认保存目录与线程数）。';
+      btn.textContent = '已交给甘露解析';
+      $('hint').textContent = '已交给甘露解析下载（在甘露解析弹窗里确认保存目录与线程数）。';
     } else if (resp.action === 'return') {
       btn.disabled = false;
-      btn.textContent = '云析下载';
-      $('hint').textContent = '云析未接管，已归还浏览器下载。';
+      btn.textContent = '甘露解析下载';
+      $('hint').textContent = '甘露解析未接管，已归还浏览器下载。';
     } else {
       btn.disabled = false;
-      btn.textContent = '云析下载';
+      btn.textContent = '甘露解析下载';
     }
   });
 
@@ -339,7 +339,7 @@ function openPreview(r) {
     v.autoplay = true;
     v.playsInline = true;
     v.addEventListener('error', () => {
-      box.innerHTML = '<div class="preview-fail">视频预览失败<br>该地址可能限制跨站播放，可直接交给云析下载</div>';
+      box.innerHTML = '<div class="preview-fail">视频预览失败<br>该地址可能限制跨站播放，可直接交给甘露解析下载</div>';
     });
     box.appendChild(v);
   } else {
@@ -438,12 +438,12 @@ async function loadVideoCard(tab) {
   $('video-hint').textContent = '';
   $('vcard-fields').hidden = !pf.quality;
   $('video-download').disabled = false;
-  $('video-download').textContent = '交给云析下载';
+  $('video-download').textContent = '交给甘露解析下载';
 
-  // 只有 B 站能从页面里读到清晰度；其余平台直接用标签页标题，交给云析解析
+  // 只有 B 站能从页面里读到清晰度；其余平台直接用标签页标题，交给甘露解析解析
   if (!pf.quality) {
     $('vcard-title').textContent = tab.title || (pf.label + '视频');
-    $('video-hint').textContent = '云析会解析当前页面，按该平台可用的最高清晰度下载。';
+    $('video-hint').textContent = '甘露解析会解析当前页面，按该平台可用的最高清晰度下载。';
     return;
   }
 
@@ -498,7 +498,7 @@ function bindVideoCard() {
       const bvid = $('vcard-id').textContent.trim();
       if (!bvid) {
         btn.disabled = false;
-        btn.textContent = '交给云析下载';
+        btn.textContent = '交给甘露解析下载';
         $('video-hint').textContent = '未识别到视频 BV 号，请刷新页面后重试。';
         return;
       }
@@ -521,14 +521,14 @@ function bindVideoCard() {
     }
 
     btn.disabled = false;
-    btn.textContent = '交给云析下载';
+    btn.textContent = '交给甘露解析下载';
     if (resp && resp.ok) {
       $('video-hint').textContent =
         platform === 'bilibili'
-          ? '已交给云析，将按所选清晰度与方式加入下载队列。'
-          : '已交给云析，正在解析并加入下载队列。';
+          ? '已交给甘露解析，将按所选清晰度与方式加入下载队列。'
+          : '已交给甘露解析，正在解析并加入下载队列。';
     } else {
-      $('video-hint').textContent = (resp && resp.error) || '提交失败：请确认云析正在运行。';
+      $('video-hint').textContent = (resp && resp.error) || '提交失败：请确认甘露解析正在运行。';
     }
   });
 }
@@ -588,7 +588,7 @@ function bindCooldown() {
     await send({ type: 'yunx-cooldown-clear', url: (tab && tab.url) || '' });
     renderCooldown(0);
     btn.disabled = false;
-    $('hint').textContent = '已恢复捕获，该网站的下载将重新交给云析。';
+    $('hint').textContent = '已恢复捕获，该网站的下载将重新交给甘露解析。';
   });
   window.addEventListener('pagehide', stopCdTimer);
 }
@@ -606,9 +606,9 @@ async function loadSettings() {
 async function loadStatus() {
   const resp = await send({ type: 'yunx-status' });
   if (resp && resp.connected) {
-    setStatus('云析已连接（端口 ' + resp.port + '）', 'on');
+    setStatus('甘露解析已连接（端口 ' + resp.port + '）', 'on');
   } else {
-    setStatus('未检测到云析，请先启动云析', 'off');
+    setStatus('未检测到甘露解析，请先启动甘露解析', 'off');
   }
 }
 
@@ -640,7 +640,7 @@ $('refresh').addEventListener('click', async () => {
   await loadResources();
   await loadVideoCard(currentTab);
   await loadCooldown(currentTab);
-  $('hint').textContent = '资源列表仅在本机与云析之间传递，不上传任何数据。';
+  $('hint').textContent = '资源列表仅在本机与甘露解析之间传递，不上传任何数据。';
 });
 
 (async function init() {

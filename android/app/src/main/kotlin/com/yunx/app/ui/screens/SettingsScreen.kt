@@ -207,11 +207,10 @@ fun SettingsScreen(
     scrollBehavior: TopAppBarScrollBehavior,
     /**
      * 容器变换（Container Transform）源侧修饰符：由 MainScreen 在 SharedTransitionLayout 作用域内构造
-     * （设置页自己拿不到那个作用域），分别挂到「主题与外观 / 关于云析 / 支持开发 / 下载引擎」这四行上。
+     * （设置页自己拿不到那个作用域），分别挂到「主题与外观 / 关于云析 / 下载引擎」这三行上。
      */
     themeRowModifier: Modifier = Modifier,
     aboutRowModifier: Modifier = Modifier,
-    supportRowModifier: Modifier = Modifier,
     engineRowModifier: Modifier = Modifier,
     /** 「链接唤起」行的容器变换源侧修饰符（同上，由 MainScreen 构造） */
     linkOpenRowModifier: Modifier = Modifier,
@@ -219,7 +218,6 @@ fun SettingsScreen(
     multiAccountRowModifier: Modifier = Modifier,
     onThemeClick: () -> Unit,
     onAboutClick: () -> Unit,
-    onSupportClick: () -> Unit,
     /** 打开下载引擎页（两套下载器切换、导入内核、引擎启停与状态） */
     onGopeedClick: () -> Unit,
     /** 打开「链接唤起」页（深链接注册项的逐个开关） */
@@ -767,7 +765,7 @@ fun SettingsScreen(
             icon = Icons.Outlined.Link,
             shape = listGroupShape(ListGroupPos.SINGLE),
             title = "网盘链接一键唤起",
-            description = "点分享链接（或分享到云析）直接进来解析；可按平台逐个开关",
+            description = "点分享链接（或分享到甘露解析）直接进来解析；可按平台逐个开关",
             modifier = linkOpenRowModifier,
             onClick = onLinkOpenClick
         )
@@ -778,21 +776,11 @@ fun SettingsScreen(
         SettingsItem(
             icon = Icons.Outlined.Info,
             shape = listGroupShape(ListGroupPos.FIRST),
-            title = "关于云析",
+            title = "关于甘露解析",
             description = "版本信息、支持平台与技术说明",
             modifier = aboutRowModifier,
             onClick = onAboutClick,
             onLongClick = { showDevMenu = true } // 长按打开隐藏开发调试菜单
-        )
-
-        Spacer(modifier = Modifier.height(ListGroupGap))
-        SettingsItem(
-            icon = Icons.Outlined.VolunteerActivism,
-            shape = listGroupShape(ListGroupPos.MIDDLE),
-            title = "支持开发",
-            description = "微信扫码捐赠，支持项目持续维护",
-            modifier = supportRowModifier,
-            onClick = onSupportClick
         )
 
         Spacer(modifier = Modifier.height(ListGroupGap))
@@ -1504,7 +1492,7 @@ fun SettingsScreen(
             title = { Text("保持后台下载") },
             text = {
                 Text(
-                    text = "为确保障屏后下载不中断，建议将云析加入「忽略电池优化」白名单。是否前往系统设置？",
+                    text = "为确保障屏后下载不中断，建议将甘露解析加入「忽略电池优化」白名单。是否前往系统设置？",
                     style = MaterialTheme.typography.bodyMedium
                 )
             },

@@ -31,13 +31,16 @@ import android.net.Uri
  */
 object AppLinks {
     /** QQ 交流群群号（引导页首页、设置页「关于」组都有入口） */
-    const val QQ_GROUP = "635207650"
+    const val QQ_GROUP = "335753296"
+
+    /** QQ 官方加群短链（浏览器/QQ 打开即出现加群卡片；群号换绑时这里和 [QQ_GROUP] 要一起改） */
+    const val QQ_GROUP_JOIN_URL = "https://qm.qq.com/q/soFNtWRytq"
 
     /** GitHub 仓库完整地址（点击用系统浏览器打开） */
-    const val GITHUB_REPO = "https://github.com/CYQawa/YunX"
+    const val GITHUB_REPO = "https://github.com/PointersMZX/LGAnalysis"
 
     /** GitHub 仓库展示用短地址（去掉协议头，界面文字用；与 [GITHUB_REPO] 必须指向同一仓库） */
-    const val GITHUB_REPO_DISPLAY = "github.com/CYQawa/YunX"
+    const val GITHUB_REPO_DISPLAY = "github.com/PointersMZX/LGAnalysis"
 
     /**
      * GitHub 个人访问令牌（classic）创建页，带 `scopes` 与 `description` 预填。
@@ -47,7 +50,7 @@ object AppLinks {
      * ★ `scopes=public_repo` 必须与 Token 弹窗里「勾选 public_repo」那句话保持一致，
      *   两边不一致会让人按文字去补勾权限。
      */
-    const val GITHUB_TOKEN_PAGE = "https://github.com/settings/tokens/new?scopes=public_repo&description=YunX"
+    const val GITHUB_TOKEN_PAGE = "https://github.com/settings/tokens/new?scopes=public_repo&description=LGAnalysis"
 
     /**
      * QQ 群资料页 scheme：QQ 已安装时直接拉起群卡片，用户点一下「加入」即可进群。
@@ -66,6 +69,11 @@ object AppLinks {
      *   所以这里靠捕获 ActivityNotFoundException 判断，返回 false 时调用方退回复制群号。
      */
     fun openQQGroup(context: Context): Boolean {
+        // 先试官方加群短链（浏览器打开出现加群卡片），再退 mqqapi 群卡片 scheme；
+        // 都不行时由调用方退复制群号，保证入口永远可用
+        runCatching {
+            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(QQ_GROUP_JOIN_URL)))
+        }.onSuccess { return true }
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(qqGroupScheme()))
         return runCatching { context.startActivity(intent) }.isSuccess
     }

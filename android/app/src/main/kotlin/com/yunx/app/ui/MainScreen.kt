@@ -175,7 +175,6 @@ import com.yunx.app.ui.screens.MultiAccountDownloadScreen
 import com.yunx.app.ui.screens.OnboardingScreen
 import com.yunx.app.ui.screens.ResolveScreen
 import com.yunx.app.ui.screens.SettingsScreen
-import com.yunx.app.ui.screens.SupportScreen
 import com.yunx.app.ui.screens.ThemeScreen
 import com.yunx.app.ui.screens.UpdateSheet
 import com.yunx.app.ui.viewmodel.AnnouncementViewModel
@@ -221,7 +220,6 @@ import com.yunx.app.ui.theme.effectsFast
  * 两处都在本文件里构造（源侧修饰符见 MainScreen 里 themeRowModifier 等，目标侧见 OverlayPage 的调用处）。
  */
 internal const val OVERLAY_KEY_ABOUT = "overlay-about"
-internal const val OVERLAY_KEY_SUPPORT = "overlay-support"
 internal const val OVERLAY_KEY_THEME = "overlay-theme"
 
 /** 收藏页从顶栏图标进入，没有"被点的那一项"，不做共享元素形变（普通淡入即可） */
@@ -300,7 +298,6 @@ fun MainScreen(
     // 本次视频登录是否算「新增账号」（账号弹窗点「添加账号」时为 true，登录后落成新的一行）
     var videoLoginAsNewAccount by rememberSaveable { mutableStateOf(false) }
     var showAbout by rememberSaveable { mutableStateOf(false) }
-    var showSupport by rememberSaveable { mutableStateOf(false) }
     var showTheme by rememberSaveable { mutableStateOf(false) }
     var showLinkOpen by rememberSaveable { mutableStateOf(false) }
     var showMultiAccountDownload by rememberSaveable { mutableStateOf(false) }
@@ -1049,7 +1046,6 @@ fun MainScreen(
     // 当前叠加页路由（null = 主界面）：容器变换用它当"源/目标"的共享 key
     val overlayRoute = when {
         showAbout -> OVERLAY_KEY_ABOUT
-        showSupport -> OVERLAY_KEY_SUPPORT
         showTheme -> OVERLAY_KEY_THEME
         showLinkOpen -> OVERLAY_KEY_LINK_OPEN
         showMultiAccountDownload -> OVERLAY_KEY_MULTI_ACCOUNT
@@ -1108,10 +1104,6 @@ fun MainScreen(
                 )
                 val aboutRowModifier = Modifier.sharedBounds(
                     rememberSharedContentState(OVERLAY_KEY_ABOUT),
-                    animatedVisibilityScope = sourceScope
-                )
-                val supportRowModifier = Modifier.sharedBounds(
-                    rememberSharedContentState(OVERLAY_KEY_SUPPORT),
                     animatedVisibilityScope = sourceScope
                 )
                 // 「下载引擎」行 → 下载引擎页：和上面三行同样走容器变换（整行长成整页）
@@ -1405,13 +1397,11 @@ fun MainScreen(
                                     scrollBehavior = scrollBehavior,
                                     themeRowModifier = themeRowModifier,
                                     aboutRowModifier = aboutRowModifier,
-                                    supportRowModifier = supportRowModifier,
                                     engineRowModifier = engineRowModifier,
                                     linkOpenRowModifier = linkOpenRowModifier,
                                     multiAccountRowModifier = multiAccountRowModifier,
                                     onThemeClick = { showTheme = true },
                                     onAboutClick = { showAbout = true },
-                                    onSupportClick = { showSupport = true },
                                     onGopeedClick = { showGopeed = true },
                                     onLinkOpenClick = { showLinkOpen = true },
                                     onMultiAccountDownloadClick = { showMultiAccountDownload = true },
@@ -1523,7 +1513,6 @@ fun MainScreen(
                                     showOnboarding = true
                                 }
                             )
-                            OVERLAY_KEY_SUPPORT -> SupportScreen(onBack = { showSupport = false })
                             OVERLAY_KEY_THEME -> ThemeScreen(onBack = { showTheme = false })
                             OVERLAY_KEY_LINK_OPEN -> LinkOpenScreen(onBack = { showLinkOpen = false })
                             OVERLAY_KEY_MULTI_ACCOUNT -> MultiAccountDownloadScreen(

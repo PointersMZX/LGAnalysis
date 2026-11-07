@@ -507,7 +507,7 @@ private fun buildSnapshotText(
     resources: DownloadResourceDebug?,
     env: String
 ): String = buildString {
-    appendLine("云析（YunX）下载调试快照")
+    appendLine("甘露解析（LGAnalysis）下载调试快照")
     appendLine("任务 id：${task.id}　文件名：${task.fileName}")
     appendLine("状态：${DownloadTaskEntity.statusText(task.status)}　平台：${task.platform.ifBlank { "-" }}")
     appendLine("执行器：${task.engineTaskId.ifBlank { "内置分片下载器" }}")

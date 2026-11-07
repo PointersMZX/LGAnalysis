@@ -325,7 +325,7 @@ private fun WelcomePage(context: Context) {
         ) {
             Image(
                 painter = painterResource(R.drawable.icon),
-                contentDescription = "云析图标",
+                contentDescription = "甘露解析图标",
                 modifier = Modifier
                     .size(112.dp)
                     .clip(RoundedCornerShape(30.dp)),
@@ -335,7 +335,7 @@ private fun WelcomePage(context: Context) {
 
         Spacer(modifier = Modifier.height(26.dp))
         Text(
-            text = "云析",
+            text = "甘露解析",
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.SemiBold,
             // 显式给色：全屏覆盖页里不依赖 LocalContentColor（默认黑色，深色模式下会变黑字）
@@ -343,7 +343,7 @@ private fun WelcomePage(context: Context) {
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = "YunX · v$versionName",
+            text = "LGAnalysis · v$versionName",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -521,7 +521,7 @@ private fun TermsPage() {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "云析是开源工具，以下是使用条款与免责说明",
+            text = "甘露解析是开源工具，以下是使用条款与免责说明",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

@@ -1,16 +1,16 @@
 /**
- * 云析下载助手 —— 后台服务（MV3 Service Worker）
+ * 甘露解析下载助手 —— 后台服务（MV3 Service Worker）
  *
  * 职责：
  *  1. 嗅探：用 webRequest.onHeadersReceived 只读观察响应头，记录可下载资源（体积/MIME/文件名）；
- *  2. 接管：chrome.downloads.onCreated → cancel + erase，把请求 POST 到云析本地回环桥，
- *     由云析弹窗询问「保存到哪里 / 用多少线程」，决定后再分流处理；
- *  3. 归还：用户在云析弹窗点「归还浏览器下载」时，用 chrome.downloads.download 重新发起，
+ *  2. 接管：chrome.downloads.onCreated → cancel + erase，把请求 POST 到甘露解析本地回环桥，
+ *     由甘露解析弹窗询问「保存到哪里 / 用多少线程」，决定后再分流处理；
+ *  3. 归还：用户在甘露解析弹窗点「归还浏览器下载」时，用 chrome.downloads.download 重新发起，
  *     并对该根域名（eTLD+1）写入 5 分钟冷却，冷却期内不再接管该域名及以下子域名的下载。
  *
- * 与云析的通信：云析在本机 127.0.0.1 的 37021-37030 区间监听（见 App 侧 BrowserBridgeServer）。
+ * 与甘露解析的通信：甘露解析在本机 127.0.0.1 的 37021-37030 区间监听（见 App 侧 BrowserBridgeServer）。
  * 扩展逐个端口 GET /ping 探测，命中后拿到本次进程的随机 token；之后 POST /hook 带 token 提交请求。
- * 云析没运行时探测不到 → 完全不接管，浏览器下载照常。
+ * 甘露解析没运行时探测不到 → 完全不接管，浏览器下载照常。
  */
 
 'use strict';
@@ -117,7 +117,7 @@ const sniffByUrl = new Map();
 
 const log = (...a) => console.log('[YunX]', ...a);
 
-/** service worker 保活：长时间等待云析弹窗时定期调用一个扩展 API 重置空闲计时器 */
+/** service worker 保活：长时间等待甘露解析弹窗时定期调用一个扩展 API 重置空闲计时器 */
 function keepAlive() {
   const id = setInterval(() => {
     try { chrome.runtime.getPlatformInfo(() => void chrome.runtime.lastError); } catch (e) { /* ignore */ }
@@ -254,9 +254,9 @@ async function clearCooldown(root) {
   } catch (e) { /* ignore */ }
 }
 
-// ---------------------------------------------------------------- 与云析的本地桥
+// ---------------------------------------------------------------- 与甘露解析的本地桥
 
-/** 扫描端口区间探测云析；命中后缓存 { port, token } */
+/** 扫描端口区间探测甘露解析；命中后缓存 { port, token } */
 async function ensureBridge(force) {
   if (bridge && !force) return bridge;
   bridge = null;
@@ -267,7 +267,7 @@ async function ensureBridge(force) {
       const j = await r.json();
       if (j && j.app === 'yunx') {
         bridge = { port: p, token: j.token || '' };
-        log('已连接云析本地桥：端口', p);
+        log('已连接甘露解析本地桥：端口', p);
         return bridge;
       }
     } catch (e) {
@@ -300,7 +300,7 @@ async function cookieHeader(url) {
   }
 }
 
-/** 组装发给云析的请求体 */
+/** 组装发给甘露解析的请求体 */
 async function buildPayload(info) {
   const url = info.url;
   const host = hostOf(url);
@@ -322,7 +322,7 @@ async function buildPayload(info) {
 }
 
 /**
- * POST /hook：把请求交给云析弹窗，挂起等待用户决定（云析侧最长等 120 秒，超时按「归还」处理）。
+ * POST /hook：把请求交给甘露解析弹窗，挂起等待用户决定（甘露解析侧最长等 120 秒，超时按「归还」处理）。
  * @returns {Promise<{action:'accept'|'cancel'|'return', saveDir?:string, threads?:number}>}
  */
 async function postHook(payload) {
@@ -351,16 +351,16 @@ async function postHook(payload) {
 }
 
 /**
- * POST 静默提交：把视频下载请求交给云析直接加入下载队列。
+ * POST 静默提交：把视频下载请求交给甘露解析直接加入下载队列。
  *
- * 与 /hook 不同，这里**不挂起等用户决定**：清晰度/下载方式都已在插件页定好（或交给云析按
- * 平台最高档解析），云析收到即返回，解析与入队都在它后台完成，不弹窗、不打断浏览。
+ * 与 /hook 不同，这里**不挂起等用户决定**：清晰度/下载方式都已在插件页定好（或交给甘露解析按
+ * 平台最高档解析），甘露解析收到即返回，解析与入队都在它后台完成，不弹窗、不打断浏览。
  * @param {string} path 桥接端点：`/bili`（BVID + 清晰度 + 方式）或 `/video`（页面链接）
  * @returns {Promise<{ok:boolean, error?:string}>}
  */
 async function postSilent(path, payload) {
   const b = await ensureBridge(false);
-  if (!b) return { ok: false, error: '未检测到云析，请先启动云析' };
+  if (!b) return { ok: false, error: '未检测到甘露解析，请先启动甘露解析' };
   try {
     const r = await fetch('http://127.0.0.1:' + b.port + path, {
       method: 'POST',
@@ -368,15 +368,15 @@ async function postSilent(path, payload) {
       headers: { 'Content-Type': 'application/json', 'X-YunX-Token': b.token },
       body: JSON.stringify(payload),
     });
-    if (r.status === 401) { invalidateBridge(); return { ok: false, error: '云析连接已失效，请重试' }; }
-    if (!r.ok) return { ok: false, error: '云析拒绝请求（' + r.status + '）' };
+    if (r.status === 401) { invalidateBridge(); return { ok: false, error: '甘露解析连接已失效，请重试' }; }
+    if (!r.ok) return { ok: false, error: '甘露解析拒绝请求（' + r.status + '）' };
     const d = await r.json().catch(() => null);
     if (d && d.ok) return { ok: true };
-    return { ok: false, error: (d && d.error) || '云析处理失败' };
+    return { ok: false, error: (d && d.error) || '甘露解析处理失败' };
   } catch (e) {
     log(path + ' 提交失败：', e && e.message);
     invalidateBridge();
-    return { ok: false, error: '提交失败：请确认云析正在运行' };
+    return { ok: false, error: '提交失败：请确认甘露解析正在运行' };
   }
 }
 
@@ -397,7 +397,7 @@ async function redownload(payload) {
 // ---------------------------------------------------------------- 通用下载流程
 
 /**
- * 走一遍「交给云析 → 按决定分流」的流程。
+ * 走一遍「交给甘露解析 → 按决定分流」的流程。
  * @param info {url, fileName?, fileSize?, pageUrl?, referer?, mime?}
  * @returns 决定结果
  */
@@ -407,7 +407,7 @@ async function handOverToYunx(info) {
   if (decision.action === 'accept') {
     setBadge('✓', '#2e86ff');
     setTimeout(() => setBadge(''), 3000);
-    log('已交给云析下载', payload.fileName, decision.threads ? '(' + decision.threads + ' 线程)' : '');
+    log('已交给甘露解析下载', payload.fileName, decision.threads ? '(' + decision.threads + ' 线程)' : '');
   } else if (decision.action === 'return') {
     // 冷却按「发起下载的页面域名」锚定（取不到才退回资源域名），与后续接管检查、
     // popup 查询/清除保持同一口径，避免只冷却到 CDN 域名导致对不上。
@@ -489,7 +489,7 @@ async function onDownloadCreated(item) {
     const root = cooldownRoot(item.referrer || '', url);
     if (await isCoolingDown(root)) return; // 刚归还过，5 分钟内不再接管该站点
 
-    // 探测云析；没运行就完全不干预浏览器下载
+    // 探测甘露解析；没运行就完全不干预浏览器下载
     const b = await ensureBridge(false);
     if (!b) return;
 
@@ -523,9 +523,9 @@ async function onDownloadCreated(item) {
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.removeAll(() => {
     void chrome.runtime.lastError;
-    chrome.contextMenus.create({ id: 'yunx-link', title: '用云析下载此链接', contexts: ['link'] });
-    chrome.contextMenus.create({ id: 'yunx-media', title: '用云析下载此资源', contexts: ['video', 'audio'] });
-    chrome.contextMenus.create({ id: 'yunx-image', title: '用云析下载此图片', contexts: ['image'] });
+    chrome.contextMenus.create({ id: 'yunx-link', title: '用甘露解析下载此链接', contexts: ['link'] });
+    chrome.contextMenus.create({ id: 'yunx-media', title: '用甘露解析下载此资源', contexts: ['video', 'audio'] });
+    chrome.contextMenus.create({ id: 'yunx-image', title: '用甘露解析下载此图片', contexts: ['image'] });
   });
 });
 
@@ -663,7 +663,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
 
-  // 其他视频平台（抖音 / 微博 / AcFun …）：只把页面链接交给云析，由云析解析成可下载流
+  // 其他视频平台（抖音 / 微博 / AcFun …）：只把页面链接交给甘露解析，由甘露解析解析成可下载流
   if (msg.type === 'yunx-video-download') {
     (async () => {
       const st = await getSettings();

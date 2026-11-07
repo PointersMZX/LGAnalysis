@@ -98,7 +98,7 @@ fun BrowserHookDialogWindow() {
 
     Window(
         onCloseRequest = { BrowserBridge.cancel(req) },
-        title = "云析下载助手",
+        title = "甘露解析下载助手",
         undecorated = true,
         resizable = false,
         alwaysOnTop = true,
@@ -387,7 +387,7 @@ private fun DialogHeader(onCancel: () -> Unit) {
         Spacer(Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = "云析下载助手",
+                text = "甘露解析下载助手",
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium
             )

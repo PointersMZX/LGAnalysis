@@ -3,7 +3,7 @@
 # 云析桌面版 v1.3.3
 
 > 发布日期：2026-10-31
-> 安卓版：CYQawa/YunX ｜ 桌面版：tidain/YunX-Desktop
+> 安卓版：PointersMZX/LGAnalysis ｜ 桌面版：PointersMZX/LGAnalysis
 
 ## 新增：P2P 下载（磁力 / BT 种子 / ed2k）
 
@@ -45,7 +45,7 @@
 
 ## 下载
 
-<https://github.com/tidain/YunX-Desktop/releases>
+<https://github.com/PointersMZX/LGAnalysis/releases>
 
 - **便携版**：解压即用
 
@@ -55,8 +55,8 @@
 
 ## 反馈
 
-<https://github.com/tidain/YunX-Desktop/issues>
+<https://github.com/PointersMZX/LGAnalysis/issues>
 
 ***
 
-*CYQawa/YunX 的官方电脑端，GNU AGPL-3.0 开源。*
+*PointersMZX/LGAnalysis 的官方电脑端，GNU AGPL-3.0 开源。*

@@ -60,7 +60,10 @@ import com.yunx.app.data.update.UpdateChecker
 import com.yunx.app.util.DesktopActions
 
 /** QQ 交流群群号（关于页入口；桌面端无 mqqapi scheme 保证，点击复制群号供用户在 QQ 中搜索） */
-private const val QQ_GROUP = "635207650"
+private const val QQ_GROUP = "335753296"
+
+/** QQ 官方加群短链（浏览器打开出现加群卡片；群号换绑时这里和 QQ_GROUP 要一起改） */
+private const val QQ_GROUP_JOIN_URL = "https://qm.qq.com/q/soFNtWRytq"
 
 /**
  * 关于云析页：应用介绍、支持平台、功能特性、技术栈与免责声明。
@@ -81,7 +84,7 @@ fun AboutScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text("关于云析", style = MaterialTheme.typography.titleLarge) },
+                title = { Text("关于甘露解析", style = MaterialTheme.typography.titleLarge) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "返回")
@@ -108,10 +111,10 @@ fun AboutScreen(
             InfoCard(
                 icon = Icons.Outlined.Cloud,
                 title = "应用简介",
-                description = "云析（YunX）是一款网盘分享链接 + 视频链接解析与高速下载工具。" +
+                description = "甘露解析（LGAnalysis）是一款网盘分享链接 + 视频链接解析与高速下载工具。" +
                     "粘贴分享链接或视频短链，登录账号后即可浏览内容、在线预览并直接高速下载；" +
                     "也支持磁力 / BT 种子 / ed2k 等 P2P 链接下载。\n" +
-                    "Windows 桌面端：YunX-Desktop 基于 Compose Multiplatform 构建，" +
+                    "Windows 桌面端与 Android 端同属本项目：桌面端基于 Compose Multiplatform 构建，" +
                     "在安卓版能力之上补齐桌面交互（右键菜单、文件夹整夹下载、可拖动窗口）。"
             )
             
@@ -142,15 +145,13 @@ fun AboutScreen(
 
             // ---------- 开源仓库 ----------
             GitHubCard()
-            Spacer(modifier = Modifier.height(8.dp))
-            DesktopRepoCard()
 
             Spacer(modifier = Modifier.height(8.dp))
             QQGroupCard()
 
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "云析 v$versionName · Made with ❤ and deepseek",
+                text = "Copyright © 2026 LGAnalysis All Rights Reserved",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.outline,
                 modifier = Modifier
@@ -173,19 +174,19 @@ private fun AppHeader(versionName: String) {
     ) {
         Image(
             painter = painterResource("about_icon.png"),
-            contentDescription = "云析图标",
+            contentDescription = "甘露解析图标",
             modifier = Modifier.size(88.dp)
         )
         Spacer(modifier = Modifier.height(14.dp))
         Text(
-            text = "云析",
+            text = "甘露解析",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = Modifier.height(4.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "YunX-Desktop · v$versionName",
+                text = "LGAnalysis · v$versionName",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -542,7 +543,7 @@ private fun CardIcon(icon: ImageVector) {
 private fun GitHubCard() {
     Card(
         onClick = {
-            DesktopActions.openUrl("https://github.com/CYQawa/YunX")
+            DesktopActions.openUrl("https://github.com/PointersMZX/LGAnalysis")
         },
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
@@ -578,63 +579,7 @@ private fun GitHubCard() {
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = "github.com/CYQawa/YunX",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            Icon(
-                imageVector = Icons.Outlined.OpenInNew,
-                contentDescription = null,
-                modifier = Modifier.size(18.dp),
-                tint = MaterialTheme.colorScheme.outline
-            )
-        }
-    }
-}
-
-/** PC 版仓库入口卡片 */
-@Composable
-private fun DesktopRepoCard() {
-    Card(
-        onClick = {
-            DesktopActions.openUrl("https://github.com/tidain/YunX-Desktop")
-        },
-        modifier = Modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.large,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Surface(
-                modifier = Modifier.size(40.dp),
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.tertiaryContainer
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        imageVector = Icons.Outlined.DesktopWindows,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp),
-                        tint = MaterialTheme.colorScheme.onTertiaryContainer
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.width(14.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "PC 版仓库",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Medium
-                )
-                Text(
-                    text = "github.com/tidain/YunX-Desktop",
+                    text = "github.com/PointersMZX/LGAnalysis",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -654,8 +599,10 @@ private fun DesktopRepoCard() {
 private fun QQGroupCard() {
     Card(
         onClick = {
+            // 打开官方加群短链（浏览器出现加群卡片）；顺带复制群号，进群搜索也方便
+            DesktopActions.openUrl(QQ_GROUP_JOIN_URL)
             DesktopActions.copyToClipboard(QQ_GROUP)
-            SnackbarController.show("QQ 群号已复制：$QQ_GROUP")
+            SnackbarController.show("已打开加群链接，群号已复制：$QQ_GROUP")
         },
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.large,
@@ -691,7 +638,7 @@ private fun QQGroupCard() {
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = "群号：$QQ_GROUP（点击复制）",
+                    text = "群号：$QQ_GROUP（点击加入群聊）",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

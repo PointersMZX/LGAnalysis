@@ -159,7 +159,6 @@ import com.yunx.app.ui.screens.ResolveScreen
 import com.yunx.app.ui.screens.VideoResolveScreen
 import com.yunx.app.ui.screens.VideoStreamMode
 import com.yunx.app.ui.screens.SettingsScreen
-import com.yunx.app.ui.screens.SupportScreen
 import com.yunx.app.ui.screens.ThemeScreen
 import com.yunx.app.ui.screens.UpdateDialog
 import com.yunx.app.ui.viewmodel.AnnouncementViewModel
@@ -234,7 +233,6 @@ fun MainScreen(
     var showILanzouLogin by rememberSaveable { mutableStateOf(false) }
     var showLanzouLogin by rememberSaveable { mutableStateOf(false) }
     var showAbout by rememberSaveable { mutableStateOf(false) }
-    var showSupport by rememberSaveable { mutableStateOf(false) }
     var showTheme by rememberSaveable { mutableStateOf(false) }
     var showBookmarks by rememberSaveable { mutableStateOf(false) }
     var showExperimental by rememberSaveable { mutableStateOf(false) }
@@ -363,7 +361,7 @@ fun MainScreen(
     val minimizeToTray: () -> Unit = {
         // 委托给 Main.kt 的实现（含关闭请求抑制，避免 hide 触发 onCloseRequest 重跑）
         onMinimizeToTray()
-        TrayManager.showNotification("云析", "已最小化到系统托盘，下载仍在后台继续")
+        TrayManager.showNotification("甘露解析", "已最小化到系统托盘，下载仍在后台继续")
     }
 
     // 监听关闭请求信号
@@ -1075,7 +1073,6 @@ fun MainScreen(
                             scrollBehavior = scrollBehavior,
                             onThemeClick = { showTheme = true },
                             onAboutClick = { showAbout = true },
-                            onSupportClick = { showSupport = true },
                             onExperimentalClick = { showExperimental = true },
                             onDownloadEngineClick = { showDownloadEngine = true },
                             onStorageClick = { showStorage = true },
@@ -1150,18 +1147,6 @@ fun MainScreen(
                     showAbout = false
                     showOnboarding = true
                 }
-            )
-        }
-
-        // 支持开发：叠加覆盖层
-        AnimatedVisibility(
-            visible = showSupport,
-            enter = fadeIn(tween(220)) + scaleIn(tween(220), initialScale = 0.96f),
-            exit = fadeOut(tween(160)) + scaleOut(tween(160), targetScale = 0.96f),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            SupportScreen(
-                onBack = { showSupport = false }
             )
         }
 
@@ -1348,7 +1333,7 @@ fun MainScreen(
                         threads = threads
                     )
                     currentTab = MainTab.Download
-                    SnackbarController.show("已交给云析下载：${hook.fileName}（$threads 线程）")
+                    SnackbarController.show("已交给甘露解析下载：${hook.fileName}（$threads 线程）")
                 }
             }
             onDispose { BrowserHookController.onAccept = null }

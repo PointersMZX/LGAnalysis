@@ -507,7 +507,7 @@ object FfplayManager {
             "-loglevel", "info",
             "-stats",
             "-autoexit",
-            "-window_title", title.ifBlank { "云析 预览" }
+            "-window_title", title.ifBlank { "甘露解析 预览" }
         )
         // ffplay 的窗口是「首帧解码后才创建」的，创建时默认落在屏幕中间，
         // 等我们轮询到再 SetParent 搬进应用窗口，用户就会看到窗口先弹出来再"飞"进去。
