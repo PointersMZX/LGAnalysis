@@ -278,10 +278,10 @@ if (-not (Test-Path $launcherInfoDir)) { New-Item -ItemType Directory -Force -Pa
 @"
 using System.Reflection;
 
-[assembly: AssemblyTitle("甘露解析 LGAnalysis")]
-[assembly: AssemblyProduct("甘露解析 LGAnalysis")]
-[assembly: AssemblyCompany("tidain")]
-[assembly: AssemblyCopyright("Copyright (C) 2026 tidain")]
+[assembly: AssemblyTitle("甘露解析 LG Analysis")]
+[assembly: AssemblyProduct("甘露解析 LG Analysis")]
+[assembly: AssemblyCompany("LGAnalysis")]
+[assembly: AssemblyCopyright("Copyright (C) 2026 LGAnalysis All Rights Reserved")]
 [assembly: AssemblyDescription("网盘分享链接解析与高速下载器")]
 [assembly: AssemblyVersion("$AppVersion")]
 [assembly: AssemblyFileVersion("$AppVersion")]

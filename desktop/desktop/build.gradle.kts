@@ -285,7 +285,7 @@ compose.desktop {
             // 注意：jpackage 参数文件解析不支持非 ASCII 描述（本机报 "Input length = 1"），描述保持纯英文
             description = "LGAnalysis - netdisk share-link parser and high-speed downloader (desktop port of LGAnalysis for Android)"
             vendor = "LGAnalysis"
-            copyright = "Copyright (C) 2026 tidain"
+            copyright = "Copyright (C) 2026 LGAnalysis All Rights Reserved"
         }
     }
 }
