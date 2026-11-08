@@ -41,7 +41,7 @@ object WindowFx {
     private val fading = AtomicBoolean(false)
 
     /**
-     * 启动淡入（启动器闪屏模式，YUNXPC_SPLASH=1）：在 Compose 主窗口显示的瞬间把整窗
+     * 启动淡入（启动器闪屏模式，LGANALYSISPC_SPLASH=1）：在 Compose 主窗口显示的瞬间把整窗
      * 透明度压到 0（轮询 isDisplayable，确保不晚于首帧上屏），等待 [settleMs] 让内容
      * 完成首帧组合与绘制，再在 EDT 上以 [durationMs] 渐入到不透明，与启动器闪屏淡出
      * 交叉衔接。可见性完全由 Compose 控制（外部 setVisible 会被 Compose 状态同步回滚，

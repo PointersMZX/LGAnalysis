@@ -13,14 +13,14 @@ import javax.crypto.spec.SecretKeySpec
  * 网盘认证备份的 AES 加密/解密：
  * - 密钥：PBKDF2WithHmacSHA256（16 字节随机盐 + 210000 次迭代）从用户密码派生；
  * - 加密：AES/GCM/NoPadding（128 位 tag，认证加密，密文被篡改会解密失败）；
- * - 格式：Base64(魔数 "YUNX_AUTH_V2" + salt(16) + iv(12) + ciphertext)。
+ * - 格式：Base64(魔数 "LGANALYSIS_AUTH_V2" + salt(16) + iv(12) + ciphertext)。
  * - 解密兼容旧版 V1（10000 次迭代）备份。
  * 密码错误 / 文件被篡改 → 解密抛异常（AEADBadTagException），上层提示「密码错误，解密失败」。
  */
 object AuthCrypto {
 
-    private const val MAGIC_V1 = "YUNX_AUTH_V1"
-    private const val MAGIC_V2 = "YUNX_AUTH_V2"
+    private const val MAGIC_V1 = "LGANALYSIS_AUTH_V1"
+    private const val MAGIC_V2 = "LGANALYSIS_AUTH_V2"
     private const val ITERATIONS_V1 = 10_000
     private const val ITERATIONS_V2 = 210_000
     private const val KEY_LENGTH = 256

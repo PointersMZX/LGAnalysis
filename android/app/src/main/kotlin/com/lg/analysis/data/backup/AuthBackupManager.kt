@@ -77,7 +77,7 @@ class AuthBackupManager(
 ) {
 
     private companion object {
-        const val APP_TAG = "yunx_auth_backup"
+        const val APP_TAG = "lganalysis_auth_backup"
         const val VERSION = 1
 
         /**
@@ -437,15 +437,15 @@ class AuthBackupManager(
 
     /**
      * 把备份内容保存到公共下载目录（Android 10+ 走 MediaStore 无需权限）。
-     * @param encrypted true 时文件名为 .yunx（加密备份），否则 .json（明文）
+     * @param encrypted true 时文件名为 .enc（加密备份），否则 .json（明文）
      */
     suspend fun saveToDownloads(context: Context, content: String, encrypted: Boolean = false): Boolean =
         withContext(Dispatchers.IO) {
             runCatching {
                 val fileName = if (encrypted) {
-                    "yunx_auth_backup_${timestamp()}.yunx"
+                    "lganalysis_auth_backup_${timestamp()}.enc"
                 } else {
-                    "yunx_auth_backup_${timestamp()}.json"
+                    "lganalysis_auth_backup_${timestamp()}.json"
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     val values = ContentValues().apply {

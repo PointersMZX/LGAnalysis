@@ -55,7 +55,7 @@ internal class Mp4PreviewSession private constructor(
     companion object {
         /** 临时文件目录（放在系统临时目录下，进程退出不残留重要数据） */
         private val cacheDir: File
-            get() = File(System.getProperty("java.io.tmpdir"), "yunx-preview")
+            get() = File(System.getProperty("java.io.tmpdir"), "lganalysis-preview")
 
         /**
          * 准备一个 MP4 预览会话（阻塞：下载到可起播为止）。

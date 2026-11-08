@@ -479,7 +479,7 @@ fun SettingsScreen(
             onClick = {
                 val path = DesktopActions.pickFile(
                     filters = listOf(
-                        "认证备份文件 (*.yunx;*.json)" to "*.yunx;*.json",
+                        "认证备份文件 (*.enc;*.json)" to "*.enc;*.json",
                         "所有文件 (*.*)" to "*.*"
                     )
                 )
@@ -739,7 +739,7 @@ fun SettingsScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // 导出入口（zip 名 yunx_diagnostic_logs_yyyyMMdd_HHmmss.zip，导出前会先 flush）
+                // 导出入口（zip 名 lganalysis_diagnostic_logs_yyyyMMdd_HHmmss.zip，导出前会先 flush）
                 TextButton(
                     onClick = {
                         showDevMenu = false
@@ -929,8 +929,8 @@ fun SettingsScreen(
                     val target = DesktopActions.saveFile(
                         defaultName = backupManager.defaultBackupFileName(encrypted),
                         title = "导出认证信息",
-                        filters = listOf("甘露解析认证备份 (*.yunx)" to "*.yunx", "所有文件 (*.*)" to "*.*"),
-                        defaultExtension = "yunx"
+                        filters = listOf("甘露解析认证备份 (*.enc)" to "*.enc", "所有文件 (*.*)" to "*.*"),
+                        defaultExtension = "enc"
                     ) ?: return@launch
                     val saved = withContext(Dispatchers.IO) {
                         backupManager.saveTo(content, java.io.File(target))

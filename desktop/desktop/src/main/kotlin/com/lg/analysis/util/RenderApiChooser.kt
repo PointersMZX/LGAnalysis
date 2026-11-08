@@ -10,7 +10,7 @@ import com.sun.jna.platform.win32.WinReg
  * 「界面有形状、但一个文字都不渲染」的问题（典型：ATI Radeon 3000 这类 DX10 时代的集显）。
  * 这类设备自动退到 SOFTWARE（CPU 光栅化）：帧率低一些，但文字与图形一定正确。
  *
- * ★ 仍可用环境变量 `YUNXPC_RENDER_API=OPENGL / DIRECT3D / SOFTWARE` 强制指定，优先级高于本检测。
+ * ★ 仍可用环境变量 `LGANALYSISPC_RENDER_API=OPENGL / DIRECT3D / SOFTWARE` 强制指定，优先级高于本检测。
  */
 internal object RenderApiChooser {
 

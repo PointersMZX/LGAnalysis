@@ -35,7 +35,7 @@ class DownloadSaverTest {
         val loc = DownloadSaver.prepareDirectPart("sub/文件.bin", base.absolutePath, 42L)
         assertNotNull(loc)
         val part = loc!!.partFile
-        assertTrue("临时文件名应带任务 id", part.name.contains(".yunx-42.part"))
+        assertTrue("临时文件名应带任务 id", part.name.contains(".lganalysis-42.part"))
         part.writeBytes(byteArrayOf(1, 2, 3, 4))
 
         val saved = DownloadSaver.commitDirectPart(part, loc.destDir, loc.finalName)

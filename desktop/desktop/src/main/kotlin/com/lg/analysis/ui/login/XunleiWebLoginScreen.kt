@@ -85,7 +85,7 @@ private const val SAME_CREDENTIAL_RETRY_MS = 10_000L
  *
  * 桌面 JCEF **拿不到 executeJavaScript 的返回值**，所以采用「Cookie 桥」：轮询注入一段 JS，
  * 把 localStorage 里的网页凭据（credentials_<clientId>，含 deviceid / captcha 补全）分片写进
- * `yunx_xl_cred_*` Cookie，再从全局 Cookie 管理器读回、解析、打一次真实云盘接口校验后落库。
+ * `lganalysis_xl_cred_*` Cookie，再从全局 Cookie 管理器读回、解析、打一次真实云盘接口校验后落库。
  * 页面改版或桥接失败时，底部「手动粘贴」可贴 localStorage 原文 / 裸 access_token（[XunleiWebCredential.parse]）。
  */
 @Composable
@@ -387,7 +387,7 @@ fun XunleiWebLoginScreen(
 private class BrowserHolder(val client: CefClient, val browser: CefBrowser)
 
 /**
- * 从全局 Cookie 管理器读回 `yunx_xl_cred_*` 分片并拼成完整凭据（URL 解码后即 localStorage 原文 JSON）。
+ * 从全局 Cookie 管理器读回 `lganalysis_xl_cred_*` 分片并拼成完整凭据（URL 解码后即 localStorage 原文 JSON）。
  * 未登录 / 页面尚未写入 / 分片不完整时返回 null，由轮询继续等待。
  */
 private fun collectWebCredential(): String? {

@@ -265,7 +265,7 @@ object DiagnosticLog {
     }
 
     /**
-     * 导出 zip：`yunx_diagnostic_logs_yyyyMMdd_HHmmss.zip`（先 flush，确保最新日志在里面）。
+     * 导出 zip：`lganalysis_diagnostic_logs_yyyyMMdd_HHmmss.zip`（先 flush，确保最新日志在里面）。
      *
      * 除分模块诊断日志外，还带上**应用主日志 / CEF 日志 / JVM 崩溃留痕 / 环境快照**：
      * 「启动几秒后进程自己消失」这类问题在 Java 侧一行都写不出来（见 [harvestJvmCrashLogs]），
@@ -277,11 +277,11 @@ object DiagnosticLog {
         val files = src.listFiles()?.filter { it.isFile }?.sortedBy { it.name }.orEmpty()
         val outDir = File(AppContext.cacheDir, "logs").apply { mkdirs() }
         val stamp = synchronized(timeFormatLock) { fileTimeFormat.format(Date()) }
-        val out = File(outDir, "yunx_diagnostic_logs_$stamp.zip")
+        val out = File(outDir, "lganalysis_diagnostic_logs_$stamp.zip")
         ZipOutputStream(BufferedOutputStream(FileOutputStream(out))).use { zip ->
             files.forEach { f -> zip.addExisting(f.name, f) }
-            zip.addExisting("app/yunx-desktop.log", File(AppContext.filesDir, "yunx-desktop.log"))
-            zip.addExisting("app/yunx-desktop.1.log", File(AppContext.filesDir, "yunx-desktop.1.log"))
+            zip.addExisting("app/lganalysis-desktop.log", File(AppContext.filesDir, "lganalysis-desktop.log"))
+            zip.addExisting("app/lganalysis-desktop.1.log", File(AppContext.filesDir, "lganalysis-desktop.1.log"))
             zip.addExisting("app/jcef.log", File(AppContext.filesDir, "jcef.log"))
             File(AppContext.filesDir, CRASH_DIR).listFiles()?.sortedBy { it.name }?.forEach { f ->
                 zip.addExisting("crash/${f.name}", f)
@@ -353,7 +353,7 @@ object DiagnosticLog {
         appendLine(
             "CEF profile=${File(AppContext.cacheDir, "jcef").exists()} " +
                 "bundle=${File(AppContext.cacheDir, "jcef-bundle").exists()} " +
-                "运行标记=${File(AppContext.cacheDir, ".yunx-jcef-running").exists()}"
+                "运行标记=${File(AppContext.cacheDir, ".lganalysis-jcef-running").exists()}"
         )
         appendLine("诊断日志目录=${dirOf().absolutePath}")
     }

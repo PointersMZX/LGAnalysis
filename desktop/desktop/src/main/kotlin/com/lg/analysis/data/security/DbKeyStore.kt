@@ -49,16 +49,16 @@ enum class DbEncryptionLevel(val id: String, val label: String) {
 /**
  * 密钥保护：把 32 字节的凭证主密钥按当前档位包裹后落盘，并按档位解包。
  *
- * 封装格式（全部以 `yunx:key:` 开头，便于与老版本的「裸 32 字节」区分）：
+ * 封装格式（全部以 `lganalysis:key:` 开头，便于与老版本的「裸 32 字节」区分）：
  * - 宽松：[KEY_FILE] 里直接是 32 字节原始密钥（与历史版本一致，天然兼容）；
- * - 普通：`yunx:key:mk:v1:<salt b64>:<iv b64>:<ct b64>`，包裹密钥 = PBKDF2(机器指纹, salt)；
- * - 较为严格：`yunx:key:dpapi:v1:<blob b64>`，包裹密钥交给 Windows DPAPI。
+ * - 普通：`lganalysis:key:mk:v1:<salt b64>:<iv b64>:<ct b64>`，包裹密钥 = PBKDF2(机器指纹, salt)；
+ * - 较为严格：`lganalysis:key:dpapi:v1:<blob b64>`，包裹密钥交给 Windows DPAPI。
  */
 object DbKeyStore {
 
     const val KEY_FILE = "credential.key"
 
-    private const val PREFIX = "yunx:key:"
+    private const val PREFIX = "lganalysis:key:"
     private const val TAG = "LGAnalysis-KeyStore"
 
     /** PBKDF2 迭代次数：与认证备份同一量级（21 万次），肉眼无感、暴力破解足够贵 */
@@ -207,7 +207,7 @@ object DbKeyStore {
 
     /** 机器指纹（可读性无关，只求稳定唯一） */
     private fun machineFingerprint(): String = buildString {
-        append("yunx-desktop|")
+        append("lganalysis-desktop|")
         append(System.getProperty("os.name").orEmpty()).append('|')
         append(System.getProperty("os.arch").orEmpty()).append('|')
         append(

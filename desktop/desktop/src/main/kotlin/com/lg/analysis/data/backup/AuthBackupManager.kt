@@ -53,7 +53,7 @@ class AuthBackupManager(
 ) {
 
     private companion object {
-        const val APP_TAG = "yunx_auth_backup"
+        const val APP_TAG = "lganalysis_auth_backup"
         const val VERSION = 1
 
         /**
@@ -412,9 +412,9 @@ class AuthBackupManager(
         count
     }
 
-    /** 默认备份文件名（.yunx 加密 / .json 明文），供「另存为」对话框预填 */
+    /** 默认备份文件名（.enc 加密 / .json 明文），供「另存为」对话框预填 */
     fun defaultBackupFileName(encrypted: Boolean): String =
-        "yunx_auth_backup_${timestamp()}.${if (encrypted) "yunx" else "json"}"
+        "lganalysis_auth_backup_${timestamp()}.${if (encrypted) "enc" else "json"}"
 
     /**
      * 把备份内容写入指定目标文件（路径来自系统「另存为」对话框）。

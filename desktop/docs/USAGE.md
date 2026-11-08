@@ -77,7 +77,7 @@ GitHub 为代码托管平台，链接（仓库 / 账号 / 文件直链）在「�
 
 | 路径 | 内容 |
 | --- | --- |
-| `%USERPROFILE%\.yunx-desktop\` | 应用数据根目录（可用环境变量 `YUNX_DESKTOP_DATA_DIR` 覆盖） |
+| `%USERPROFILE%\.yunx-desktop\` | 应用数据根目录（可用环境变量 `LGANALYSIS_DESKTOP_DATA_DIR` 覆盖） |
 | `%USERPROFILE%\.yunx-desktop\yunx.db` | 任务与凭证库（SQLite；位置可在「设置 → 储存目录」改） |
 | `%USERPROFILE%\.yunx-desktop\credential.key` | 凭证加密密钥（AES-256-GCM；跟着数据库目录走） |
 | `%USERPROFILE%\.yunx-desktop\cache\download_tmp\` | 下载分片临时目录（缓存目录可在「设置 → 储存目录」改） |

@@ -51,27 +51,27 @@ class DeepLinksTest {
     @Test
     fun `自有协议拆出 url 参数并把 pwd 拼回链接`() {
         val encoded = URLEncoder.encode("https://pan.quark.cn/s/abc123", "UTF-8")
-        val data = "yunx://resolve?url=$encoded&pwd=1234"
+        val data = "lganalysis://resolve?url=$encoded&pwd=1234"
         assertEquals("https://pan.quark.cn/s/abc123?pwd=1234", DeepLinks.textFrom(view, data, null))
     }
 
     @Test
     fun `自有协议链接里已带 pwd 时不再重复拼接`() {
         val encoded = URLEncoder.encode("https://pan.quark.cn/s/abc?pwd=9999", "UTF-8")
-        val data = "yunx://resolve?url=$encoded&pwd=1234"
+        val data = "lganalysis://resolve?url=$encoded&pwd=1234"
         assertEquals("https://pan.quark.cn/s/abc?pwd=9999", DeepLinks.textFrom(view, data, null))
     }
 
     @Test
     fun `自有协议只有 url 参数也认`() {
         val encoded = URLEncoder.encode("https://drive.uc.cn/s/xyz", "UTF-8")
-        assertEquals("https://drive.uc.cn/s/xyz", DeepLinks.textFrom(view, "yunx://resolve?url=$encoded", null))
+        assertEquals("https://drive.uc.cn/s/xyz", DeepLinks.textFrom(view, "lganalysis://resolve?url=$encoded", null))
     }
 
     @Test
     fun `自有协议缺少 url 参数返回 null`() {
-        assertNull(DeepLinks.textFrom(view, "yunx://resolve?pwd=1234", null))
-        assertNull(DeepLinks.textFrom(view, "yunx://resolve", null))
+        assertNull(DeepLinks.textFrom(view, "lganalysis://resolve?pwd=1234", null))
+        assertNull(DeepLinks.textFrom(view, "lganalysis://resolve", null))
     }
 
     @Test

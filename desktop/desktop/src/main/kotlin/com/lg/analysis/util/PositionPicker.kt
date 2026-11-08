@@ -85,7 +85,7 @@ object PositionPicker {
     /** 找到可执行文件；找不到返回 null */
     private fun resolveExe(): Resolved? {
         // ① 环境变量覆盖（调试 / 自定义部署用）
-        System.getenv("YUNXPC_PICKER")?.takeIf { it.isNotBlank() }?.let { p ->
+        System.getenv("LGANALYSISPC_PICKER")?.takeIf { it.isNotBlank() }?.let { p ->
             File(p).takeIf { it.isFile }?.let { return Resolved(it, temporary = false) }
         }
         // ② 打包态：点击这一刻才从 jar 释放一份一次性 exe 到 %TEMP%，由 pick() 用完即删

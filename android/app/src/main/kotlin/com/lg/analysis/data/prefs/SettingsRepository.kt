@@ -27,7 +27,7 @@ import com.lg.analysis.data.download.DownloadPlatform
 class SettingsRepository(context: Context) {
 
     private val prefs = context.applicationContext
-        .getSharedPreferences("yunx_settings", Context.MODE_PRIVATE)
+        .getSharedPreferences("lganalysis_settings", Context.MODE_PRIVATE)
 
     /** 下载线程数（通用/手动添加，分片并发数），默认 32，上限 512（真实并发另见 [MAX_DOWNLOAD_THREADS] 的说明） */
     var downloadThreads: Int

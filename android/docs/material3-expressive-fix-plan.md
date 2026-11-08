@@ -54,7 +54,7 @@ Lint 的全部错误位于未修改文件：`Theme.kt` 142 项 RestrictedApi、`
 构建使用 JDK 17、Gradle 9.0.0、compileSdk 36 和 build-tools 35.0.0。受环境 8GiB 内存和 2 核 CPU 限制，使用以下选项限制并发：
 
 ```sh
-YUNX_USE_MIRROR=false ./gradlew --no-daemon --max-workers=2 --no-parallel \
+LGANALYSIS_USE_MIRROR=false ./gradlew --no-daemon --max-workers=2 --no-parallel \
   -Pkotlin.compiler.execution.strategy=in-process \
   assembleDebug testDebugUnitTest assembleDebugAndroidTest lintDebug
 ```

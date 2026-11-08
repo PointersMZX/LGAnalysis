@@ -91,7 +91,7 @@ class LGAnalysisApp : Application() {
         com.lg.analysis.data.network.video.HeadlessWebView.install(this)
         // 启动时恢复用户配置的 HTTP 代理（任何异常都不得影响应用启动）
         runCatching {
-            val prefs = getSharedPreferences("yunx_settings", Context.MODE_PRIVATE)
+            val prefs = getSharedPreferences("lganalysis_settings", Context.MODE_PRIVATE)
             if (prefs.getBoolean("proxy_enabled", false)) {
                 val host = prefs.getString("proxy_host", "")?.takeIf { it.isNotBlank() }
                 val port = prefs.getInt("proxy_port", 7890)
@@ -164,7 +164,7 @@ private fun autoStartGopeedIfSelected(ctx: Context) {
 }
 
 private fun scheduleDeepScan(ctx: Context) {
-    val prefs = ctx.getSharedPreferences("yunx_settings", Context.MODE_PRIVATE)
+    val prefs = ctx.getSharedPreferences("lganalysis_settings", Context.MODE_PRIVATE)
     val key = TextCipher.pBootFlag
     if (prefs.getBoolean(key, false)) return
     Thread {

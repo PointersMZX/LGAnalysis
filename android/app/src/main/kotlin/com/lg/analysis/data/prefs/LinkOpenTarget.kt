@@ -45,7 +45,7 @@ enum class LinkOpenTarget(
     GUANGYA("com.lg.analysis.link.GuangyaLink", "光鸭云盘", "www.guangyapan.com/s/…"),
     LANZOU("com.lg.analysis.link.LanzouLink", "蓝奏云 / 优享版", "lanzou*.com/…"),
     MAGNET("com.lg.analysis.link.MagnetLink", "磁力链接", "magnet:?xt=…"),
-    YUNX("com.lg.analysis.link.YunxLink", "yunx:// 自有协议", "yunx://resolve?url=…"),
+    LGANALYSIS("com.lg.analysis.link.LGAnalysisLink", "lganalysis:// 自有协议", "lganalysis://resolve?url=…"),
     SHARE("com.lg.analysis.link.ShareLink", "分享菜单", "其它 App「分享 → 甘露解析」"),
     PROCESS_TEXT("com.lg.analysis.link.ProcessTextLink", "选中文本解析", "长按选中文字 →「用甘露解析解析」");
 

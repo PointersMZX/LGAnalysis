@@ -46,9 +46,14 @@ $buildOut = Invoke-Gradle ":desktop:jar" ":desktop:compileDarkMode" ":desktop:ex
 Write-Host $buildOut
 if ($buildOut -match "BUILD FAILED|FAILURE:") { throw "gradle export failed" }
 
-# 暗色桥接 DLL（由 :desktop:compileDarkMode 用 MSVC 编译，需要 cl；缺失则中止）
+# 暗色桥接 DLL（可选）：无 C++ 编译器时 compileDarkMode 跳过，运行时回落 JNA 直调 uxtheme 序号
 $darkModeDll = Join-Path $root "desktop\build\native\darkmode.dll"
-if (-not (Test-Path $darkModeDll)) { throw "darkmode.dll not found: $darkModeDll" }
+if (Test-Path $darkModeDll) {
+    Write-Host "darkmode.dll found: will bundle" -ForegroundColor DarkGray
+} else {
+    Write-Host "darkmode.dll not built (no C++ compiler): skipping, runtime falls back to JNA direct uxtheme calls" -ForegroundColor Yellow
+    $darkModeDll = $null
+}
 
 Write-Host ""
 Write-Host "[2/5] Assembling portable-libs folder..." -ForegroundColor Cyan
@@ -316,8 +321,12 @@ foreach ($entry in $zip.Entries) {
 }
 $zip.Dispose()
 # 暗色桥接 DLL 与 skiko 原生库同放 app\：启动器已把 app\ 加进 java.library.path，
-# 应用的 System.loadLibrary("darkmode") 才能找到它
-Copy-Item $darkModeDll $appDir -Force
+# 应用的 System.loadLibrary("darkmode") 才能找到它；缺失则跳过（JNA 兜底）
+if ($darkModeDll) {
+    Copy-Item $darkModeDll $appDir -Force
+} else {
+    Write-Host "darkmode.dll not bundled (JNA fallback in effect)" -ForegroundColor Yellow
+}
 $nativeCount = (Get-ChildItem $appDir -File -Filter "*.dll").Count
 Write-Host "Copied native DLLs: $nativeCount" -ForegroundColor Green
 

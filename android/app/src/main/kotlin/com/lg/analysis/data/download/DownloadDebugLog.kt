@@ -276,7 +276,7 @@ object DownloadDebugLog {
     fun exportToFile(context: Context, task: DownloadTaskEntity): File? = runCatching {
         val dir = File(context.cacheDir, EXPORT_DIR).apply { mkdirs() }
         val stamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val file = File(dir, "yunx_download_debug_${task.id}_$stamp.txt")
+        val file = File(dir, "lganalysis_download_debug_${task.id}_$stamp.txt")
         file.writeText(buildExportText(context, task))
         file
     }.getOrNull()

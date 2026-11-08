@@ -73,7 +73,7 @@ object BrowserBridgeServer {
             return
         }
         bound.executor = Executors.newFixedThreadPool(8) { r ->
-            Thread(r, "yunx-bridge").apply { isDaemon = true }
+            Thread(r, "lganalysis-bridge").apply { isDaemon = true }
         }
         bound.start()
         server = bound
@@ -109,7 +109,7 @@ object BrowserBridgeServer {
             respond(
                 ex, 200,
                 JSONObject()
-                    .put("app", "yunx")
+                    .put("app", "lganalysis")
                     .put("api", 1)
                     .put("token", token)
                     .toString()

@@ -27,19 +27,19 @@ plugins {
 
 // ---- 发布签名：CI 从 GitHub Secrets 注入，本地（没有这些变量时）构建未签名包 ----
 // 四项环境变量齐备且证书文件真实存在，才注册 release 签名配置：
-//   YUNX_KEYSTORE_FILE      证书文件路径（.github/workflows/build-apk.yml 把 secrets.KEYSTORE_BASE64 解码到 $RUNNER_TEMP）
-//   YUNX_KEYSTORE_PASSWORD  密钥库口令
-//   YUNX_KEY_ALIAS          密钥别名
-//   YUNX_KEY_PASSWORD       密钥口令
+//   LGANALYSIS_KEYSTORE_FILE      证书文件路径（.github/workflows/build-apk.yml 把 secrets.KEYSTORE_BASE64 解码到 $RUNNER_TEMP）
+//   LGANALYSIS_KEYSTORE_PASSWORD  密钥库口令
+//   LGANALYSIS_KEY_ALIAS          密钥别名
+//   LGANALYSIS_KEY_PASSWORD       密钥口令
 // 缺任意一项（本地开发、ci.yml 的编译校验）⇒ release 的 signingConfig 为 null，
 // 产物是 app-release-unsigned.apk，本地不需要任何配置就能 `assembleRelease`；
 // 想在本地出正式签名包，自己导出这四个变量再构建即可（证书别提交进仓库，.gitignore 已挡 *.jks）。
-val releaseKeystorePath: String? = System.getenv("YUNX_KEYSTORE_FILE")?.takeIf { it.isNotBlank() }
+val releaseKeystorePath: String? = System.getenv("LGANALYSIS_KEYSTORE_FILE")?.takeIf { it.isNotBlank() }
 val releaseSigningReady: Boolean = releaseKeystorePath != null &&
     file(releaseKeystorePath).isFile &&
-    !System.getenv("YUNX_KEYSTORE_PASSWORD").isNullOrBlank() &&
-    !System.getenv("YUNX_KEY_ALIAS").isNullOrBlank() &&
-    !System.getenv("YUNX_KEY_PASSWORD").isNullOrBlank()
+    !System.getenv("LGANALYSIS_KEYSTORE_PASSWORD").isNullOrBlank() &&
+    !System.getenv("LGANALYSIS_KEY_ALIAS").isNullOrBlank() &&
+    !System.getenv("LGANALYSIS_KEY_PASSWORD").isNullOrBlank()
 
 android {
     namespace = "com.lg.analysis"
@@ -71,9 +71,9 @@ android {
         if (releaseSigningReady) {
             create("release") {
                 storeFile = releaseKeystorePath?.let { file(it) }
-                storePassword = System.getenv("YUNX_KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("YUNX_KEY_ALIAS")
-                keyPassword = System.getenv("YUNX_KEY_PASSWORD")
+                storePassword = System.getenv("LGANALYSIS_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("LGANALYSIS_KEY_ALIAS")
+                keyPassword = System.getenv("LGANALYSIS_KEY_PASSWORD")
             }
         }
     }

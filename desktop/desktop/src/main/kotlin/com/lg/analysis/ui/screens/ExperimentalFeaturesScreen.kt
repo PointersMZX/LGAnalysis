@@ -379,7 +379,7 @@ fun ExperimentalFeaturesScreen(
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = "⚠ 直写为实验性功能，仅对「内置下载器」生效（Gopeed 引擎本身直接落盘，不受此开关影响）。" +
-                        "临时文件（.yunx-*.part / .plan / .done）会出现在下载保存目录；暂停/失败后会保留以便续传。" +
+                        "临时文件（.lganalysis-*.part / .plan / .done）会出现在下载保存目录；暂停/失败后会保留以便续传。" +
                         "若目标盘是移动硬盘/网络盘，断开后该任务无法续传。对已开始的任务，开关变更不会改变其已选择的模式。",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error

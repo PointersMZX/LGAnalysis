@@ -35,7 +35,7 @@ fun main(args: Array<String>) {
     // 渲染后端：默认 OPENGL（GPU 渲染，动画流畅且文字清晰，2026-09-05 用户实测确认）。
     // 实测数据（125% DPI）：SOFTWARE 每帧 CPU 光栅化约 130 万像素，设置/下载页持续交互只有
     // ~10 FPS 且 UI 线程饱和；DIRECT3D 动画流畅但文字灰度发虚且 hinting 调节无效；
-    // OPENGL（ANGLE）两者兼顾。如需其他后端可设 YUNXPC_RENDER_API=SOFTWARE / DIRECT3D。
+    // OPENGL（ANGLE）两者兼顾。如需其他后端可设 LGANALYSISPC_RENDER_API=SOFTWARE / DIRECT3D。
     val osName = System.getProperty("os.name", "").lowercase()
 
     // 桌面上下文初始化（数据目录等）
@@ -68,10 +68,10 @@ fun main(args: Array<String>) {
 
     // ★ 老旧 / 基础显示适配器（如 ATI Radeon 3000）上，OPENGL(ANGLE) 会出现「界面有形状、
     //   但一个文字都不渲染」，这类设备由 [RenderApiChooser] 自动退到 SOFTWARE。
-    //   必须在创建任何窗口 / Skiko 初始化之前设置；环境变量 YUNXPC_RENDER_API 优先级更高。
+    //   必须在创建任何窗口 / Skiko 初始化之前设置；环境变量 LGANALYSISPC_RENDER_API 优先级更高。
     var softwareRendering = false
     if (osName.contains("win")) {
-        val renderApi = System.getenv("YUNXPC_RENDER_API")?.takeIf { it.isNotBlank() }
+        val renderApi = System.getenv("LGANALYSISPC_RENDER_API")?.takeIf { it.isNotBlank() }
             ?: RenderApiChooser.chooseWindows()
         com.lg.analysis.util.Log.i("LGAnalysis-Render", "渲染后端：$renderApi")
         System.setProperty("skiko.renderApi", renderApi)
@@ -169,11 +169,11 @@ fun main(args: Array<String>) {
         var closeRequested by remember { mutableStateOf(false) }
         // 抑制关闭请求：程序化隐藏窗口（最小化到托盘）时为 true，避免 onCloseRequest 重跑导致弹窗闪烁
         var suppressCloseRequest by remember { mutableStateOf(false) }
-        // 启动器闪屏模式（launcher 注入 YUNXPC_SPLASH=1）：窗口可见性由 Compose 控制，
+        // 启动器闪屏模式（launcher 注入 LGANALYSISPC_SPLASH=1）：窗口可见性由 Compose 控制，
         // WindowFx 在窗口显示瞬间把透明度压到 0，内容首帧就绪后渐入，与闪屏淡出交叉衔接。
         // 注意：不能用 Window(visible=false) + 外部 setVisible(true)——Compose 状态同步会
         // 把可见性回滚，导致窗口永远不显示（进程存活但无窗口）。
-        val splashMode = System.getenv("YUNXPC_SPLASH") == "1"
+        val splashMode = System.getenv("LGANALYSISPC_SPLASH") == "1"
 
         // ★ Compose Desktop 默认把「窗口 / 场景」异常弹成原生 Error 对话框。
         //   最容易撞上的是关闭时的良性竞态（例如切完主题就退出时报

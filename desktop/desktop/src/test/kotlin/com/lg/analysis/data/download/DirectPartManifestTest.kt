@@ -12,7 +12,7 @@ class DirectPartManifestTest {
     @Test
     fun planAndDoneRoundTrip() {
         val dir = File("build/direct-manifest-test").apply { mkdirs() }
-        val part = File(dir, "file.yunx-1.part").apply {
+        val part = File(dir, "file.lganalysis-1.part").apply {
             DownloadSaver.deleteDirectPart(absolutePath)
             writeBytes(ByteArray(1024) { (it % 251).toByte() })
         }
@@ -41,7 +41,7 @@ class DirectPartManifestTest {
     @Test
     fun hashRangeDetectsShortFile() {
         val dir = File("build/direct-manifest-test").apply { mkdirs() }
-        val part = File(dir, "short.yunx-2.part").apply {
+        val part = File(dir, "short.lganalysis-2.part").apply {
             DownloadSaver.deleteDirectPart(absolutePath)
             writeBytes(ByteArray(10))
         }

@@ -122,7 +122,7 @@ namespace LGAnalysis
                 javaOpts.Insert(0, "-Djava.class.path=" + string.Join(";", classpath.ToArray()));
 
                 // 闪屏模式：java 侧窗口全透明启动、内容就绪后自行渐入（与闪屏淡出交叉）
-                if (useSplash) Environment.SetEnvironmentVariable("YUNXPC_SPLASH", "1");
+                if (useSplash) Environment.SetEnvironmentVariable("LGANALYSISPC_SPLASH", "1");
 
                 // 工作目录与 java.exe 启动保持一致（<root>）
                 Directory.SetCurrentDirectory(root);
@@ -304,7 +304,7 @@ namespace LGAnalysis
         }
 
         /// 等待应用主窗口出现 → 闪屏淡出。
-        /// 应用窗口的渐入由 java 侧自行完成（YUNXPC_SPLASH=1：窗口全透明显示，内容首帧就绪后渐入）。
+        /// 应用窗口的渐入由 java 侧自行完成（LGANALYSISPC_SPLASH=1：窗口全透明显示，内容首帧就绪后渐入）。
         /// @return 是否检测到应用主窗口
         static bool CrossFade()
         {
@@ -434,7 +434,7 @@ namespace LGAnalysis
 
         /// <summary>
         /// 解析闪屏配色：读应用「设置 → 主题与外观」的深色模式。
-        /// java.util.prefs 在 Windows 上落在 HKCU\Software\JavaSoft\Prefs\yunx\settings，
+        /// java.util.prefs 在 Windows 上落在 HKCU\Software\JavaSoft\Prefs\lganalysis\settings，
         /// dark_mode：0=跟随系统、1=浅色、2=深色。读不到按「跟随系统」处理。
         /// </summary>
         public static bool ResolveDark()
@@ -442,7 +442,7 @@ namespace LGAnalysis
             try
             {
                 using (var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(
-                    @"Software\JavaSoft\Prefs\yunx\settings"))
+                    @"Software\JavaSoft\Prefs\lganalysis\settings"))
                 {
                     string raw = key != null ? key.GetValue("dark_mode") as string : null;
                     if (raw == "1") return false;

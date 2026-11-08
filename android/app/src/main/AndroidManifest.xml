@@ -328,10 +328,10 @@
             </intent-filter>
         </activity-alias>
 
-        <!-- 自有协议：yunx://resolve?url=<encode 后的分享链接>&pwd=xxxx
+        <!-- 自有协议：lganalysis://resolve?url=<encode 后的分享链接>&pwd=xxxx
              用于其它 App/网页/二维码精确拉起（不受上面域名白名单限制，也是蓝奏云那些列不全的域名的兜底） -->
         <activity-alias
-            android:name="com.lg.analysis.link.YunxLink"
+            android:name="com.lg.analysis.link.LGAnalysisLink"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ComposeEmptyActivity"
@@ -340,7 +340,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="yunx" />
+                <data android:scheme="lganalysis" />
             </intent-filter>
         </activity-alias>
 

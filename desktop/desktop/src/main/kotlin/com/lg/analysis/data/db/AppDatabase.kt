@@ -19,7 +19,7 @@ import java.sql.Statement
 
 /**
  * 桌面版数据库：以 sqlite-jdbc（JDBC）替代 Room，公共 API（DAO 签名、加密装饰器）保持不变。
- * 库文件：<dataDir>/yunx.db，schema 即 Room v13 的最终形态（全新安装，无需历史迁移）。
+ * 库文件：<dataDir>/lganalysis.db，schema 即 Room v13 的最终形态（全新安装，无需历史迁移）。
  */
 class AppDatabase private constructor(private val conn: Connection) {
 
@@ -85,7 +85,7 @@ class AppDatabase private constructor(private val conn: Connection) {
         private fun open(): AppDatabase {
             Class.forName("org.sqlite.JDBC")
             // 数据库目录可在「设置 → 储存目录」改（默认＝数据根目录）；启动时已由 AppContext 解析好
-            val dbFile = File(AppContext.dbDir, "yunx.db")
+            val dbFile = File(AppContext.dbDir, "lganalysis.db")
             dbFile.parentFile?.mkdirs()
 
             // 自愈：进程被强杀/崩溃后，WAL 的 -shm（共享内存索引）可能损坏或 mmap 失败
@@ -93,7 +93,7 @@ class AppDatabase private constructor(private val conn: Connection) {
             // 删它不影响数据（-wal 仍会回放）。
             // ★ 绝不再无条件删 -wal：WAL 模式下「主库可能只有 4KB、全部数据都在 -wal 里」
             //   （进程被强杀 = 没做过 checkpoint），删掉 -wal 等于清空数据库。
-            //   真要绕开损坏的 -wal 时，先把 db 与 wal 备份到 yunx.db.bak-<时间戳> 再重命名。
+            //   真要绕开损坏的 -wal 时，先把 db 与 wal 备份到 lganalysis.db.bak-<时间戳> 再重命名。
             var lastError: Exception? = null
             repeat(3) { attempt ->
                 var conn: Connection? = null
@@ -241,7 +241,7 @@ class AppDatabase private constructor(private val conn: Connection) {
                 DiagnosticLog.log(
                     DiagnosticLog.DB, "db_open",
                     size = tables.size.toLong(),
-                    summary = "file=yunx.db | tables=${tables.joinToString(",")}"
+                    summary = "file=lganalysis.db | tables=${tables.joinToString(",")}"
                 )
                 // 顺手把每张表的行数也记一笔（只在诊断模式开启、且只在库打开那一次执行）
                 tables.forEach { table ->

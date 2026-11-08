@@ -99,7 +99,7 @@ private data class MigrateRequest(val kind: StorageKind, val source: File, val t
  * 三块内容：
  * 1. **下载保存目录**：下载完成后的落盘位置（从设置主页移到这里）；
  * 2. **下载缓存目录**：分片 / 合并临时文件 / JCEF 浏览器数据（含网页版登录态、~200MB Chromium 解包）；
- * 3. **数据库位置**：`yunx.db` 与 `credential.key`（库内凭证用它加密，必须跟着库一起走）。
+ * 3. **数据库位置**：`lganalysis.db` 与 `credential.key`（库内凭证用它加密，必须跟着库一起走）。
  *
  * ★ 目录改动**一律需要重启应用生效**：`AppContext` 在启动时只解析一次目录，运行期不再变。
  *   切换时会把旧数据**自动搬到新位置**（拷贝；旧文件留到下次启动再删 —— 本进程还占用着它们，Windows 删不掉）。
@@ -443,7 +443,7 @@ fun StorageSettingsPanel(
                     SectionCard(
                         icon = { Icon(Icons.Outlined.Storage, contentDescription = null) },
                         title = "数据库位置",
-                        subtitle = "任务、收藏、历史与**网盘账号凭证**（yunx.db + credential.key，两者必须同处一地）"
+                        subtitle = "任务、收藏、历史与**网盘账号凭证**（lganalysis.db + credential.key，两者必须同处一地）"
                     ) {
                         PresetChips(
                             configured = configuredDbDir,

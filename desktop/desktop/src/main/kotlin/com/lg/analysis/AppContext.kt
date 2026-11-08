@@ -10,9 +10,9 @@ import java.util.prefs.Preferences
  * 数据/缓存/临时目录、以及非设置类的杂项偏好（onboarding、忽略版本、迅雷设备指纹）。
  *
  * 目录分三层（自 2026-10-11 起后两层可在「设置 → 储存目录」里改，改完需重启生效）：
- * 1. [dataDir] 数据根目录：默认 `<用户目录>/.yunx-desktop`，可用环境变量 `YUNX_DESKTOP_DATA_DIR` 覆盖；
+ * 1. [dataDir] 数据根目录：默认 `<用户目录>/.lganalysis-desktop`，可用环境变量 `LGANALYSIS_DESKTOP_DATA_DIR` 覆盖；
  *    日志（[filesDir]）与诊断日志目录跟随它，**不可在应用内更改**。
- * 2. [dbDir] 数据库目录：默认＝[dataDir]，放 `yunx.db` 与 `credential.key`（两者必须同处一地）。
+ * 2. [dbDir] 数据库目录：默认＝[dataDir]，放 `lganalysis.db` 与 `credential.key`（两者必须同处一地）。
  * 3. [cacheDir] 缓存根目录：默认＝`<dataDir>/cache`，放下载分片、合并临时文件、JCEF 浏览器数据。
  *
  * ★ 目录配置存在 [settingsPrefs]（java.util.prefs，与数据目录无关）——否则「把数据目录搬走」之后
@@ -20,17 +20,14 @@ import java.util.prefs.Preferences
  */
 object AppContext {
 
-    /** 应用数据根目录：默认 <用户目录>/.yunx-desktop；可用环境变量 YUNX_DESKTOP_DATA_DIR 覆盖（测试/沙箱环境用） */
-    val dataDir: File = System.getenv("YUNX_DESKTOP_DATA_DIR")?.let { File(it) }
-        ?: File(System.getProperty("user.home"), ".yunx-desktop")
-
-    /** 旧版数据根目录（.yunx-pc）：首次启动时整体迁移到新目录 */
-    private val legacyDataDir: File = File(System.getProperty("user.home"), ".yunx-pc")
+    /** 应用数据根目录：默认 <用户目录>/.lganalysis-desktop；可用环境变量 LGANALYSIS_DESKTOP_DATA_DIR 覆盖（测试/沙箱环境用） */
+    val dataDir: File = System.getenv("LGANALYSIS_DESKTOP_DATA_DIR")?.let { File(it) }
+        ?: File(System.getProperty("user.home"), ".lganalysis-desktop")
 
     // ---------- 杂项偏好（必须在下面解析目录之前声明：Kotlin 单例按声明顺序初始化）----------
 
     /** 杂项偏好（原 "yunx_prefs" SharedPreferences：onboarding_shown / ignored_version） */
-    val miscPrefs: Preferences = Preferences.userRoot().node("yunx/misc")
+    val miscPrefs: Preferences = Preferences.userRoot().node("lganalysis/misc")
 
     /**
      * 设置偏好：与 [com.lg.analysis.data.prefs.SettingsRepository] **共用同一个节点**。
@@ -39,17 +36,17 @@ object AppContext {
      *   所以 AppContext 直接读这个节点 —— 若自己另开一个节点，就会出现「设置页写进 A、这里读 B」，
      *   表现为切换目录后重启仍显示「当前生效（重启前）」（读不到配置 → 一直回退默认）。
      */
-    val settingsPrefs: Preferences = Preferences.userRoot().node("yunx/settings")
+    val settingsPrefs: Preferences = Preferences.userRoot().node("lganalysis/settings")
 
     /** 迅雷设备指纹偏好（原 "xunlei_device_fp"） */
-    val xunleiFpPrefs: Preferences = Preferences.userRoot().node("yunx/xunlei_fp")
+    val xunleiFpPrefs: Preferences = Preferences.userRoot().node("lganalysis/xunlei_fp")
 
     // ---------- 可在应用内更改的目录 ----------
 
     /** 应用根目录（便携版 = exe 所在目录；开发运行 = 工程目录），供「储存目录」的「应用所在目录」预设使用 */
     val appRootDir: File = resolveAppRoot()
 
-    /** 数据库目录（`yunx.db` + `credential.key`）：默认 [dataDir]，可改为 <应用根>/data 或自定义 */
+    /** 数据库目录（`lganalysis.db` + `credential.key`）：默认 [dataDir]，可改为 <应用根>/data 或自定义 */
     val dbDir: File = resolveConfiguredDir(KEY_DB_DIR, dataDir)
 
     /** 缓存根目录（下载分片 / 合并临时文件 / JCEF 浏览器数据）：默认 `<dataDir>/cache` */
@@ -73,7 +70,6 @@ object AppContext {
     internal const val KEY_CACHE_MIGRATED_FROM = "storage_cache_migrated_from"
 
     fun init() {
-        migrateLegacyDataDir()
         listOf(dataDir, dbDir, cacheDir, downloadTmpDir, mergeDir, filesDir).forEach { it.mkdirs() }
         cleanupMigratedStorage()
     }
@@ -83,24 +79,6 @@ object AppContext {
 
     /** 「应用所在目录」预设对应的缓存目录：<应用根>/data/cache */
     fun appCacheDirPreset(): File = File(appRootDir, "data/cache")
-
-    /**
-     * 旧数据目录迁移：<用户目录>/.yunx-pc → .yunx-desktop。
-     * 仅在新目录不存在、且未用环境变量覆盖时执行；整体改名（不复制，下载分片可能很大），
-     * 改名失败则退回使用新建的空目录（登录态与任务需重新登录/重新添加）。
-     */
-    private fun migrateLegacyDataDir() {
-        if (System.getenv("YUNX_DESKTOP_DATA_DIR") != null) return
-        if (dataDir.exists() || !legacyDataDir.exists()) return
-        if (!legacyDataDir.renameTo(dataDir)) {
-            Log.w("LGAnalysis-DataDir", "旧数据目录迁移失败：${legacyDataDir.absolutePath}")
-            return
-        }
-        // 日志文件一并改名，避免迁移后旧日志成为游离文件
-        File(filesDir, "yunx-pc.log").takeIf { it.exists() }
-            ?.renameTo(File(filesDir, "yunx-desktop.log"))
-        Log.i("LGAnalysis-DataDir", "已迁移数据目录：${legacyDataDir.name} -> ${dataDir.name}")
-    }
 
     /**
      * 清理「储存目录」迁移后留下的旧文件（只在**下一次启动**做，因为搬迁当下旧库 / 旧 JCEF 目录
@@ -119,13 +97,13 @@ object AppContext {
                 if (sameDir(oldDir, dbDir)) {
                     // 旧=新（配置没生效或又切了回来）：无事可做，撤掉标记
                     miscPrefs.remove(KEY_DB_MIGRATED_FROM)
-                } else if (File(dbDir, "yunx.db").isFile) {
+                } else if (File(dbDir, "lganalysis.db").isFile) {
                     // ★ 旧位置往往就是数据根目录（还含日志、缓存），所以只删库文件与凭证密钥，绝不删目录。
                     //   credential.key 里是凭证主密钥，同属敏感残留，一并删掉；新位置已有副本，账号不会掉。
-                    listOf("yunx.db", "yunx.db-wal", "yunx.db-shm", "credential.key").forEach {
+                    listOf("lganalysis.db", "lganalysis.db-wal", "lganalysis.db-shm", "credential.key").forEach {
                         runCatching { File(oldDir, it).delete() }
                     }
-                    if (!File(oldDir, "yunx.db").exists() && !File(oldDir, "credential.key").exists()) {
+                    if (!File(oldDir, "lganalysis.db").exists() && !File(oldDir, "credential.key").exists()) {
                         Log.i("LGAnalysis-DataDir", "已清理迁移后的旧数据库残留：${oldDir.absolutePath}")
                         miscPrefs.remove(KEY_DB_MIGRATED_FROM)
                     }

@@ -276,7 +276,7 @@ object DiagnosticLog {
         )
     }
 
-    /** 导出 zip：`yunx_diagnostic_logs_yyyyMMdd_HHmmss.zip`（先 flush，确保最新日志在里面） */
+    /** 导出 zip：`lganalysis_diagnostic_logs_yyyyMMdd_HHmmss.zip`（先 flush，确保最新日志在里面） */
     fun exportZip(context: Context): File? = runCatching {
         flush(3000)
         val src = dirOf(context)
@@ -284,7 +284,7 @@ object DiagnosticLog {
         if (files.isEmpty()) return@runCatching null
         val outDir = File(context.cacheDir, "logs").apply { mkdirs() }
         val stamp = synchronized(timeFormatLock) { fileTimeFormat.format(Date()) }
-        val out = File(outDir, "yunx_diagnostic_logs_$stamp.zip")
+        val out = File(outDir, "lganalysis_diagnostic_logs_$stamp.zip")
         ZipOutputStream(BufferedOutputStream(FileOutputStream(out))).use { zip ->
             files.forEach { f ->
                 zip.putNextEntry(ZipEntry(f.name))

@@ -21,11 +21,11 @@ import java.util.prefs.Preferences
  * 并且**先更新内存再落盘**，[readIds] 的订阅者（角标）不会被 IO 卡住。
  *
  * 桌面差异：上游用 `SharedPreferences`（Context 注入）；桌面无 Context，直接持有
- * `Preferences.userRoot().node("yunx/announcement")`，读写语义与键名一致。
+ * `Preferences.userRoot().node("lganalysis/announcement")`，读写语义与键名一致。
  */
 class AnnouncementReadStore {
 
-    private val prefs: Preferences = Preferences.userRoot().node("yunx/announcement")
+    private val prefs: Preferences = Preferences.userRoot().node("lganalysis/announcement")
 
     private val lock = Any()
 

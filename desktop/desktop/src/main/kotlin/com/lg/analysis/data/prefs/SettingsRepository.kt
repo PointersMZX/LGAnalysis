@@ -392,7 +392,7 @@ class SettingsRepository {
 
     /**
      * 实验性：单线程直写。
-     * 线程数为 1 时不再写缓存分片，直接写目标目录的 `.yunx-*.part`，完成后改名。
+     * 线程数为 1 时不再写缓存分片，直接写目标目录的 `.lganalysis-*.part`，完成后改名。
      * 目标盘峰值从「分片 + 成品」降为 1 份，缓存盘占用为 0。
      */
     var directWriteSingleThread: Boolean
@@ -403,7 +403,7 @@ class SettingsRepository {
 
     /**
      * 实验性：多线程直写。
-     * 线程数 > 1 时预分配目标目录的单个 `.yunx-*.part`，各线程按字节偏移写入；
+     * 线程数 > 1 时预分配目标目录的单个 `.lganalysis-*.part`，各线程按字节偏移写入；
      * 进度由同目录的 `.plan` / `.done` 清单维护，完成后校验并改名。
      */
     var directWriteMultiThread: Boolean

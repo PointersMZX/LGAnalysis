@@ -110,7 +110,7 @@ val generateAppVersion by tasks.registering {
     inputs.property("version", version)
     inputs.property("isPreview", isPreview)
     doLast {
-        val pkgDir = outDir.get().asFile.resolve("com/yunx/app")
+        val pkgDir = outDir.get().asFile.resolve("com/lg/analysis")
         pkgDir.mkdirs()
         pkgDir.resolve("AppVersion.kt").writeText(
             """
@@ -206,6 +206,17 @@ val compileDarkMode by tasks.registering(Exec::class) {
     outputs.file(darkModeOut)
     doFirst {
         nativeOutDir.mkdirs()
+    }
+    // 无编译器（既没 vcvars 也没 g++）时直接跳过：darkmode.dll 只是暗色菜单的加速层，
+    // 缺失时 DarkMode.kt 自动回落 JNA 直调 uxtheme 序号，功能不缺
+    onlyIf {
+        val hasGpp = runCatching {
+            ProcessBuilder("g++", "--version").start().waitFor() == 0
+        }.getOrDefault(false)
+        if (vcvars == null && !hasGpp) {
+            logger.warn("未找到 C++ 编译器（vcvars / g++ 均不可用）：跳过 darkmode.dll，运行时走 JNA 直调兜底")
+        }
+        vcvars != null || hasGpp
     }
     if (vcvars != null) {
         commandLine(

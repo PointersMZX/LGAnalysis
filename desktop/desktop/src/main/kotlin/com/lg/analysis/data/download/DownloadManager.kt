@@ -3108,7 +3108,7 @@ class DownloadManager(
         }.getOrDefault(true)
     }
 
-    // ---------- 实验性直写（缓存 0；目标目录 .yunx-*.part → 完成后改名） ----------
+    // ---------- 实验性直写（缓存 0；目标目录 .lganalysis-*.part → 完成后改名） ----------
 
     private fun directFinalName(task: DownloadTaskEntity): String =
         DownloadPathPolicy.sanitize(task.fileName, "download_${System.currentTimeMillis()}")?.fileName

@@ -544,5 +544,5 @@ private fun buildSnapshotText(
 
 private fun copyDebugText(context: Context, text: String) {
     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    cm.setPrimaryClip(ClipData.newPlainText("yunx_download_debug", text))
+    cm.setPrimaryClip(ClipData.newPlainText("lganalysis_download_debug", text))
 }

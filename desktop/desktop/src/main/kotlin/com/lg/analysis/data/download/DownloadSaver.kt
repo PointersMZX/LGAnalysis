@@ -65,7 +65,7 @@ object DownloadSaver {
     )
 
     /**
-     * 准备直写临时文件：`<目标目录>/<文件名>.yunx-<任务id>.part`。
+     * 准备直写临时文件：`<目标目录>/<文件名>.lganalysis-<任务id>.part`。
      *
      * 不直接写最终文件名，避免暂停/失败后目标目录出现“看起来完整、实际残缺”的文件。
      * 任务 id 保证同一目录下多个同名任务不会共用临时文件；路径过长/越界/目录不可建时返回 null，
@@ -97,7 +97,7 @@ object DownloadSaver {
             if (!destDir.exists() && !destDir.mkdirs()) {
                 throw java.io.IOException("无法创建目录：$destDir")
             }
-            val part = File(destDir, "${safePath.fileName}.yunx-$taskId.part").canonicalFile
+            val part = File(destDir, "${safePath.fileName}.lganalysis-$taskId.part").canonicalFile
             if (!DownloadPathPolicy.isContained(canonicalBase, part)) {
                 throw SecurityException("直写临时文件越界")
             }

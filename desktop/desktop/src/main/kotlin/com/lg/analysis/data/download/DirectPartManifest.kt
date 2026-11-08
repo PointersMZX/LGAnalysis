@@ -7,7 +7,7 @@ import java.io.RandomAccessFile
 import java.security.MessageDigest
 
 /**
- * 多线程直写的进度清单（与 `.yunx-*.part` 同目录）：
+ * 多线程直写的进度清单（与 `.lganalysis-*.part` 同目录）：
  * - `.plan`：total / chunks / chunkSize —— 恢复时校验分片计划是否仍可复用；
  * - `.done`：每行 `chunkIndex sha256hex`，只记录**完整分片**。
  *

@@ -35,9 +35,9 @@ import java.util.concurrent.atomic.AtomicLong
  * 直写模式端到端测试（MockWebServer + 内存 DAO）：
  * - 单线程直写：不产生缓存分片，目标目录出现完整文件；
  * - 多线程直写：预分配 + 按偏移并行写 + 逐片校验 + 改名；
- * - 两种模式完成后都不能残留 .yunx-*.part / .plan / .done。
+ * - 两种模式完成后都不能残留 .lganalysis-*.part / .plan / .done。
  *
- * 运行前需把 YUNX_DESKTOP_DATA_DIR 指到一个临时目录，避免使用真实用户数据。
+ * 运行前需把 LGANALYSIS_DESKTOP_DATA_DIR 指到一个临时目录，避免使用真实用户数据。
  */
 class DownloadManagerDirectIntegrationTest {
 
@@ -120,7 +120,7 @@ class DownloadManagerDirectIntegrationTest {
     @Test
     fun singleThreadDirectResumesFromPartLength() = runBlocking {
         val dao = MemoryDownloadTaskDao()
-        val part = File(saveDir, "resume-single.bin.yunx-1.part")
+        val part = File(saveDir, "resume-single.bin.lganalysis-1.part")
         val half = data.size / 2
         part.writeBytes(data.copyOfRange(0, half))
         val id = dao.insert(
@@ -149,7 +149,7 @@ class DownloadManagerDirectIntegrationTest {
     @Test
     fun multiThreadDirectResumesFromPlanAndDone() = runBlocking {
         val dao = MemoryDownloadTaskDao()
-        val part = File(saveDir, "resume-multi.bin.yunx-1.part")
+        val part = File(saveDir, "resume-multi.bin.lganalysis-1.part")
         val chunkCount = 4
         val chunkSize = ((data.size + chunkCount - 1) / chunkCount).toLong()
         RandomAccessFile(part, "rw").use { it.setLength(data.size.toLong()) }
@@ -359,7 +359,7 @@ class DownloadManagerDirectIntegrationTest {
     }
 
     private fun assertNoDirectTempFiles() {
-        val leftovers = saveDir.listFiles()?.filter { it.name.contains(".yunx-") } ?: emptyList()
+        val leftovers = saveDir.listFiles()?.filter { it.name.contains(".lganalysis-") } ?: emptyList()
         assertTrue("不应残留直写临时文件：${leftovers.map { it.name }}", leftovers.isEmpty())
     }
 

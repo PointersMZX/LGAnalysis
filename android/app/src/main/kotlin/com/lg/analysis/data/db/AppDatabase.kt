@@ -87,7 +87,7 @@ abstract class AppDatabase : RoomDatabase() {
                 instance ?: Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "yunx.db"
+                    "lganalysis.db"
                 )
                     .addMigrations(
                         MIGRATION_9_10,
@@ -132,7 +132,7 @@ abstract class AppDatabase : RoomDatabase() {
                                     "db_$action",
                                     status = "v$version",
                                     size = tables.size.toLong(),
-                                    summary = "file=yunx.db | tables=${tables.joinToString(",")}"
+                                    summary = "file=lganalysis.db | tables=${tables.joinToString(",")}"
                                 )
                                 // 顺手把每张表的行数也记一笔（只在诊断模式开启时执行，且只在库打开那一次）
                                 if (DiagnosticLog.isEnabled()) {

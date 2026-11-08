@@ -18,7 +18,7 @@
 $ErrorActionPreference = 'SilentlyContinue'
 try { [Console]::InputEncoding = [System.Text.Encoding]::UTF8 } catch {}
 $Aumid = 'LGAnalysis.Desktop'
-$Tag = 'yunx-dl'
+$Tag = 'lganalysis-dl'
 $Group = 'yunx'
 $SettingKey = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Notifications\Settings\' + $Aumid
 

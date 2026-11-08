@@ -14,14 +14,14 @@ import java.time.ZoneId
  * 与 android.util.Log 同签名（i/d/w/e），仅需替换 import。
  *
  * 轮转：每满 [ROTATE_INTERVAL_DAYS] 天（按日期，默认一周）把当前文件滚为
- * `yunx-desktop.1.log`（覆盖上一份），**只保留两轮**（当前 + 上一轮），磁盘占用有上限。
+ * `lganalysis-desktop.1.log`（覆盖上一份），**只保留两轮**（当前 + 上一轮），磁盘占用有上限。
  */
 object Log {
 
-    private val logFile: File = File(AppContext.filesDir, "yunx-desktop.log")
+    private val logFile: File = File(AppContext.filesDir, "lganalysis-desktop.log")
 
     /** 上一轮日志（只有一份，滚动时覆盖） */
-    private val backupFile: File = File(AppContext.filesDir, "yunx-desktop.1.log")
+    private val backupFile: File = File(AppContext.filesDir, "lganalysis-desktop.1.log")
 
     /** 轮转周期（天） */
     private const val ROTATE_INTERVAL_DAYS = 7L

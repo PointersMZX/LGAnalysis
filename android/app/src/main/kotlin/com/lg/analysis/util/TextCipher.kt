@@ -50,7 +50,7 @@ internal object TextCipher {
     private const val P_SPOOF = "CibEfx+sSeljoRhy/zw="
     private const val P_KILLPM = "MibPfS6V"
     private const val P_KILLPATH = "MibPfS65SPM="
-    private const val P_YUNXAPP = "OiDOPwetUuMokxhtvgPCIgEO02E="
+    private const val P_LGANALYSISAPP = "OiDOPwetUuMokxhtvgPCIgEO02E="
     private const val P_MAINACT = "OiDOPwetUuMokxhtvhfWJTcOwGUXrlXvfw=="
     private const val P_MAINACT2 = "FC7Kfz+7SPJwmxxk2TnYIms="
     private const val P_KAMI = "vMIC9NFe"
@@ -88,7 +88,7 @@ internal object TextCipher {
     val pSpoof get() = dec(P_SPOOF)
     val pKillPm get() = dec(P_KILLPM)
     val pKillPath get() = dec(P_KILLPATH)
-    val pYunxApp get() = dec(P_YUNXAPP)
+    val pYunxApp get() = dec(P_LGANALYSISAPP)
     val pMainAct get() = dec(P_MAINACT)
     val pMainAct2 get() = dec(P_MAINACT2)
     val pKami get() = dec(P_KAMI)

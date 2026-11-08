@@ -265,7 +265,7 @@ async function ensureBridge(force) {
       const r = await fetch('http://127.0.0.1:' + p + '/ping', { method: 'GET', cache: 'no-store' });
       if (!r.ok) continue;
       const j = await r.json();
-      if (j && j.app === 'yunx') {
+      if (j && j.app === 'lganalysis') {
         bridge = { port: p, token: j.token || '' };
         log('已连接甘露解析本地桥：端口', p);
         return bridge;

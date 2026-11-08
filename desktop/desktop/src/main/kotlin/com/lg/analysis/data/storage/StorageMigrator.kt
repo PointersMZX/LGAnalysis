@@ -9,14 +9,14 @@ import java.sql.DriverManager
  * 储存目录搬迁（设置 → 储存目录）。
  *
  * 两类目标：
- * - **数据库目录**：`yunx.db`（含 `-wal` / `-shm`）+ `credential.key`。密钥必须跟着库走 ——
+ * - **数据库目录**：`lganalysis.db`（含 `-wal` / `-shm`）+ `credential.key`。密钥必须跟着库走 ——
  *   库里所有凭证都是用它加密的，留着旧密钥在新目录会**新建一把随机密钥**，密文解不开会被自愈逻辑清空。
  * - **缓存目录**：整棵缓存树（下载分片 / 合并临时文件 / JCEF 浏览器数据）。
  *
  * ★ 四条准则：
  * 1. **只拷贝、不删除**：搬迁当下旧库与 JCEF 目录仍被本进程占用（Windows 上删不掉，硬删会失败），
  *    所以只把「待清理」记进偏好，交给**下次启动**的 `AppContext.cleanupMigratedStorage()` 删；
- * 2. **目标必须干净**：数据库目标已存在 `yunx.db` 一律拒绝（否则两套数据混在一起，无法判断归谁）；
+ * 2. **目标必须干净**：数据库目标已存在 `lganalysis.db` 一律拒绝（否则两套数据混在一起，无法判断归谁）；
  * 3. **失败不切配置**：任何一步失败都原样保留旧配置，宁可“没搬成”，绝不能“搬一半就切过去”；
  * 4. **只搬属于本应用的内容**：缓存目录若被设到盘符根 / 用户主目录这类共享位置，只搬本应用的顶层条目 ——
  *    否则「把缓存搬走」实际是把用户整个盘复制一遍；同时任何与目标目录重叠的搬迁都不能自我递归
@@ -36,7 +36,7 @@ object StorageMigrator {
     }
 
     /** 数据库相关文件名（credential.key 与库必须同目录） */
-    private val DB_FILES = listOf("yunx.db", "yunx.db-wal", "yunx.db-shm")
+    private val DB_FILES = listOf("lganalysis.db", "lganalysis.db-wal", "lganalysis.db-shm")
     private const val KEY_FILE = "credential.key"
 
     /**
@@ -46,7 +46,7 @@ object StorageMigrator {
     fun checkWritable(target: File): String? {
         if (!target.exists() && !target.mkdirs()) return "无法创建目录：${target.absolutePath}"
         if (!target.isDirectory) return "目标不是目录：${target.absolutePath}"
-        val probe = File(target, ".yunx-write-test")
+        val probe = File(target, ".lganalysis-write-test")
         return runCatching {
             probe.writeText("ok")
             probe.delete()
@@ -55,12 +55,12 @@ object StorageMigrator {
     }
 
     /**
-     * 数据库目标是否可用：已存在 `yunx.db` 时返回错误文本（拒绝覆盖另一套数据）。
+     * 数据库目标是否可用：已存在 `lganalysis.db` 时返回错误文本（拒绝覆盖另一套数据）。
      * 返回 null 表示可以搬。
      */
     fun checkDatabaseTarget(target: File): String? {
-        if (File(target, "yunx.db").isFile) {
-            return "目标目录已存在数据库文件（yunx.db），请换一个空目录，或先在资源管理器里把它移走"
+        if (File(target, "lganalysis.db").isFile) {
+            return "目标目录已存在数据库文件（lganalysis.db），请换一个空目录，或先在资源管理器里把它移走"
         }
         return checkWritable(target)
     }
@@ -70,7 +70,7 @@ object StorageMigrator {
         // 先 checkpoint：把 WAL 里的内容并回主库文件，拷贝出的单文件即完整一致
         checkpointWal(source)
         val report = copyDatabaseFiles(source, target)
-        require(File(target, "yunx.db").isFile) { "拷贝后未在目标目录找到 yunx.db" }
+        require(File(target, "lganalysis.db").isFile) { "拷贝后未在目标目录找到 lganalysis.db" }
         return report
     }
 
@@ -107,7 +107,7 @@ object StorageMigrator {
         listOf("browser-cookies-", "ff-cookies-", "ffmpeg-download-", "jcef.crashed-")
 
     /** JCEF 运行标记文件（同样落在缓存目录顶层） */
-    private const val JCEF_RUNNING_MARKER = ".yunx-jcef-running"
+    private const val JCEF_RUNNING_MARKER = ".lganalysis-jcef-running"
 
     /**
      * 该顶层条目是否由本应用创建。
@@ -122,7 +122,7 @@ object StorageMigrator {
      * 失败不抛（可能连不上/被占用），后面仍会把 `-wal` 一起拷过去兜底。
      */
     private fun checkpointWal(dbDir: File) {
-        val dbFile = File(dbDir, "yunx.db")
+        val dbFile = File(dbDir, "lganalysis.db")
         if (!dbFile.isFile) return
         runCatching {
             Class.forName("org.sqlite.JDBC")

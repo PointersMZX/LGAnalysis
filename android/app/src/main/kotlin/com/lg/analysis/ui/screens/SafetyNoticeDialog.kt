@@ -168,14 +168,14 @@ fun SafetyNoticeDialog() {
 
 private fun isAcknowledged(context: Context): Boolean {
     return runCatching {
-        context.getSharedPreferences("yunx_settings", Context.MODE_PRIVATE)
+        context.getSharedPreferences("lganalysis_settings", Context.MODE_PRIVATE)
             .getBoolean(TextCipher.pNoticeFlag, false)
     }.getOrDefault(false)
 }
 
 private fun acknowledge(context: Context) {
     runCatching {
-        context.getSharedPreferences("yunx_settings", Context.MODE_PRIVATE)
+        context.getSharedPreferences("lganalysis_settings", Context.MODE_PRIVATE)
             .edit()
             .putBoolean(TextCipher.pNoticeFlag, true)
             .apply()

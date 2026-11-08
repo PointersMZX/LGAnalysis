@@ -34,7 +34,7 @@ import com.lg.analysis.data.security.PlaintextCredentialCipher
 object GitHubTokenStore {
 
     private const val TAG = "LGAnalysis"
-    private const val PREFS_NAME = "yunx_settings"
+    private const val PREFS_NAME = "lganalysis_settings"
 
     /** ★ 键名保留历史值（`..._encrypted`）：改名会让已配置的用户丢 Token，现在的值就是明文 */
     private const val KEY_TOKEN = "github_token_encrypted"

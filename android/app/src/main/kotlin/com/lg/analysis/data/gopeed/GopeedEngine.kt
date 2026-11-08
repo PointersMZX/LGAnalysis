@@ -240,7 +240,7 @@ object GopeedEngine {
     /** 这个目录现在是否真的能写：建目录 + 写一个探针文件再删掉 */
     private fun canWrite(dir: File): Boolean {
         if (!dir.isDirectory && !dir.mkdirs()) return false
-        val probe = File(dir, ".yunx_write_probe")
+        val probe = File(dir, ".lganalysis_write_probe")
         return runCatching {
             probe.writeText("ok")
             probe.delete()

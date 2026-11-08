@@ -1061,7 +1061,7 @@ fun SettingsScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // 导出入口（zip 名 yunx_diagnostic_logs_yyyyMMdd_HHmmss.zip，导出前会先 flush）
+                    // 导出入口（zip 名 lganalysis_diagnostic_logs_yyyyMMdd_HHmmss.zip，导出前会先 flush）
                     TextButton(
                         onClick = {
                             showDevMenu = false

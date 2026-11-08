@@ -25,7 +25,7 @@ function Find-JdkHome {
         } catch {}
     }
 
-    if ($env:JAVA_HOME -and (Test-Path (Join-Path $env:JAVA_HOME $marker))) {
+    if ($env:JAVA_HOME -and (Test-Path (Join-Path $env:JAVA_HOME $marker)) -and (Test-JdkMajor17 $env:JAVA_HOME)) {
         return $env:JAVA_HOME
     }
 
@@ -36,12 +36,21 @@ function Find-JdkHome {
                 Select-String "java.home" |
                 ForEach-Object { $_.Line -replace ".*= ", "" } |
                 Select-Object -First 1)
-            if ($javaHome -and (Test-Path (Join-Path $javaHome $marker))) {
+            if ($javaHome -and (Test-Path (Join-Path $javaHome $marker)) -and (Test-JdkMajor17 $javaHome)) {
                 return $javaHome
             }
         } catch {}
     }
     return $null
+}
+
+# 校验 JDK 主版本为 17：项目锁定 17（Gradle 8.13 不支持过新 JDK，jpackage 产出也按 17 口径）
+function Test-JdkMajor17 {
+    param([string]$JdkHome)
+    $javaExe = Join-Path $JdkHome "bin\java.exe"
+    if (-not (Test-Path $javaExe)) { return $false }
+    $first = & $javaExe -version 2>&1 | Select-Object -First 1
+    return [string]$first -match 'version "17'
 }
 
 function Install-PortableJDK17 {

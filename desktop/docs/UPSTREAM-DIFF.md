@@ -65,7 +65,7 @@
 - **链接收藏**：收藏解析链接并分类管理。
 - **右键菜单**：统一为窗口内弹窗材质，并新增「复制分享链接」。
 - **渲染后端可选**：默认 `OPENGL`（GPU 渲染，动画流畅且文字清晰），
-  可用环境变量 `YUNXPC_RENDER_API=SOFTWARE|DIRECT3D|OPENGL` 切换；
+  可用环境变量 `LGANALYSISPC_RENDER_API=SOFTWARE|DIRECT3D|OPENGL` 切换；
   字体 hinting 会按后端自动调整，保证文字清晰度。
 - **百度网盘 API 修复**：域名迁移、`bdstoken` 自动刷新、限流重试、超时收紧等一串修复。
 

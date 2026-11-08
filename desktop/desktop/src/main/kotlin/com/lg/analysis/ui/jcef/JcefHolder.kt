@@ -154,7 +154,7 @@ object JcefHolder {
     }
 
     /** 运行中标记：CEF 初始化成功后写入，正常退出时删除；启动时若仍存在，说明上次没有正常释放 */
-    private fun runningMarker(): File = File(AppContext.cacheDir, ".yunx-jcef-running")
+    private fun runningMarker(): File = File(AppContext.cacheDir, ".lganalysis-jcef-running")
 
     private fun markRunning() {
         runCatching { runningMarker().writeText(System.currentTimeMillis().toString()) }

@@ -170,8 +170,8 @@ object XunleiWebCredential {
     private val TRUSTED_HOSTS = listOf("xunlei.com")
 
     /** JCEF 桥接：把网页凭据写进 Cookie 的分片键前缀 / 分片数键（单条 Cookie 有 4KB 上限） */
-    const val CRED_COOKIE_PREFIX = "yunx_xl_cred_"
-    const val CRED_COOKIE_COUNT = "yunx_xl_cred_n"
+    const val CRED_COOKIE_PREFIX = "lganalysis_xl_cred_"
+    const val CRED_COOKIE_COUNT = "lganalysis_xl_cred_n"
 
     /**
      * 「添加账号」时清掉**网页自己**保存的登录态（localStorage）。
@@ -192,7 +192,7 @@ object XunleiWebCredential {
      * 桌面 JCEF 不支持取 executeJavaScript 的返回值，所以改为「把凭据写进 Cookie，再从 Cookie 读回」：
      * 该脚本从 localStorage 取 credentials_<clientId>（子账号 `...@<current_sub>`），补上
      * deviceid Cookie → device_id、captcha_<clientId> → captcha_token，再 URL 编码后分片
-     * 写入 `yunx_xl_cred_*` Cookie；Kotlin 侧轮询 Cookie 拼回原文并解析。
+     * 写入 `lganalysis_xl_cred_*` Cookie；Kotlin 侧轮询 Cookie 拼回原文并解析。
      *
      * 分片是因为 access+refresh token 的 JSON 可能超过单条 Cookie 4KB 上限，直接写会被浏览器静默丢弃。
      */

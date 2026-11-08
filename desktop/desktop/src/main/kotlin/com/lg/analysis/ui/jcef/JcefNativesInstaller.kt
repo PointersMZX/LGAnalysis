@@ -29,7 +29,7 @@ object JcefNativesInstaller {
     private const val ARCHIVE_NAME = "jcef-natives.tar.gz"
 
     /** 就绪标记：内容为解包时的「压缩包大小-修改时间」，压缩包变了就重解 */
-    private const val READY_MARKER = ".yunx-natives-ready"
+    private const val READY_MARKER = ".lganalysis-natives-ready"
 
     /**
      * 文件清单：解包时记下每个文件的相对路径与字节数（`路径<TAB>大小`，每行一条）。
@@ -37,7 +37,7 @@ object JcefNativesInstaller {
      * 原生库不完整，进而触发 CEF 的 fail-fast（issue #34）。只记大小不记校验和：260MB 全量读取
      * 校验太慢，而中断 / 截断是主要损坏方式，大小足以发现。
      */
-    private const val MANIFEST = ".yunx-natives-manifest"
+    private const val MANIFEST = ".lganalysis-natives-manifest"
 
     private const val BUFFER_SIZE = 1 shl 16
 
