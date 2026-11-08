@@ -1,4 +1,4 @@
-﻿# YunX-Desktop 共享构建工具脚本（被 run.ps1 和 portable-package.ps1 引用）
+﻿# LGAnalysis 共享构建工具脚本（被 run.ps1 和 portable-package.ps1 引用）
 # 提供：JDK 17 定位/自动安装（Ensure-Jdk）、Gradle 调用（Invoke-Gradle，直调 wrapper jar，不再依赖 gradlew.bat）
 # 注意: 本文件必须保持 UTF-8 带 BOM 编码（PS 5.1 会把无 BOM 的 UTF-8 当 ANSI 解析，中文注释变乱码）
 

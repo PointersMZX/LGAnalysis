@@ -1,5 +1,5 @@
-﻿# YunX-Desktop 免安装打包脚本
-# 输出: release\YunX-Desktop\ （整个文件夹可拷贝到任意位置，双击 YunX-Desktop.exe 运行）
+﻿# LGAnalysis 免安装打包脚本
+# 输出: release\LGAnalysis\ （整个文件夹可拷贝到任意位置，双击 LGAnalysis.exe 运行）
 # 注意: 本文件必须保持 UTF-8 带 BOM 编码（PS 5.1 会把无 BOM 的 UTF-8 当 ANSI 解析，中文注释变乱码）
 # 注意: Gradle 会向 stderr 输出无害警告，不要把原生 stderr 当作致命错误处理
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -24,7 +24,7 @@ Write-Host "[OK] App version: $AppVersion" -ForegroundColor Green
 # desktop\build.gradle.kts 的 processResources 会把它作为资源塞进 desktop.jar（yunx\ 前缀），
 # 运行期由 util/PositionPicker.kt 释放到 %TEMP% 再执行 —— 便携包目录里不再出现这个 exe。
 $pickerSrc = Join-Path $root "picker\PositionPicker.cs"
-$pickerExeOut = Join-Path $root "build\YunX-PositionPicker.exe"
+$pickerExeOut = Join-Path $root "build\LGAnalysis-PositionPicker.exe"
 # build\ 被 .gitignore 忽略：CI 全新检出时不存在，csc 会在该目录写 Win32 资源临时文件，
 # 目录缺失就直接报 CS1567「Error generating Win32 resource」，必须先建出来
 $pickerOutDir = Split-Path -Parent $pickerExeOut
@@ -185,14 +185,14 @@ if (-not $jcefNativesJar) { throw "jcef natives jar not found in desktop\build\j
 $jcefNativesMb = Get-JarSizeMb $jcefNativesJar
 $jcefArchive = Join-Path $libs "jcef-natives.tar.gz"
 $javaExe = Join-Path $JDK "bin\java.exe"
-$packOut = & $javaExe -Xmx1g -cp "$libs\*" com.yunx.app.tools.JcefNativesPacker $jcefNativesJar $jcefArchive 2>&1 | Out-String
+$packOut = & $javaExe -Xmx1g -cp "$libs\*" com.lg.analysis.tools.JcefNativesPacker $jcefNativesJar $jcefArchive 2>&1 | Out-String
 Write-Host $packOut.Trim()
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path $jcefArchive)) { throw "jcef natives repack failed" }
 Write-Host "  jcef natives: $jcefNativesMb MB (jar) -> $([math]::Round((Get-Item $jcefArchive).Length / 1MB, 2)) MB (tar.gz, zh-CN only)" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "[3/5] Building JRE runtime image (jlink)..." -ForegroundColor Cyan
-$outDir = Join-Path $root "release\YunX-Desktop"
+$outDir = Join-Path $root "release\LGAnalysis"
 $runtimeTmp = Join-Path $root "release-runtime-tmp"
 # jlink 要求输出目录不存在，先清掉
 if (Test-Path $runtimeTmp) { Remove-Item $runtimeTmp -Recurse -Force }
@@ -215,10 +215,10 @@ foreach ($unused in @("lib\jvm.lib", "bin\splashscreen.dll")) {
 }
 
 Write-Host ""
-Write-Host "[4/5] Creating app-image with jpackage (YunX-Desktop.exe)..." -ForegroundColor Cyan
-# 打包前先杀运行中的实例：YunX-Desktop.exe / java 子进程 / JCEF 助手会锁住输出目录下的 jar 和运行时文件
-Get-Process YunX-Desktop -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-Get-Process | Where-Object { $_.Path -like "*\release\YunX-Desktop\*" } | Stop-Process -Force -ErrorAction SilentlyContinue
+Write-Host "[4/5] Creating app-image with jpackage (LGAnalysis.exe)..." -ForegroundColor Cyan
+# 打包前先杀运行中的实例：LGAnalysis.exe / java 子进程 / JCEF 助手会锁住输出目录下的 jar 和运行时文件
+Get-Process LGAnalysis -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+Get-Process | Where-Object { $_.Path -like "*\release\LGAnalysis\*" } | Stop-Process -Force -ErrorAction SilentlyContinue
 Get-Process jcef_helper -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 # 资源管理器/杀软可能短暂占用句柄，删除旧输出目录需重试
 $removed = $false
@@ -229,24 +229,24 @@ for ($i = 1; $i -le 6; $i++) {
         $removed = $true
         break
     } catch {
-        Write-Host "[i] Output dir locked, retry $i/6 in 2s (close YunX-Desktop / Explorer windows)..." -ForegroundColor Yellow
+        Write-Host "[i] Output dir locked, retry $i/6 in 2s (close LGAnalysis / Explorer windows)..." -ForegroundColor Yellow
         Start-Sleep -Seconds 2
     }
 }
-if (-not $removed) { throw "Cannot remove $outDir - close running YunX-Desktop and Explorer windows, then retry." }
+if (-not $removed) { throw "Cannot remove $outDir - close running LGAnalysis and Explorer windows, then retry." }
 # 参数必须内联传递：@argfile 会在空格处把带空格的参数值拆成多个选项
 $jpackageExe = Join-Path $JDK "bin\jpackage.exe"
 & $jpackageExe `
   --type app-image `
   --dest release `
-  --name YunX-Desktop `
+  --name LGAnalysis `
   --app-version $AppVersion `
-  --vendor "YunX-Desktop" `
-  --description "YunX-Desktop - netdisk share-link parser and high-speed downloader" `
+  --vendor "LGAnalysis" `
+  --description "LGAnalysis - netdisk share-link parser and high-speed downloader" `
   --input portable-libs `
   --main-jar desktop.jar `
-  --main-class com.yunx.app.MainKt `
-  --icon YunX-Desktop.ico `
+  --main-class com.lg.analysis.MainKt `
+  --icon LGAnalysis.ico `
   --runtime-image release-runtime-tmp `
   --java-options -Xmx4g `
   --java-options "-Dfile.encoding=UTF-8"
@@ -256,25 +256,25 @@ Remove-Item $runtimeTmp -Recurse -Force -ErrorAction SilentlyContinue
 Write-Host ""
 Write-Host "[4b/5] Building custom launcher (in-process JVM / rename-proof / CJK path-proof)..." -ForegroundColor Cyan
 # 换用自研启动器：jpackage 的启动器要求 "exe 名 == app\同名.cfg"，改 exe 名就失效；
-# 自研启动器固定读 app\YunX-Desktop.cfg，且用宽字符 API，中文路径/重命名都不会坏。
+# 自研启动器固定读 app\LGAnalysis.cfg，且用宽字符 API，中文路径/重命名都不会坏。
 # 启动器用 JNI（P/Invoke jvm.dll）在本进程内创建 JVM → 任务管理器只有一个顶层进程
-# 「云析 YunX-Desktop」，不再出现 runtime\bin\java.exe 子进程。
+# 「甘露解析 LGAnalysis」，不再出现 runtime\bin\java.exe 子进程。
 $csc = "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
 $launcherSrc = Join-Path $root "launcher\Launcher.cs"
-$launcherExe = Join-Path $outDir "YunX-Desktop.exe"
-$launcherIco = Join-Path $root "YunX-Desktop.ico"
-$launcherTmp = Join-Path $root "build\YunX-Desktop-launcher.exe"
+$launcherExe = Join-Path $outDir "LGAnalysis.exe"
+$launcherIco = Join-Path $root "LGAnalysis.ico"
+$launcherTmp = Join-Path $root "build\LGAnalysis-launcher.exe"
 if (-not (Test-Path $csc)) { throw "csc.exe not found at $csc" }
 # 生成程序集版本属性：csc 据此写入 Win32 版本资源。缺了它资源管理器/任务管理器里
-# 的 YunX-Desktop.exe 会显示 0.0.0.0、产品名为空
+# 的 LGAnalysis.exe 会显示 0.0.0.0、产品名为空
 $launcherInfo = Join-Path $root "build\LauncherVersion.cs"
 $launcherInfoDir = Split-Path -Parent $launcherInfo
 if (-not (Test-Path $launcherInfoDir)) { New-Item -ItemType Directory -Force -Path $launcherInfoDir | Out-Null }
 @"
 using System.Reflection;
 
-[assembly: AssemblyTitle("云析 YunX-Desktop")]
-[assembly: AssemblyProduct("云析 YunX-Desktop")]
+[assembly: AssemblyTitle("甘露解析 LGAnalysis")]
+[assembly: AssemblyProduct("甘露解析 LGAnalysis")]
 [assembly: AssemblyCompany("tidain")]
 [assembly: AssemblyCopyright("Copyright (C) 2026 tidain")]
 [assembly: AssemblyDescription("网盘分享链接解析与高速下载器")]
@@ -335,7 +335,7 @@ if ($debugResidue.Count -gt 0) {
     Write-Host "  no *.pdb/*.map/*.dSYM residue found" -ForegroundColor Green
 }
 # 旧版本曾把遮罩 EXE 放在包根目录；现已改为打进 desktop.jar（运行期释放到 %TEMP%），升级时清掉残留
-$legacyPicker = Join-Path $outDir "YunX-PositionPicker.exe"
+$legacyPicker = Join-Path $outDir "LGAnalysis-PositionPicker.exe"
 if (Test-Path $legacyPicker) {
     Write-Host "  removing legacy picker exe: $legacyPicker" -ForegroundColor Yellow
     Remove-Item $legacyPicker -Force
@@ -347,4 +347,4 @@ Write-Host "  app\: $appSize MB   runtime\: $runtimeSize MB   total: $totalSize 
 
 Write-Host ""
 Write-Host "Portable package ready: $outDir" -ForegroundColor Green
-Write-Host "Copy the whole folder anywhere and run YunX-Desktop.exe (no install needed)."
+Write-Host "Copy the whole folder anywhere and run LGAnalysis.exe (no install needed)."

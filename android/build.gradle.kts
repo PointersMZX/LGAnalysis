@@ -1,5 +1,5 @@
 /*
- * YunX (云析) - A network drive share-link parser and high-speed downloader for Android.
+ * LGAnalysis (甘露解析) - A network drive share-link parser and high-speed downloader for Android.
  * Copyright (C) 2026 CYQawa
  *
  * This program is free software: you can redistribute it and/or modify

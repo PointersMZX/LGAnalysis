@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "YunX-Desktop"
+rootProject.name = "LGAnalysis"
 include(":desktop")

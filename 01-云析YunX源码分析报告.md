@@ -1,7 +1,7 @@
-# 甘露解析（LG Analysis）前期准备 —— 云析 YunX 源码分析报告
+# 甘露解析（LG Analysis）前期准备 —— 甘露解析 LGAnalysis 源码分析报告
 
 > 日期：2026-11-07　|　性质：内部开发文档（可记录参考物来源）
-> 参考资料：D:\Agent\example\YunX-master.zip（Android 端）、YunX-Desktop-main.zip（Windows 桌面端）
+> 参考资料：D:\Agent\example\LGAnalysis-master.zip（Android 端）、LGAnalysis-main.zip（Windows 桌面端）
 > ★ 本轮参考资料为**完整开源源码**（非二进制），无需二进制逆向；REA 用于浏览器扩展 JS 应用图分析（证据 ID ev_c7f155…/ev_3442ce…）。
 > 项目已由「甘露工具箱 LGTOOLS」更名为「**甘露解析（LG Analysis）**」，目录 D:\Agent\LGAnalysis。
 
@@ -11,7 +11,7 @@
 
 | 项 | 内容 |
 |---|---|
-| 名称 | 云析 · YunX（Android 端 PointersMZX/LGAnalysis；官方 Windows 桌面版 PointersMZX/LGAnalysis，作者独立维护） |
+| 名称 | 甘露解析 · LGAnalysis（Android 端 PointersMZX/LGAnalysis；官方 Windows 桌面版 PointersMZX/LGAnalysis，作者独立维护） |
 | 定位 | **粘贴网盘分享链接/视频作品链接 → 直接解析出直链并高速下载**（正是上一轮 Voyage 悬案「网盘解析」的同类完整实现） |
 | 协议 | **AGPL-3.0**（作者明示：完全免费开源，收费版本均为二次打包诈骗） |
 | 技术栈 | Android：Kotlin + Jetpack Compose M3 + OkHttp 4.12 + Room + Media3/Coil3（285 个 .kt，约 8.9 万行）；桌面：Compose Multiplatform + JCEF(Chromium 132) + sqlite-jdbc（282 个 .kt，约 9.2 万行）+ 自带 native/darkmode.cpp；浏览器扩展：Chrome/Edge MV3 |
@@ -52,7 +52,7 @@
 - 更新：GitHub Releases API（正式/预发布双通道）+ cdn.gh-proxy.org 镜像前缀（GFW 下载兜底）
 - 公告：独立 AnnouncementApi（自建 HTTP 后端，作者注明后端上 HTTPS 后改配置）
 - 凭证安全：CredentialCipher（用户口令派生密钥 AES-GCM），Android Keystore / 桌面 credential.key 本地密钥文件；认证备份文件可导出换机恢复
-- 浏览器扩展「云析下载助手」（MV3）：service_worker 拦截/接管浏览器下载，权限 downloads/webRequest/cookies/contextMenus/scripting，通过 `http://127.0.0.1` 回环接口对接桌面主程序（REA 应用图：3 个 JS、16 条请求关系、8 类事件，证据已留存）
+- 浏览器扩展「甘露解析下载助手」（MV3）：service_worker 拦截/接管浏览器下载，权限 downloads/webRequest/cookies/contextMenus/scripting，通过 `http://127.0.0.1` 回环接口对接桌面主程序（REA 应用图：3 个 JS、16 条请求关系、8 类事件，证据已留存）
 
 ## 四、免登录/账号门槛画像
 
@@ -62,11 +62,13 @@
 | 网盘分享浏览+取直链 | 需**对应网盘**的账号 Cookie/JWT（转存取链型平台）；蓝奏云系分享页解析基本免登录 |
 | 视频解析 | 抖音/小红书/快手/微博/AcFun 免登录直出；B 站登录才有高清；Pixiv 免登录仅部分公开作品 |
 | P2P/直链下载 | 免登录（本地引擎） |
-| 云析自身 | **无任何账号体系**——没有会员/积分/云备份，与 Voyage 形成鲜明对比 |
+| 甘露解析自身 | **无任何账号体系**——没有会员/积分/云备份，与 Voyage 形成鲜明对比 |
 
-## 五、★协议边界（重要）
+## 五、协议边界（★2026-11-07 已更新）
 
-云析为 **AGPL-3.0**：若直接复制其代码，本项目必须同样以 AGPL-3.0 开源。**甘露解析的路线：把云析当协议规格书与实现参考（读懂端点、参数、流程后独立实现），不搬运源码**——如某模块确需直接引用，须先明确接受 AGPL 传染并告知用户拍板。另注意各网盘解析涉及平台风控（百度被官方标注高风险），对外文案按 [[feedback-user-visible-only-our-brand]] 处理，不得出现云析/上游仓库名。
+甘露解析原协议为 AGPL-3.0。**2026-11-07 用户与甘露解析作者沟通后获口头授权「随便搞」**——因此直接采用 LGAnalysis 源码为基线做二次开发（改造见 11-07 commit 68d96cb），不再走"只参考规格独立实现"路线。注意：授权系用户口头转述，未落纸；若日后需要书面授权或更换路线，再议。
+
+另注意各网盘解析涉及平台风控（百度被上游标注高风险）；对外文案按 [[feedback-user-visible-only-our-brand]] 处理，不出现甘露解析/上游仓库名。
 
 ## 六、对甘露解析（LG Analysis）的设计建议
 
@@ -79,7 +81,7 @@
 
 ## 七、产物与证据
 
-- 本报告：D:\Agent\LGAnalysis\01-云析YunX源码分析报告.md
-- Voyage 报告（前参考物，留档）：00-参考软件逆向报告-Voyage.md（其「网盘解析」悬案由本轮 YunX 完整解答）
+- 本报告：D:\Agent\LGAnalysis\01-甘露解析LGAnalysis源码分析报告.md
+- Voyage 报告（前参考物，留档）：00-参考软件逆向报告-Voyage.md（其「网盘解析」悬案由本轮 LGAnalysis 完整解答）
 - 图标集：D:\Agent\icon\LGAnalysis-icons（金露滴+刻印放大镜，生成脚本 research/gen_lganalysis_icon.py）
 - 源码解包（临时）：D:\Agent\_tmp\yunx\（阅读完成后删除，原始 zip 保留在 example/ 可随时重解）

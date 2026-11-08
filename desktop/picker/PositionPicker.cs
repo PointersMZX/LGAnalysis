@@ -1,4 +1,4 @@
-// YunX-Desktop「主窗口位置」遮罩选择器（独立 C# 原生进程）
+// LGAnalysis「主窗口位置」遮罩选择器（独立 C# 原生进程）
 //
 // 为什么不是 Compose：
 //   Compose Desktop 的透明窗口在 Windows 上靠分层窗口逐像素 alpha 合成，而 OPENGL/ANGLE
@@ -30,7 +30,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace YunXDesktop
+namespace LGAnalysis
 {
     static class Program
     {

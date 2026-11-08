@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-    YunX (甘露解析) - A network drive share-link parser and high-speed downloader for Android.
+    LGAnalysis (甘露解析) - A network drive share-link parser and high-speed downloader for Android.
     Copyright (C) 2026 CYQawa
 
     This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,6 @@
     走 painterResource(R.drawable.icon2)——它只支持矢量/位图，遇到 <adaptive-icon> 会抛异常。
 -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@android:color/white" />
+    <background android:drawable="@drawable/ic_launcher_background" />
     <foreground android:drawable="@drawable/ic_launcher_new_foreground" />
 </adaptive-icon>

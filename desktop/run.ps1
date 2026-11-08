@@ -1,9 +1,9 @@
-﻿# YunX-Desktop 构建/运行脚本
+﻿# LGAnalysis 构建/运行脚本
 # 用法: .\run.ps1 [run|build|package|installer]
 #   run       编译并启动桌面应用
 #   build     仅编译
-#   package   调用 portable-package.ps1 生成免安装包 (release\YunX-Desktop\)
-#   installer 调用 installer-package.ps1 生成安装程序 (release\YunX-Desktop-setup-*.exe)
+#   package   调用 portable-package.ps1 生成免安装包 (release\LGAnalysis\)
+#   installer 调用 installer-package.ps1 生成安装程序 (release\LGAnalysis-setup-*.exe)
 
 param(
     [Parameter(Position=0)]
@@ -33,7 +33,7 @@ try {
 function Build-Picker {
     $csc = "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
     $src = Join-Path $root "picker\PositionPicker.cs"
-    $out = Join-Path $root "build\YunX-PositionPicker.exe"
+    $out = Join-Path $root "build\LGAnalysis-PositionPicker.exe"
     if (-not (Test-Path $csc)) { Write-Host "[WARN] csc.exe not found, skip picker build" -ForegroundColor Yellow; return }
     if (-not (Test-Path $src)) { Write-Host "[WARN] picker source not found, skip picker build" -ForegroundColor Yellow; return }
     $dir = Split-Path -Parent $out
@@ -49,7 +49,7 @@ Write-Host ""
 switch ($Command) {
     "run" {
         Build-Picker
-        Write-Host ">>> Compiling and launching YunX-Desktop app..." -ForegroundColor Cyan
+        Write-Host ">>> Compiling and launching LGAnalysis app..." -ForegroundColor Cyan
         Invoke-Gradle ":desktop:run" "--console=plain"
     }
     "build" {

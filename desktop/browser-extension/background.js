@@ -115,7 +115,7 @@ const sniffByUrl = new Map();
 
 // ---------------------------------------------------------------- 小工具
 
-const log = (...a) => console.log('[YunX]', ...a);
+const log = (...a) => console.log('[LGAnalysis]', ...a);
 
 /** service worker 保活：长时间等待甘露解析弹窗时定期调用一个扩展 API 重置空闲计时器 */
 function keepAlive() {
@@ -333,7 +333,7 @@ async function postHook(payload) {
     const r = await fetch('http://127.0.0.1:' + b.port + '/hook', {
       method: 'POST',
       cache: 'no-store',
-      headers: { 'Content-Type': 'application/json', 'X-YunX-Token': b.token },
+      headers: { 'Content-Type': 'application/json', 'X-LGAnalysis-Token': b.token },
       body: JSON.stringify(payload),
     });
     if (r.status === 401) { invalidateBridge(); return { action: 'return' }; }
@@ -365,7 +365,7 @@ async function postSilent(path, payload) {
     const r = await fetch('http://127.0.0.1:' + b.port + path, {
       method: 'POST',
       cache: 'no-store',
-      headers: { 'Content-Type': 'application/json', 'X-YunX-Token': b.token },
+      headers: { 'Content-Type': 'application/json', 'X-LGAnalysis-Token': b.token },
       body: JSON.stringify(payload),
     });
     if (r.status === 401) { invalidateBridge(); return { ok: false, error: '甘露解析连接已失效，请重试' }; }
@@ -383,7 +383,7 @@ async function postSilent(path, payload) {
 /** 归还浏览器下载：重新发起下载（带 Referer，失败则退回不带请求头） */
 async function redownload(payload) {
   const base = { url: payload.url, conflictAction: 'uniquify' };
-  if (payload.fileName) base.filename = 'YunX/' + payload.fileName;
+  if (payload.fileName) base.filename = 'LGAnalysis/' + payload.fileName;
   const headers = [];
   if (payload.referer) headers.push({ name: 'Referer', value: payload.referer });
   try {

@@ -1,11 +1,11 @@
 {
   "modules": [
     {
-      "name": "YunX",
+      "name": "LGAnalysis",
       "type": "JAVA_MODULE",
       "contentRoots": [
         {
-          "path": "/storage/emulated/0/AndroidIDEProjects/YunX",
+          "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis",
           "excludedPatterns": [
             "build/**",
             ".gradle/**"
@@ -13,7 +13,7 @@
           "excludedUrls": [],
           "sourceRoots": [
             {
-              "path": "/storage/emulated/0/AndroidIDEProjects/YunX",
+              "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis",
               "type": "kotlin-source"
             }
           ]
@@ -550,7 +550,7 @@
       "type": "JAVA_MODULE",
       "contentRoots": [
         {
-          "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app",
+          "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app",
           "excludedPatterns": [
             "build/**",
             ".gradle/**"
@@ -558,51 +558,51 @@
           "excludedUrls": [],
           "sourceRoots": [
             {
-              "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/src/main/kotlin",
+              "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/src/main/kotlin",
               "type": "kotlin-source"
             }
           ]
         },
         {
-          "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/src/main/kotlin",
+          "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/src/main/kotlin",
           "excludedPatterns": [],
           "excludedUrls": [],
           "sourceRoots": [
             {
-              "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/src/main/kotlin",
+              "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/src/main/kotlin",
               "type": "kotlin-source"
             }
           ]
         },
         {
-          "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/build/generated/ap_generated_sources/debug/out",
+          "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/build/generated/ap_generated_sources/debug/out",
           "excludedPatterns": [],
           "excludedUrls": [],
           "sourceRoots": [
             {
-              "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/build/generated/ap_generated_sources/debug/out",
+              "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/build/generated/ap_generated_sources/debug/out",
               "type": "java-source"
             }
           ]
         },
         {
-          "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/build/generated/ksp/debug",
+          "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/build/generated/ksp/debug",
           "excludedPatterns": [],
           "excludedUrls": [],
           "sourceRoots": [
             {
-              "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/build/generated/ksp/debug",
+              "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/build/generated/ksp/debug",
               "type": "kotlin-source"
             }
           ]
         },
         {
-          "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/build/generated/updated_navigation_xml/debug",
+          "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/build/generated/updated_navigation_xml/debug",
           "excludedPatterns": [],
           "excludedUrls": [],
           "sourceRoots": [
             {
-              "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/build/generated/updated_navigation_xml/debug",
+              "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/build/generated/updated_navigation_xml/debug",
               "type": "java-source"
             }
           ]
@@ -2161,7 +2161,7 @@
       "type": "COMPILE",
       "roots": [
         {
-          "path": "/storage/emulated/0/AndroidIDEProjects/YunX/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar",
+          "path": "/storage/emulated/0/AndroidIDEProjects/LGAnalysis/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar",
           "type": "CLASSES"
         }
       ]
@@ -2184,8 +2184,8 @@
   ],
   "kotlinSettings": [
     {
-      "name": "YunX",
-      "module": "YunX",
+      "name": "LGAnalysis",
+      "module": "LGAnalysis",
       "useProjectSettings": false,
       "sourceRoots": [],
       "configFileItems": [],
@@ -2242,7 +2242,7 @@
   ],
   "javaSettings": [
     {
-      "module": "YunX",
+      "module": "LGAnalysis",
       "inheritedCompilerOutput": false,
       "excludeOutput": false,
       "compilerOutput": null,

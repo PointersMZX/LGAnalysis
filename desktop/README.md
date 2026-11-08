@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="desktop/src/main/resources/icon.png" width="120" alt="云析 YunX-Desktop" />
+<img src="desktop/src/main/resources/icon.png" width="120" alt="甘露解析 LGAnalysis" />
 
-# 云析桌面版 · YunX-Desktop
+# 甘露解析桌面版 · LGAnalysis
 
-**粘贴分享链接，直接高速下载 —— 云析 YunX 官方 Windows 桌面版**
+**粘贴分享链接，直接高速下载 —— 甘露解析 LGAnalysis 官方 Windows 桌面版**
 
 网盘：夸克 / UC / 迅雷 / 百度 / 139 / 123 / 115 / 光鸭 / 蓝奏云 / 蓝奏云优享版；
 视频：哔哩哔哩 / 小红书 / 抖音 / 微博 / 快手 / AcFun / Pixiv；另支持磁力 / BT 种子 / ed2k 等 P2P 链接。
@@ -23,15 +23,15 @@ Range 分片并发 + 断点续传，B 站高清自动合轨。
 
 ***
 
-> **云析永远免费开源。** 如果你是在任何地方「花钱买到」的，说明你被骗了，请立即退款。
+> **甘露解析永远免费开源。** 如果你是在任何地方「花钱买到」的，说明你被骗了，请立即退款。
 > 任何收费版本均为二次打包的诈骗版本，与本项目无关。
 
 > **本项目使用 AGPL-3.0 开源协议。** 与安卓版 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis)
-> 同属云析项目；若你使用了本项目的代码，请同样以 AGPL-3.0 开放源代码。
+> 同属甘露解析项目；若你使用了本项目的代码，请同样以 AGPL-3.0 开放源代码。
 
 ## 简介
 
-云析 YunX 的 **官方 Windows 桌面版**：粘贴**网盘分享链接**或**视频作品链接**，即可浏览内容、在线预览并直接高速下载，全程在电脑上完成；
+甘露解析 LGAnalysis 的 **官方 Windows 桌面版**：粘贴**网盘分享链接**或**视频作品链接**，即可浏览内容、在线预览并直接高速下载，全程在电脑上完成；
 也支持**磁力 / BT 种子 / ed2k** 等 P2P 链接下载。
 网盘与视频平台都支持多账号（主账号 / 备注），登录凭证加密存本机，并可导出加密备份换机恢复。
 提供**免安装便携版**（整个文件夹拷走即用）与**安装版**（开始菜单 / 桌面快捷方式，可卸载）两种分发形式。
@@ -76,13 +76,13 @@ Range 分片并发 + 断点续传，B 站高清自动合轨。
 
 ## 浏览器插件
 
-仓库 `browser-extension/` 内含 Chrome / Edge 扩展「**云析下载助手**」（Manifest V3）—— 让浏览器下载接管到云析的多线程下载。
+仓库 `browser-extension/` 内含 Chrome / Edge 扩展「**甘露解析下载助手**」（Manifest V3）—— 让浏览器下载接管到甘露解析的多线程下载。
 
 - **嗅探页面资源**：列出当前网页里可下载的媒体与文件，按图片 / 视频 / 音频 / 文档 / 压缩包 / 程序 / 字体分类，图片与视频支持卡片预览。
-- **接管浏览器下载**：浏览器开始下载时自动接管（取消浏览器下载并抹掉记录），由云析弹窗询问保存目录与线程数（最高 512，超过 32 需二次确认）。
+- **接管浏览器下载**：浏览器开始下载时自动接管（取消浏览器下载并抹掉记录），由甘露解析弹窗询问保存目录与线程数（最高 512，超过 32 需二次确认）。
 - **归还浏览器下载**：点「归还浏览器下载」后重新发起浏览器原生下载，并对该页面网站（根域名及其子域名）写入 **5 分钟冷却**；冷却期内打开插件可看到「还有 X 分 YY 秒」倒计时，并可点「立即重新开始」单独解除当前网站的冷却。
-- **视频平台卡片**：B 站视频页可选清晰度与下载方式；抖音 / 微博 / AcFun 视频页可一键交给云析解析下载。
-- **安全**：扩展与云析通过本机回环 HTTP（`127.0.0.1`，随机 token）通信，网页脚本无法伪造请求；**云析没运行时探测不到端口，扩展完全不干预浏览器下载**。
+- **视频平台卡片**：B 站视频页可选清晰度与下载方式；抖音 / 微博 / AcFun 视频页可一键交给甘露解析解析下载。
+- **安全**：扩展与甘露解析通过本机回环 HTTP（`127.0.0.1`，随机 token）通信，网页脚本无法伪造请求；**甘露解析没运行时探测不到端口，扩展完全不干预浏览器下载**。
 
 安装、开关与工作原理见 [浏览器插件说明](browser-extension/README.md)。
 
@@ -151,12 +151,12 @@ Range 分片并发 + 断点续传，B 站高清自动合轨。
 
 ```powershell
 git clone https://github.com/PointersMZX/LGAnalysis.git
-cd YunX-Desktop
+cd LGAnalysis
 
 .\run.ps1 run        # 编译并启动（开发，含 darkmode.dll）
 .\run.ps1 build      # 仅编译 Kotlin（不需要 C++ 编译器）
-.\run.ps1 package    # 免安装便携版 → release\YunX-Desktop\
-.\run.ps1 installer  # 单文件安装程序 → release\YunX-Desktop-setup-*.exe
+.\run.ps1 package    # 免安装便携版 → release\LGAnalysis\
+.\run.ps1 installer  # 单文件安装程序 → release\LGAnalysis-setup-*.exe
 ```
 
 环境要求、版本号管理与打包产物见 **[构建与打包](docs/BUILD.md)**。
@@ -168,7 +168,7 @@ cd YunX-Desktop
 
 项目早期确实是社区移植（安卓版 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis) 的 Windows 移植）。
 **2026 年 10 月 2 日上午 8:40**，桌面版作者（tidain）加入安卓版仓库成为协作者，
-桌面版自此与安卓版同属一个项目，作为云析的**官方 Windows 桌面端**维护；
+桌面版自此与安卓版同属一个项目，作为甘露解析的**官方 Windows 桌面端**维护；
 两端的代码、发布节奏与分发方式仍各自独立。
 
 </details>
@@ -183,8 +183,8 @@ cd YunX-Desktop
 <details>
 <summary><b>便携版和安装版有什么区别？</b></summary>
 
-便携版是免安装的文件夹，拷到任意位置双击 `YunX-Desktop.exe` 即可运行；
-安装版走安装向导，安装到 `%LOCALAPPDATA%\Programs\YunX-Desktop`，并创建开始菜单 / 桌面快捷方式，可在设置中卸载。
+便携版是免安装的文件夹，拷到任意位置双击 `LGAnalysis.exe` 即可运行；
+安装版走安装向导，安装到 `%LOCALAPPDATA%\Programs\LGAnalysis`，并创建开始菜单 / 桌面快捷方式，可在设置中卸载。
 两者功能完全一致。
 
 </details>
@@ -217,7 +217,7 @@ cd YunX-Desktop
 
 ## 开源协议
 
-本项目与安卓版 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis) 同属云析项目，同样以
+本项目与安卓版 [PointersMZX/LGAnalysis](https://github.com/PointersMZX/LGAnalysis) 同属甘露解析项目，同样以
 [GNU AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html) 协议开源，详见 [LICENSE](LICENSE)。
 完整的免责与合规说明见 **[免责声明](docs/DISCLAIMER.md)**。
 
@@ -230,7 +230,7 @@ cd YunX-Desktop
 - 问题与建议：<https://github.com/PointersMZX/LGAnalysis/issues>
 
 ## 友情链接
-- 云析的Docker社区移植版（基于本仓库修改，作为本仓库的下游分支）：[mu-zi-lee/YunX-Docker](https://github.com/mu-zi-lee/YunX-Docker)
+- 甘露解析的Docker社区移植版（基于本仓库修改，作为本仓库的下游分支）：[mu-zi-lee/LGAnalysis-Docker](https://github.com/mu-zi-lee/LGAnalysis-Docker)
 
 ## 贡献者
 

@@ -114,7 +114,7 @@ val generateAppVersion by tasks.registering {
         pkgDir.mkdirs()
         pkgDir.resolve("AppVersion.kt").writeText(
             """
-            |package com.yunx.app
+            |package com.lg.analysis
             |
             |/** 由根目录 version.txt 生成，请勿手改 */
             |internal const val APP_VERSION = "$version"
@@ -132,7 +132,7 @@ kotlin.sourceSets["main"].kotlin.srcDir(generateAppVersion)
 // 这里把它作为资源塞进 jar 的 yunx\ 前缀；运行期由 util/PositionPicker.kt 释放到 %TEMP% 再执行，
 // 因此发布包目录里不再出现这个原生 exe。（文件不存在时 from() 会静默跳过）
 tasks.named<ProcessResources>("processResources") {
-    val pickerExe = rootProject.layout.projectDirectory.file("build/YunX-PositionPicker.exe")
+    val pickerExe = rootProject.layout.projectDirectory.file("build/LGAnalysis-PositionPicker.exe")
     from(pickerExe) { into("yunx") }
 }
 
@@ -152,25 +152,25 @@ tasks.register<JavaExec>("testInProcess") {
     mainClass.set("org.junit.runner.JUnitCore")
     classpath = testInProcessClasspath
     args = listOf(
-        "com.yunx.app.data.network.VideoLinkParserTest",
-        "com.yunx.app.data.network.ShareLinkParserTest",
-        "com.yunx.app.data.network.StarSeaApiTest",
-        "com.yunx.app.data.download.HlsRequestPolicyTest",
-        "com.yunx.app.data.download.HttpRangePolicyTest",
-        "com.yunx.app.data.download.ElasticAllocatorTest",
-        "com.yunx.app.data.download.DownloadPathPolicyTest",
-        "com.yunx.app.data.download.DownloadGroupingTest",
-        "com.yunx.app.data.download.DirectPartManifestTest",
-        "com.yunx.app.data.download.DownloadSaverTest",
-        "com.yunx.app.data.download.ChunkDownloaderDirectTest",
-        "com.yunx.app.data.download.DownloadCacheMaintenanceTest",
-        "com.yunx.app.data.download.DownloadManagerDirectIntegrationTest",
-        "com.yunx.app.data.db.SecureAccountDaosTest",
-        "com.yunx.app.data.storage.StorageMigratorTest",
-        "com.yunx.app.data.security.DbKeyStoreTest",
-        "com.yunx.app.ui.login.XunleiVerificationPolicyTest",
-        "com.yunx.app.data.network.XunleiWebCredentialTest",
-        "com.yunx.app.util.LogRedactorTest"
+        "com.lg.analysis.data.network.VideoLinkParserTest",
+        "com.lg.analysis.data.network.ShareLinkParserTest",
+        "com.lg.analysis.data.network.StarSeaApiTest",
+        "com.lg.analysis.data.download.HlsRequestPolicyTest",
+        "com.lg.analysis.data.download.HttpRangePolicyTest",
+        "com.lg.analysis.data.download.ElasticAllocatorTest",
+        "com.lg.analysis.data.download.DownloadPathPolicyTest",
+        "com.lg.analysis.data.download.DownloadGroupingTest",
+        "com.lg.analysis.data.download.DirectPartManifestTest",
+        "com.lg.analysis.data.download.DownloadSaverTest",
+        "com.lg.analysis.data.download.ChunkDownloaderDirectTest",
+        "com.lg.analysis.data.download.DownloadCacheMaintenanceTest",
+        "com.lg.analysis.data.download.DownloadManagerDirectIntegrationTest",
+        "com.lg.analysis.data.db.SecureAccountDaosTest",
+        "com.lg.analysis.data.storage.StorageMigratorTest",
+        "com.lg.analysis.data.security.DbKeyStoreTest",
+        "com.lg.analysis.ui.login.XunleiVerificationPolicyTest",
+        "com.lg.analysis.data.network.XunleiWebCredentialTest",
+        "com.lg.analysis.util.LogRedactorTest"
     )
 }
 
@@ -257,7 +257,7 @@ tasks.register<Sync>("exportJcefNatives") {
 
 compose.desktop {
     application {
-        mainClass = "com.yunx.app.MainKt"
+        mainClass = "com.lg.analysis.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Exe)
             // sqlite-jdbc 通过反射加载 java.sql.Driver，jlink 自动检测不到，必须显式声明；
@@ -269,11 +269,11 @@ compose.desktop {
             windows {
                 perUserInstall = true
             }
-            packageName = "YunX-Desktop"
+            packageName = "LGAnalysis"
             packageVersion = appVersion
             // 注意：jpackage 参数文件解析不支持非 ASCII 描述（本机报 "Input length = 1"），描述保持纯英文
-            description = "YunX-Desktop - netdisk share-link parser and high-speed downloader (desktop port of YunX for Android)"
-            vendor = "YunX-Desktop"
+            description = "LGAnalysis - netdisk share-link parser and high-speed downloader (desktop port of LGAnalysis for Android)"
+            vendor = "LGAnalysis"
             copyright = "Copyright (C) 2026 tidain"
         }
     }

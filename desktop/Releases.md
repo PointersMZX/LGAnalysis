@@ -1,6 +1,6 @@
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=300&section=header&text=YunX-Desktop&desc=%E4%BA%91%E6%9E%90%20%C2%B7%20%E7%BD%91%E7%9B%98%E5%88%86%E4%BA%AB%E9%93%BE%E6%8E%A5%E8%A7%A3%E6%9E%90%E4%B8%8E%E9%AB%98%E9%80%9F%E4%B8%8B%E8%BD%BD&fontSize=64&fontColor=ffffff&descSize=16&animation=fadeIn&fontAlignY=40&descAlignY=55" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=300&section=header&text=LGAnalysis&desc=%E4%BA%91%E6%9E%90%20%C2%B7%20%E7%BD%91%E7%9B%98%E5%88%86%E4%BA%AB%E9%93%BE%E6%8E%A5%E8%A7%A3%E6%9E%90%E4%B8%8E%E9%AB%98%E9%80%9F%E4%B8%8B%E8%BD%BD&fontSize=64&fontColor=ffffff&descSize=16&animation=fadeIn&fontAlignY=40&descAlignY=55" />
 
-# 云析桌面版 v1.3.3
+# 甘露解析桌面版 v1.3.3
 
 > 发布日期：2026-10-31
 > 安卓版：PointersMZX/LGAnalysis ｜ 桌面版：PointersMZX/LGAnalysis
@@ -49,7 +49,7 @@
 
 - **便携版**：解压即用
 
-- **安装版**：安装到 `%LOCALAPPDATA%\Programs\YunX-Desktop`
+- **安装版**：安装到 `%LOCALAPPDATA%\Programs\LGAnalysis`
 
 > 视频预览与 DASH 合轨所需的 FFmpeg、以及 P2P / 外部下载所需的 **Gopeed 引擎**均**不随安装包发布**，首次使用时可在应用内「引擎管理」一键下载（装到应用私有目录，不改系统环境变量）。
 

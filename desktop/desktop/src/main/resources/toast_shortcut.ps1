@@ -1,4 +1,4 @@
-# YunX-Desktop Start Menu shortcut manager (ASCII only) -- on-demand, never automatic.
+# LGAnalysis Start Menu shortcut manager (ASCII only) -- on-demand, never automatic.
 #
 # Windows only raises a toast from an unpackaged desktop app when a Start Menu shortcut carrying
 # the AppUserModelID exists; without it Show() throws nothing yet the toast is silently dropped.
@@ -14,7 +14,7 @@ param(
     [string]$Icon = ''
 )
 $ErrorActionPreference = 'Stop'
-$Aumid = 'YunX.Desktop'
+$Aumid = 'LGAnalysis.Desktop'
 
 $programs = [Environment]::GetFolderPath('Programs')
 if ([string]::IsNullOrEmpty($programs)) { throw 'Start Menu Programs folder not found' }
@@ -27,7 +27,7 @@ Add-Type -TypeDefinition @'
 using System;
 using System.Runtime.InteropServices;
 
-public static class YunXToastShortcut {
+public static class LGAnalysisToastShortcut {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     struct PROPERTYKEY { public Guid fmtid; public int pid; }
 
@@ -75,10 +75,10 @@ if (-not (Test-Path $lnk)) {
     $s.TargetPath = $Launcher
     $s.WorkingDirectory = (Split-Path $Launcher -Parent)
     if (-not [string]::IsNullOrEmpty($Icon)) { $s.IconLocation = $Icon }
-    $s.Description = 'YunX-Desktop'
+    $s.Description = 'LGAnalysis'
     $s.Save()
     $created = $true
 }
 # also patch an already existing shortcut (e.g. the installer's Start Menu entry has no AUMID)
-[YunXToastShortcut]::SetAumid($lnk, $Aumid)
+[LGAnalysisToastShortcut]::SetAumid($lnk, $Aumid)
 if ($created) { Write-Output 'created' } else { Write-Output 'exists' }

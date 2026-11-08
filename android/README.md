@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="app/src/main/res/drawable/icon.png" width="120" alt="云析 YunX" />
+<img src="app/src/main/res/drawable/icon.png" width="120" alt="甘露解析 LGAnalysis" />
 
-# 云析 · YunX
+# 甘露解析 · LGAnalysis
 
 **粘贴分享链接，直接高速下载 —— 一个开源的 Android 网盘 / 视频解析下载应用**
 
@@ -23,12 +23,12 @@
 
 ***
 
-> **云析永远免费开源。** 如果你是在任何地方"花钱买到"的，说明你被骗了，请立即退款。
+> **甘露解析永远免费开源。** 如果你是在任何地方"花钱买到"的，说明你被骗了，请立即退款。
 > 任何收费版本均为二次打包的诈骗版本，与本项目无关。
 
-> **云析使用AGPL-3.0开源协议** 如果你使用了云析的代码，未经授权请遵守协议，同样以AGPL-3.0开放源代码
+> **甘露解析使用AGPL-3.0开源协议** 如果你使用了甘露解析的代码，未经授权请遵守协议，同样以AGPL-3.0开放源代码
 
-> 本仓库为 Android 端 App；官方 PC 端见 [YunX-Desktop](https://github.com/PointersMZX/LGAnalysis)
+> 本仓库为 Android 端 App；官方 PC 端见 [LGAnalysis](https://github.com/PointersMZX/LGAnalysis)
 
 ## 截图
 
@@ -152,7 +152,7 @@ git clone https://github.com/PointersMZX/LGAnalysis.git
 <details>
 <summary><b>有PC端吗？</b></summary>
 
-有。官方 PC 端由协作者 雑魚（[tidain](https://github.com/tidain)）开发维护：[YunX-Desktop](https://github.com/PointersMZX/LGAnalysis)
+有。官方 PC 端由协作者 雑魚（[tidain](https://github.com/tidain)）开发维护：[LGAnalysis](https://github.com/PointersMZX/LGAnalysis)
 
 由于作者没有电脑、无法开发 PC 端，**PC 端的开发与维护由 雑魚 独立负责，作者不参与**；PC 端相关的功能与问题请到对应仓库反馈。
 
@@ -160,7 +160,7 @@ git clone https://github.com/PointersMZX/LGAnalysis.git
 
 ## 反倒卖
 
-> 云析完全免费开源。如果你下载到要钱的版本，那么你就是被骗了，请立马去退款。
+> 甘露解析完全免费开源。如果你下载到要钱的版本，那么你就是被骗了，请立马去退款。
 
 - 倒卖狗 🐶：`qq1360735243`
 
@@ -182,4 +182,4 @@ git clone https://github.com/PointersMZX/LGAnalysis.git
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/chart?repos=PointersMZX/LGAnalysis\&type=date\&legend=top-left\&sealed_token=hccCg_4ek01_Sz38X79eMbjM11mNpOZti6_hLoztWW4Zdtx-8FScydd7YTdiCBUWvgpsuGDO70RrUKP-bOfbI3Gw8BnME1zIl5EHA9JWsv--_DDwWPjvKbZiAGNDslG3ZTDZ-Ssiapu7j08W4fPT6emGWaIIuawHoIw3Nic_xQu7hUSVO6_YeJRGRoEy)](https://www.star-history.com/?repos=YunX%2FYunX%2CCYQawa%2FYunX\&type=date\&legend=top-left)
+[![Star History Chart](https://api.star-history.com/chart?repos=PointersMZX/LGAnalysis\&type=date\&legend=top-left\&sealed_token=hccCg_4ek01_Sz38X79eMbjM11mNpOZti6_hLoztWW4Zdtx-8FScydd7YTdiCBUWvgpsuGDO70RrUKP-bOfbI3Gw8BnME1zIl5EHA9JWsv--_DDwWPjvKbZiAGNDslG3ZTDZ-Ssiapu7j08W4fPT6emGWaIIuawHoIw3Nic_xQu7hUSVO6_YeJRGRoEy)](https://www.star-history.com/?repos=LGAnalysis%2FLGAnalysis%2CCYQawa%2FLGAnalysis\&type=date\&legend=top-left)

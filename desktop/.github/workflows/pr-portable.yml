@@ -57,11 +57,11 @@ jobs:
       - name: 打包为 zip
         shell: powershell
         run: |
-          $name = "YunX-Desktop-portable-${{ github.event.pull_request.number || github.run_number }}"
-          # 进入 release 目录再打包，使 zip 根目录直接是 YunX-Desktop\（解开即可双击 exe）
+          $name = "LGAnalysis-portable-${{ github.event.pull_request.number || github.run_number }}"
+          # 进入 release 目录再打包，使 zip 根目录直接是 LGAnalysis\（解开即可双击 exe）
           Push-Location .\release
           try {
-            & 7z a -tzip -mx=5 "..\$name.zip" "YunX-Desktop" | Out-Null
+            & 7z a -tzip -mx=5 "..\$name.zip" "LGAnalysis" | Out-Null
             if ($LASTEXITCODE -ne 0) { throw "7z 打包失败" }
           } finally {
             Pop-Location
@@ -74,8 +74,8 @@ jobs:
       - name: 上传产物
         uses: actions/upload-artifact@v4
         with:
-          name: YunX-Desktop-portable-${{ github.event.pull_request.number || github.run_number }}
-          path: YunX-Desktop-portable-*.zip
+          name: LGAnalysis-portable-${{ github.event.pull_request.number || github.run_number }}
+          path: LGAnalysis-portable-*.zip
           retention-days: 14
           # 文件本身已是 zip，跳过二次压缩
           compression-level: 0

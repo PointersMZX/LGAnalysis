@@ -1,6 +1,6 @@
 # 甘露解析下载助手（浏览器扩展）
 
-嗅探网页资源、接管浏览器下载并交给 **甘露解析（YunX-Desktop）** 多线程下载的 Chrome / Edge 扩展（Manifest V3）。
+嗅探网页资源、接管浏览器下载并交给 **甘露解析（LGAnalysis）** 多线程下载的 Chrome / Edge 扩展（Manifest V3）。
 
 ## 功能
 
