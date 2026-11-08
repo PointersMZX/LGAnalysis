@@ -135,7 +135,7 @@ fun AboutScreen(
             InfoCard(
                 icon = Icons.Outlined.Cloud,
                 title = "应用简介",
-                description = "甘露解析（LGAnalysis）是一款网盘 / 视频分享链接解析与高速下载工具。" +
+                description = "甘露解析（LG Analysis）是一款网盘 / 视频分享链接解析与高速下载工具。" +
                     "粘贴链接即可：网盘分享能浏览内容并高速下载，视频链接能解析出直链与原图，" +
                     "图片 / 视频 / 音频都支持在线预览播放。"
             )
@@ -222,7 +222,7 @@ private fun AppHeader(versionName: String, versionCode: Int) {
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "LGAnalysis · v$versionName ($versionCode)",
+            text = "LG Analysis · v$versionName ($versionCode)",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

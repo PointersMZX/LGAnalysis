@@ -2,7 +2,7 @@
 
 <img src="icon/app-256.png" width="120" alt="甘露解析" />
 
-# 甘露解析 · LGAnalysis
+# 甘露解析 · LG Analysis
 
 **粘贴网盘分享链接 / 视频链接，直接高速下载 —— 开源的 Android + Windows 双端解析下载工具**
 

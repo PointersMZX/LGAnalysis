@@ -96,7 +96,7 @@ object UCConstants {
     const val DELETE_URL = "$API_BASE/1/clouddrive/file/delete?pr=UCBrowser&fr=pc"
 
     /** 临时转存目录名 */
-    const val TEMP_DIR_NAME = "LGAnalysis临时转存"
+    const val TEMP_DIR_NAME = "LG Analysis临时转存"
 
     /** 会话刷新探测接口：任意接口均可，用于重新下发 __puus（AList quark_uc util.go:224 用 /config，UC/夸克通用） */
     const val CONFIG_URL = "$API_BASE/1/clouddrive/config?pr=UCBrowser&fr=pc"

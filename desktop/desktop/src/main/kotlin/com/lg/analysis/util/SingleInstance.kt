@@ -24,7 +24,7 @@ object SingleInstance {
     private const val TAG = "LGAnalysis-SingleInstance"
 
     /** 主窗口标题：与 Main.kt 里 Compose `Window(title = ...)` 保持一致 */
-    private const val WINDOW_TITLE = "甘露解析 LGAnalysis"
+    private const val WINDOW_TITLE = "甘露解析 LG Analysis"
 
     private var holder: RandomAccessFile? = null
     private var lock: FileLock? = null

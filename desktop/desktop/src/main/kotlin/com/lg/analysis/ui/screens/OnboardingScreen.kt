@@ -299,7 +299,7 @@ private fun WelcomePage() {
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = "LGAnalysis · v$APP_VERSION",
+            text = "LG Analysis · v$APP_VERSION",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

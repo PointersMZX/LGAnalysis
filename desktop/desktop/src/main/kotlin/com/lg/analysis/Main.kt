@@ -236,7 +236,7 @@ fun main(args: Array<String>) {
             onCloseRequest = {
                 if (!suppressCloseRequest) closeRequested = true
             },
-            title = "甘露解析 LGAnalysis",
+            title = "甘露解析 LG Analysis",
             state = windowState,
             icon = remember { loadWindowIcon() },
         ) {

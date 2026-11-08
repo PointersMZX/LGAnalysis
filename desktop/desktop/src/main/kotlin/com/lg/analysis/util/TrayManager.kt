@@ -37,7 +37,7 @@ object TrayManager {
         if (!SystemTray.isSupported()) return
         if (trayIcon != null) uninstall()
 
-        val icon = TrayIcon(image.getScaledInstance(16, 16, Image.SCALE_SMOOTH), "甘露解析 LGAnalysis").apply {
+        val icon = TrayIcon(image.getScaledInstance(16, 16, Image.SCALE_SMOOTH), "甘露解析 LG Analysis").apply {
             isImageAutoSize = true
             // 空 PopupMenu：Windows 必须设才能收到右键事件
             popupMenu = PopupMenu()

@@ -97,7 +97,7 @@ object XunleiConstants {
     const val TASKS_URL = "$PAN_BASE/drive/v1/tasks"
 
     /** 转存目标目录名 */
-    const val TEMP_DIR_NAME = "LGAnalysis临时转存"
+    const val TEMP_DIR_NAME = "LG Analysis临时转存"
 
     /** 移动文件（batchMove：ids + to.parent_id） */
     const val MOVE_URL = "$PAN_BASE/drive/v1/files:batchMove"

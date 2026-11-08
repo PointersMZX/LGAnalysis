@@ -4,7 +4,7 @@
 ; the custom launcher and skiko native libs.
 
 #define AppName "甘露解析"
-#define AppNameEn "LGAnalysis"
+#define AppNameEn "LG Analysis"
 #define AppCompany "tidain"
 #define AppExe "LGAnalysis.exe"
 ; 版本号单一来源：仓库根 version.txt —— installer-package.ps1 读取后经 /DAppVersion 传入。
