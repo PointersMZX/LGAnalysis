@@ -3,3 +3,4 @@ release/*
 !release/.gitkeep
 !release/keystore/
 __pycache__/
+emulator.log
