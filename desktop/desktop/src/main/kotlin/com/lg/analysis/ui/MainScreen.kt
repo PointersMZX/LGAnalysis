@@ -65,7 +65,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.lg.analysis.AppContext
-import com.lg.analysis.data.announcement.AnnouncementReadStore
 import com.lg.analysis.data.backup.AuthBackupManager
 import com.lg.analysis.data.bridge.BrowserBridge
 import com.lg.analysis.data.db.AppDatabase
@@ -145,9 +144,6 @@ import com.lg.analysis.ui.login.XunleiVerifyWebViewScreen
 import com.lg.analysis.ui.navigation.MainTab
 import com.lg.analysis.ui.theme.Motion
 import com.lg.analysis.ui.screens.AboutScreen
-import com.lg.analysis.ui.screens.AnnouncementPopupDialog
-import com.lg.analysis.ui.screens.AnnouncementScreen
-import com.lg.analysis.ui.screens.AnnouncementUnreadBadge
 import com.lg.analysis.ui.screens.BookmarkScreen
 import com.lg.analysis.ui.screens.DownloadScreen
 import com.lg.analysis.ui.screens.DownloadEngineScreen
@@ -161,7 +157,6 @@ import com.lg.analysis.ui.screens.VideoStreamMode
 import com.lg.analysis.ui.screens.SettingsScreen
 import com.lg.analysis.ui.screens.ThemeScreen
 import com.lg.analysis.ui.screens.UpdateDialog
-import com.lg.analysis.ui.viewmodel.AnnouncementViewModel
 import com.lg.analysis.ui.viewmodel.BaiduAccountViewModel
 import com.lg.analysis.ui.viewmodel.BaiduCloudViewModel
 import com.lg.analysis.ui.viewmodel.BookmarkViewModel
@@ -238,9 +233,6 @@ fun MainScreen(
     var showExperimental by rememberSaveable { mutableStateOf(false) }
     var showDownloadEngine by rememberSaveable { mutableStateOf(false) }
     var showStorage by rememberSaveable { mutableStateOf(false) }
-    var showAnnouncements by rememberSaveable { mutableStateOf(false) }
-    /** 启动公告弹窗点「查看详情」时带进去的公告 id（null = 从图标进来先看列表） */
-    var announcementDetailId by rememberSaveable { mutableStateOf<String?>(null) }
     /** 启动自动检查更新：发现新版本且未被用户忽略时非空 → 弹更新弹窗（见下方启动检查） */
     var startupUpdateRelease by remember { mutableStateOf<UpdateChecker.Release?>(null) }
     val saveableStateHolder = rememberSaveableStateHolder()
@@ -835,21 +827,6 @@ fun MainScreen(
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(topAppBarState)
 
 
-    /**
-     * 应用内公告：顶栏红点角标 + 启动弹窗。
-     *
-     * 启动检查（[AnnouncementViewModel.checkStartup]）整个会话只跑一次：一次列表请求同时决定
-     * 「角标数字」与「弹窗展示哪一条」—— 有未读的置顶公告就弹它，否则弹最新的一条未读，全读完则不弹。
-     * 失败静默（与更新检查同一口径），用户点进公告页时会再拉一次并把错误显示出来。
-     */
-    val announcementReadStore = remember { AnnouncementReadStore() }
-    val announcementViewModel: AnnouncementViewModel = viewModel(
-        factory = AnnouncementViewModel.Factory(announcementReadStore)
-    )
-    val unreadAnnouncementCount by announcementViewModel.unreadCount.collectAsState()
-    val popupAnnouncement by announcementViewModel.popup.collectAsState()
-    LaunchedEffect(Unit) { announcementViewModel.checkStartup() }
-
     // 启动时同步一次「Gopeed 内核是否已导入」（进程内状态与磁盘事实对齐，供引擎页与分流判断使用）
     LaunchedEffect(Unit) { GopeedEngine.syncInstalledState() }
 
@@ -896,40 +873,6 @@ fun MainScreen(
                     )
                 },
                 actions = {
-                    // 公告入口：所有 Tab 都显示（收藏只在解析页出现，公告是全局入口）。
-                    // 角标画在 IconButton 外面（外层再套一个 48dp 的 Box）：material3 的 IconButton
-                    // 内部带 .clip(CircleShape)，角标超出那颗圆会被切掉；外层 Box 同为 48dp 且不裁剪，
-                    // 点击事件照旧落到 IconButton。
-                    Box(
-                        modifier = Modifier.size(48.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        IconButton(
-                            onClick = {
-                                // 从图标进 = 先看列表（清掉上次「查看详情」直接进详情的请求）
-                                announcementDetailId = null
-                                showAnnouncements = true
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Campaign,
-                                contentDescription = if (unreadAnnouncementCount > 0) {
-                                    "公告（$unreadAnnouncementCount 条未读）"
-                                } else {
-                                    "公告"
-                                }
-                            )
-                        }
-                        // 未读红点角标：只有主界面显示（公告页自己开着的时候不显示）
-                        if (unreadAnnouncementCount > 0 && !showAnnouncements) {
-                            AnnouncementUnreadBadge(
-                                count = unreadAnnouncementCount,
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .offset(x = (-6).dp, y = 2.dp)
-                            )
-                        }
-                    }
                     // 解析页标题右上角：收藏网盘链接入口
                     if (currentTab == MainTab.Resolve) {
                         IconButton(onClick = { showBookmarks = true }) {
@@ -1214,21 +1157,6 @@ fun MainScreen(
                 onBack = { showStorage = false },
                 // 目录已改、新实例已拉起：直接退出本进程（走统一的淡出退出路径）
                 onRestartApp = onExitApplication
-            )
-        }
-
-        // 应用内公告：叠加覆盖层（列表 ↔ 详情在页面内部切换）
-        AnimatedVisibility(
-            visible = showAnnouncements,
-            enter = fadeIn(tween(220)) + scaleIn(tween(220), initialScale = 0.96f),
-            exit = fadeOut(tween(160)) + scaleOut(tween(160), targetScale = 0.96f),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            AnnouncementScreen(
-                viewModel = announcementViewModel,
-                onBack = { showAnnouncements = false },
-                // 启动弹窗点了「查看详情」就直接落在详情页
-                initialDetailId = announcementDetailId
             )
         }
 
@@ -1539,56 +1467,40 @@ fun MainScreen(
             )
         }
 
-        // 启动公告弹窗：展示未读的置顶公告（没有则最新未读）。两个出口都算已读，见 AnnouncementViewModel.consumePopup
-        popupAnnouncement?.let { announcement ->
-            AnnouncementPopupDialog(
-                announcement = announcement,
-                onDetail = {
-                    announcementDetailId = announcement.id
-                    showAnnouncements = true
-                    announcementViewModel.consumePopup()
+        startupUpdateRelease?.let { release ->
+            UpdateDialog(
+                currentVersion = UpdateChecker.currentVersion(),
+                release = release,
+                // 下载走应用内置下载器（与设置页手动检查更新同一条路径），完成后切到下载页看进度
+                onDownloadAsset = { url, name ->
+                    startupUpdateRelease = null
+                    scope.launch {
+                        downloadManager.enqueue(url = url, fileName = name)
+                        currentTab = MainTab.Download
+                    }
                 },
-                onDismiss = { announcementViewModel.consumePopup() }
+                // 镜像站下载：用当前生效的镜像前缀（自动选最快 / 用户固定），GitHub 直连作为失败回退
+                onDownloadMirrorAsset = { url, name ->
+                    startupUpdateRelease = null
+                    val prefix = GitHubMirror.activePrefix()
+                    scope.launch {
+                        downloadManager.enqueue(
+                            url = UpdateChecker.mirrorUrl(url, prefix),
+                            fileName = name,
+                            fallbackUrl = url
+                        )
+                        currentTab = MainTab.Download
+                    }
+                },
+                onLater = { startupUpdateRelease = null },
+                onIgnore = {
+                    // 与设置页「不再提示该版本」同一个键：按 tag 记住，之后不再为这个版本弹窗
+                    // （将来有更新的版本仍会提示，不是全局关闭更新检查）
+                    AppContext.miscPrefs.put("ignored_version", release.tagName)
+                    startupUpdateRelease = null
+                },
+                mandatory = release.isMandatoryFor(UpdateChecker.currentVersion())
             )
-        }
-
-        // 启动更新弹窗：与公告弹窗互斥（公告优先），避免两个覆盖层叠在一起看不清
-        if (popupAnnouncement == null) {
-            startupUpdateRelease?.let { release ->
-                UpdateDialog(
-                    currentVersion = UpdateChecker.currentVersion(),
-                    release = release,
-                    // 下载走应用内置下载器（与设置页手动检查更新同一条路径），完成后切到下载页看进度
-                    onDownloadAsset = { url, name ->
-                        startupUpdateRelease = null
-                        scope.launch {
-                            downloadManager.enqueue(url = url, fileName = name)
-                            currentTab = MainTab.Download
-                        }
-                    },
-                    // 镜像站下载：用当前生效的镜像前缀（自动选最快 / 用户固定），GitHub 直连作为失败回退
-                    onDownloadMirrorAsset = { url, name ->
-                        startupUpdateRelease = null
-                        val prefix = GitHubMirror.activePrefix()
-                        scope.launch {
-                            downloadManager.enqueue(
-                                url = UpdateChecker.mirrorUrl(url, prefix),
-                                fileName = name,
-                                fallbackUrl = url
-                            )
-                            currentTab = MainTab.Download
-                        }
-                    },
-                    onLater = { startupUpdateRelease = null },
-                    onIgnore = {
-                        // 与设置页「不再提示该版本」同一个键：按 tag 记住，之后不再为这个版本弹窗
-                        // （将来有更新的版本仍会提示，不是全局关闭更新检查）
-                        AppContext.miscPrefs.put("ignored_version", release.tagName)
-                        startupUpdateRelease = null
-                    },
-                    mandatory = release.isMandatoryFor(UpdateChecker.currentVersion())
-                )
-            }
         }
 
         // 剪贴板分享链接检测器：主窗口失焦时若剪贴板有分享链接，触发右下角弹窗。

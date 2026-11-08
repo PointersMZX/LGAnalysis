@@ -1,4 +1,5 @@
 # 发布产物不入库
-release/
+release/*
 !release/.gitkeep
 !release/keystore/
+__pycache__/
