@@ -59,8 +59,18 @@ dependencies {
     implementation("net.java.dev.jna:jna:5.14.0")
     implementation("net.java.dev.jna:jna-platform:5.14.0")
 
-    // 方案 B：内嵌 Chromium 浏览器（JCEF），jcefmaven 负责原生库装载
-    implementation("me.friwi:jcefmaven:132.3.1") {
+    // 方案 B：内嵌 Chromium 浏览器（JCEF），jcefmaven 负责原生库装载。
+    // JCEF 版本线由 Gradle 属性 -PcefLine 选择：缺省 132（常规版，Win10/11），
+    // 109 = Win7 兼容版（Chrome 110 起官方放弃 Win7/8.1，jcef 109 是最后支持 Win7 的线；
+    // 109.1.11.1 的 POM 配对 natives=jcef-854af1f+cef-109.1.11，API 与 132 同包名兼容）。
+    val cefLine = (project.findProperty("cefLine") as String?) ?: "132"
+    val jcefmavenVersion = if (cefLine == "109") "109.1.11.1" else "132.3.1"
+    val jcefNativesVersion = if (cefLine == "109") {
+        "jcef-854af1f+cef-109.1.11+g6d4fdb2+chromium-109.0.5414.87"
+    } else {
+        "jcef-1770317+cef-132.3.1+g144febe+chromium-132.0.6834.83"
+    }
+    implementation("me.friwi:jcefmaven:$jcefmavenVersion") {
         // jogl / gluegen 只服务于 JCEF 的离屏渲染（OSR）；本项目用窗口态浏览器
         // （createBrowser + createImmediately），不打进安装包可省约 5.4 MB。
         // ★ 若将来改用 OSR（无窗口渲染），必须去掉这两条排除。
@@ -71,7 +81,7 @@ dependencies {
     //   发布包不随带这个 120MB 的 jar，改由打包脚本用 JcefNativesPacker 重打成
     //   app\jcef-natives.tar.gz（裁剪语言包），首次使用时由 JcefNativesInstaller 解开。
     //   见 portable-package.ps1 [2c/5] 与 ui/jcef/JcefNativesInstaller.kt。
-    implementation("me.friwi:jcef-natives-windows-amd64:jcef-1770317+cef-132.3.1+g144febe+chromium-132.0.6834.83")
+    implementation("me.friwi:jcef-natives-windows-amd64:$jcefNativesVersion")
 
     // tar.gz 读写：CEF 原生库发布包（打包期重打成 gzip，运行期自解包）
     // jcefmaven 已传递引入 commons-compress，这里显式声明版本以保证稳定

@@ -71,15 +71,26 @@ object JcefHolder {
                     // 自己解包到 installDir 后让 jcefmaven 跳过安装步骤。开发运行无此压缩包，
                     // ensureInstalled 返回 false，仍由 jcefmaven 从 classpath 的原生 jar 安装。
                     if (JcefNativesInstaller.ensureInstalled(installDir)) {
-                        builder.setSkipInstallation(true)
+                        // setSkipInstallation 是新版 jcefmaven 才有的 API（109 线没有），
+                        // 用反射调用：132 线生效跳过安装，109 线找不到方法就静默跳过
+                        //（109 的安装步骤会检测 installDir 已有内容，解包过的 natives 不会被覆盖）。
+                        runCatching {
+                            builder.javaClass.getMethod("setSkipInstallation", java.lang.Boolean.TYPE)
+                                .invoke(builder, true)
+                        }
                     }
                     val settings = builder.getCefSettings()
                     // 发布包只随带 locales/zh-CN.pak（见 tools/JcefNativesPacker.kt），
                     // 这里显式指定 locale，避免按系统语言去找不存在的语言包
                     settings.locale = "zh-CN"
                     settings.windowless_rendering_enabled = false
-                    // CEF 要求 cache_path 必须是 root_cache_path 的子目录
-                    settings.root_cache_path = File(AppContext.cacheDir, "jcef").absolutePath
+                    // CEF 要求 cache_path 必须是 root_cache_path 的子目录。
+                    // root_cache_path 字段同样是新版 jcef API 才有（109 线没有）：
+                    // 反射写入，109 线静默跳过（CEF 会自动把 cache_path 的父目录当 root）。
+                    runCatching {
+                        settings.javaClass.getField("root_cache_path")
+                            .set(settings, File(AppContext.cacheDir, "jcef").absolutePath)
+                    }
                     settings.cache_path = File(AppContext.cacheDir, "jcef/cache").absolutePath
                     settings.log_file = File(AppContext.filesDir, "jcef.log").absolutePath
                     settings.log_severity = org.cef.CefSettings.LogSeverity.LOGSEVERITY_WARNING

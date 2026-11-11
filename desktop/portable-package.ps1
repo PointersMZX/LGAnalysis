@@ -2,6 +2,9 @@
 # 输出: release\LGAnalysis\ （整个文件夹可拷贝到任意位置，双击 LGAnalysis.exe 运行）
 # 注意: 本文件必须保持 UTF-8 带 BOM 编码（PS 5.1 会把无 BOM 的 UTF-8 当 ANSI 解析，中文注释变乱码）
 # 注意: Gradle 会向 stderr 输出无害警告，不要把原生 stderr 当作致命错误处理
+# -Win7：出 Win7 兼容版（JCEF 降到 109 线，Chrome 110 起官方放弃 Win7/8.1；
+# 输出目录与常规版分开：release\LGAnalysis-win7\，exe 名不变仍为 LGAnalysis.exe）
+param([switch]$Win7)
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
@@ -42,7 +45,12 @@ Write-Host "[OK] Position picker built: $pickerExeOut" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "[1/5] Gradle: build jar + native darkmode.dll + export runtime libs..." -ForegroundColor Cyan
-$buildOut = Invoke-Gradle ":desktop:jar" ":desktop:compileDarkMode" ":desktop:exportRuntimeLibs" ":desktop:exportJcefNatives" "--no-build-cache" "--console=plain" 2>&1 | Out-String
+$cefLineArgs = @()
+if ($Win7) {
+    $cefLineArgs = @("-PcefLine=109")
+    Write-Host "[OK] Win7 compatible build: JCEF 109 line (chromium-109.0.5414.87)" -ForegroundColor Yellow
+}
+$buildOut = Invoke-Gradle ":desktop:jar" ":desktop:compileDarkMode" ":desktop:exportRuntimeLibs" ":desktop:exportJcefNatives" @cefLineArgs "--no-build-cache" "--console=plain" 2>&1 | Out-String
 Write-Host $buildOut
 if ($buildOut -match "BUILD FAILED|FAILURE:") { throw "gradle export failed" }
 
@@ -197,7 +205,7 @@ Write-Host "  jcef natives: $jcefNativesMb MB (jar) -> $([math]::Round((Get-Item
 
 Write-Host ""
 Write-Host "[3/5] Building JRE runtime image (jlink)..." -ForegroundColor Cyan
-$outDir = Join-Path $root "release\LGAnalysis"
+if ($Win7) { $outDir = Join-Path $root "release\LGAnalysis-win7" } else { $outDir = Join-Path $root "release\LGAnalysis" }
 $runtimeTmp = Join-Path $root "release-runtime-tmp"
 # jlink 要求输出目录不存在，先清掉
 if (Test-Path $runtimeTmp) { Remove-Item $runtimeTmp -Recurse -Force }
@@ -223,14 +231,18 @@ Write-Host ""
 Write-Host "[4/5] Creating app-image with jpackage (LGAnalysis.exe)..." -ForegroundColor Cyan
 # 打包前先杀运行中的实例：LGAnalysis.exe / java 子进程 / JCEF 助手会锁住输出目录下的 jar 和运行时文件
 Get-Process LGAnalysis -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-Get-Process | Where-Object { $_.Path -like "*\release\LGAnalysis\*" } | Stop-Process -Force -ErrorAction SilentlyContinue
+Get-Process | Where-Object { $_.Path -like "*\release\LGAnalysis\*" -or $_.Path -like "*\release\LGAnalysis-win7\*" } | Stop-Process -Force -ErrorAction SilentlyContinue
 Get-Process jcef_helper -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 # 资源管理器/杀软可能短暂占用句柄，删除旧输出目录需重试
 $removed = $false
 for ($i = 1; $i -le 6; $i++) {
-    if (-not (Test-Path $outDir)) { $removed = $true; break }
+    # jpackage 固定写 release\LGAnalysis（Win7 轮随后再挪走），暂存目录也必须先清掉
+$stagingDir = Join-Path $root "release\LGAnalysis"
+$targets = @($outDir)
+if ($Win7 -and (Test-Path $stagingDir)) { $targets += $stagingDir }
+if (($targets | Where-Object { Test-Path $_ }).Count -eq 0) { $removed = $true; break }
     try {
-        Remove-Item $outDir -Recurse -Force -ErrorAction Stop
+        $targets | ForEach-Object { if (Test-Path $_) { Remove-Item $_ -Recurse -Force -ErrorAction Stop } }
         $removed = $true
         break
     } catch {
@@ -257,6 +269,12 @@ $jpackageExe = Join-Path $JDK "bin\jpackage.exe"
   --java-options "-Dfile.encoding=UTF-8"
 if ($LASTEXITCODE -ne 0) { throw "jpackage failed with exit $LASTEXITCODE" }
 Remove-Item $runtimeTmp -Recurse -Force -ErrorAction SilentlyContinue
+
+# jpackage 固定产出 release\LGAnalysis；Win7 变体挪到独立目录（后续启动器/清理步骤都按 $outDir 走）
+if ($Win7) {
+    Move-Item (Join-Path $root "release\LGAnalysis") $outDir -Force
+    Write-Host "[OK] Moved app-image to $outDir" -ForegroundColor Yellow
+}
 
 Write-Host ""
 Write-Host "[4b/5] Building custom launcher (in-process JVM / rename-proof / CJK path-proof)..." -ForegroundColor Cyan
@@ -355,5 +373,9 @@ $totalSize = [math]::Round(((Get-ChildItem $outDir -Recurse -File | Measure-Obje
 Write-Host "  app\: $appSize MB   runtime\: $runtimeSize MB   total: $totalSize MB" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "Portable package ready: $outDir" -ForegroundColor Green
+if ($Win7) {
+    Write-Host "Portable package (WIN7 compatible, JCEF 109) ready: $outDir" -ForegroundColor Green
+} else {
+    Write-Host "Portable package ready: $outDir" -ForegroundColor Green
+}
 Write-Host "Copy the whole folder anywhere and run LGAnalysis.exe (no install needed)."
