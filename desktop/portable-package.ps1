@@ -1,5 +1,5 @@
 ﻿# LGAnalysis 免安装打包脚本
-# 输出: release\LGAnalysis\ （整个文件夹可拷贝到任意位置，双击 LGAnalysis.exe 运行）
+# 输出: <仓库根>elease\LGAnalysis-v<版本>-windows[-win7]\ （带版本号；-Win7 开关出 Win7 兼容版）
 # 注意: 本文件必须保持 UTF-8 带 BOM 编码（PS 5.1 会把无 BOM 的 UTF-8 当 ANSI 解析，中文注释变乱码）
 # 注意: Gradle 会向 stderr 输出无害警告，不要把原生 stderr 当作致命错误处理
 # -Win7：出 Win7 兼容版（JCEF 降到 109 线，Chrome 110 起官方放弃 Win7/8.1；
@@ -205,7 +205,13 @@ Write-Host "  jcef natives: $jcefNativesMb MB (jar) -> $([math]::Round((Get-Item
 
 Write-Host ""
 Write-Host "[3/5] Building JRE runtime image (jlink)..." -ForegroundColor Cyan
-if ($Win7) { $outDir = Join-Path $root "release\LGAnalysis-win7" } else { $outDir = Join-Path $root "release\LGAnalysis" }
+# ★ 统一输出到仓库根 release\（带版本号命名）：安装目录供用户自打安装程序作源，7z 便携版另压
+$repoRoot = Split-Path -Parent $root
+if ($Win7) {
+    $outDir = Join-Path $repoRoot "release\LGAnalysis-v$AppVersion-windows-win7"
+} else {
+    $outDir = Join-Path $repoRoot "release\LGAnalysis-v$AppVersion-windows"
+}
 $runtimeTmp = Join-Path $root "release-runtime-tmp"
 # jlink 要求输出目录不存在，先清掉
 if (Test-Path $runtimeTmp) { Remove-Item $runtimeTmp -Recurse -Force }
@@ -231,15 +237,14 @@ Write-Host ""
 Write-Host "[4/5] Creating app-image with jpackage (LGAnalysis.exe)..." -ForegroundColor Cyan
 # 打包前先杀运行中的实例：LGAnalysis.exe / java 子进程 / JCEF 助手会锁住输出目录下的 jar 和运行时文件
 Get-Process LGAnalysis -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-Get-Process | Where-Object { $_.Path -like "*\release\LGAnalysis\*" -or $_.Path -like "*\release\LGAnalysis-win7\*" } | Stop-Process -Force -ErrorAction SilentlyContinue
+Get-Process | Where-Object { $_.Path -like "*\release\LGAnalysis*" } | Stop-Process -Force -ErrorAction SilentlyContinue
 Get-Process jcef_helper -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 # 资源管理器/杀软可能短暂占用句柄，删除旧输出目录需重试
 $removed = $false
 for ($i = 1; $i -le 6; $i++) {
-    # jpackage 固定写 release\LGAnalysis（Win7 轮随后再挪走），暂存目录也必须先清掉
+    # jpackage 固定写 desktopelease\LGAnalysis（暂存），暂存目录 + 根 release\ 版本化目录都要先清
 $stagingDir = Join-Path $root "release\LGAnalysis"
-$targets = @($outDir)
-if ($Win7 -and (Test-Path $stagingDir)) { $targets += $stagingDir }
+$targets = @($outDir, $stagingDir)
 if (($targets | Where-Object { Test-Path $_ }).Count -eq 0) { $removed = $true; break }
     try {
         $targets | ForEach-Object { if (Test-Path $_) { Remove-Item $_ -Recurse -Force -ErrorAction Stop } }
@@ -270,11 +275,9 @@ $jpackageExe = Join-Path $JDK "bin\jpackage.exe"
 if ($LASTEXITCODE -ne 0) { throw "jpackage failed with exit $LASTEXITCODE" }
 Remove-Item $runtimeTmp -Recurse -Force -ErrorAction SilentlyContinue
 
-# jpackage 固定产出 release\LGAnalysis；Win7 变体挪到独立目录（后续启动器/清理步骤都按 $outDir 走）
-if ($Win7) {
-    Move-Item (Join-Path $root "release\LGAnalysis") $outDir -Force
-    Write-Host "[OK] Moved app-image to $outDir" -ForegroundColor Yellow
-}
+# jpackage 固定产出 desktopelease\LGAnalysis（暂存）；挪到根 release\ 的版本化目录（后续启动器/清理步骤都按 $outDir 走）
+Move-Item (Join-Path $root "release\LGAnalysis") $outDir -Force
+Write-Host "[OK] Moved app-image to $outDir" -ForegroundColor Yellow
 
 Write-Host ""
 Write-Host "[4b/5] Building custom launcher (in-process JVM / rename-proof / CJK path-proof)..." -ForegroundColor Cyan
