@@ -864,5 +864,5 @@ internal fun bookmarkPlatformLabel(platform: String): String = when (platform) {
 
 private fun copyToClipboard(context: Context, text: String) {
     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    cm.setPrimaryClip(ClipData.newPlainText("yunx_bookmark", text))
+    cm.setPrimaryClip(ClipData.newPlainText("lganalysis_bookmark", text))
 }

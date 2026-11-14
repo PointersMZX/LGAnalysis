@@ -755,7 +755,7 @@ private fun formatVideoDate(timestampSeconds: Long): String {
 private fun copyVideoCaption(context: Context, text: String) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager ?: return
     runCatching {
-        clipboard.setPrimaryClip(ClipData.newPlainText("yunx_video_caption", text))
+        clipboard.setPrimaryClip(ClipData.newPlainText("lganalysis_video_caption", text))
     }.onSuccess {
         SnackbarController.show("文案已复制")
     }

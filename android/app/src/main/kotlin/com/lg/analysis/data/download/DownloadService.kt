@@ -155,7 +155,7 @@ class DownloadService : Service() {
     }
 
     companion object {
-        private const val CHANNEL_ID = "yunx_download"
+        private const val CHANNEL_ID = "lganalysis_download"
         private const val NOTIFICATION_ID = 1001
         private const val ACTION_STOP = "com.lg.analysis.action.STOP_DOWNLOAD"
         private const val EXTRA_TITLE = "title"

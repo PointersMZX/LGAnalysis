@@ -121,6 +121,7 @@ import com.lg.analysis.data.network.UCApi
 import com.lg.analysis.data.network.XunleiApi
 import com.lg.analysis.data.network.video.VideoPlatform
 import com.lg.analysis.data.prefs.SettingsRepository
+import com.lg.analysis.util.MiscPrefs
 import com.lg.analysis.data.update.UpdateChecker
 import com.lg.analysis.data.repository.AccountDirectory
 import com.lg.analysis.data.repository.BaiduAccountRepository
@@ -305,7 +306,7 @@ fun MainScreen(
     // 首次启动引导页（context 声明后检测）
     var showOnboarding by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        val prefs = context.getSharedPreferences("yunx_prefs", android.content.Context.MODE_PRIVATE)
+        val prefs = com.lg.analysis.util.MiscPrefs.get(context)
         showOnboarding = !prefs.getBoolean("onboarding_shown", false)
     }
 
@@ -320,7 +321,7 @@ fun MainScreen(
                 val release = result.release
                 latestRelease = release
                 val current = UpdateChecker.currentVersion(context)
-                val prefs = context.getSharedPreferences("yunx_prefs", android.content.Context.MODE_PRIVATE)
+                val prefs = com.lg.analysis.util.MiscPrefs.get(context)
                 val ignored = prefs.getString("ignored_version", "")
                 if (UpdateChecker.compareVersions(release.tagName, current) > 0 &&
                     release.tagName != ignored
@@ -795,7 +796,7 @@ fun MainScreen(
     if (showOnboarding) {
         OnboardingScreen(
             onFinish = {
-                context.getSharedPreferences("yunx_prefs", android.content.Context.MODE_PRIVATE)
+                com.lg.analysis.util.MiscPrefs.get(context)
                     .edit()
                     .putBoolean("onboarding_shown", true)
                     .apply()
@@ -1434,7 +1435,7 @@ fun MainScreen(
                             OVERLAY_KEY_ABOUT -> AboutScreen(
                                 onBack = { showAbout = false },
                                 onPreviewOnboarding = {
-                                    context.getSharedPreferences("yunx_prefs", android.content.Context.MODE_PRIVATE)
+                                    com.lg.analysis.util.MiscPrefs.get(context)
                                         .edit()
                                         .putBoolean("onboarding_shown", false)
                                         .apply()
@@ -1524,7 +1525,7 @@ fun MainScreen(
                 },
                 onLater = { showUpdateSheet = false },
                 onIgnore = {
-                    context.getSharedPreferences("yunx_prefs", android.content.Context.MODE_PRIVATE)
+                    com.lg.analysis.util.MiscPrefs.get(context)
                         .edit()
                         .putString("ignored_version", release.tagName)
                         .apply()
@@ -1674,7 +1675,7 @@ fun MainScreen(
 /** 复制文本到剪贴板（写剪贴板不受「自动识别剪贴板」开关约束，见 Agent.md §3.22） */
 private fun copyToClipboard(context: Context, text: String) {
     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    cm.setPrimaryClip(ClipData.newPlainText("yunx_link", text))
+    cm.setPrimaryClip(ClipData.newPlainText("lganalysis_link", text))
 }
 
 /**

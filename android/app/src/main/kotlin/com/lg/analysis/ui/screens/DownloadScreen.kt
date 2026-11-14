@@ -1166,7 +1166,7 @@ private fun DownloadTaskCard(
 
 private fun copyToClipboard(context: Context, text: String) {
     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    cm.setPrimaryClip(ClipData.newPlainText("yunx_url", text))
+    cm.setPrimaryClip(ClipData.newPlainText("lganalysis_url", text))
 }
 
 internal fun taskStatusLine(task: DownloadTaskEntity): String {

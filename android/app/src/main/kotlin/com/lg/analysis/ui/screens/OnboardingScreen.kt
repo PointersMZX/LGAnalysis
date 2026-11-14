@@ -499,7 +499,7 @@ private fun QQGroupPill(context: Context) {
 /** 复制文本到剪贴板（写剪贴板不受「自动识别剪贴板」开关约束，见 Agent.md §3.22） */
 private fun copyToClipboard(context: Context, text: String) {
     val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    cm.setPrimaryClip(ClipData.newPlainText("yunx_qq_group", text))
+    cm.setPrimaryClip(ClipData.newPlainText("lganalysis_qq_group", text))
 }
 
 // ==================== 第 2 页：协议与声明 ====================

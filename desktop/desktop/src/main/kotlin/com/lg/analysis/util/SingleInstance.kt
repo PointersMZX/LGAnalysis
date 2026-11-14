@@ -16,7 +16,7 @@ import java.nio.channels.FileLock
  * 个别机器上还会被 Chromium 反向拉起系统里注册的浏览器（那个浏览器自己的启动命令若带
  * `--no-sandbox`，就会看到「不受支持的命令行标记」提示条）。
  *
- * 做法：在数据目录上对 `<数据目录>/yunx-instance.lock` 加**独占文件锁**（进程退出时操作系统自动释放）。
+ * 做法：在数据目录上对 `<数据目录>/lganalysis-instance.lock` 加**独占文件锁**（进程退出时操作系统自动释放）。
  * 拿不到锁说明已有实例在跑 —— 把它的主窗口还原到前台，然后本进程直接退出。
  */
 object SingleInstance {
@@ -34,7 +34,7 @@ object SingleInstance {
      * @return true = 本进程是第一个实例，继续启动；false = 已有实例在跑，调用方应退出
      */
     fun acquire(): Boolean {
-        val file = File(AppContext.dataDir, "yunx-instance.lock")
+        val file = File(AppContext.dataDir, "lganalysis-instance.lock")
         return try {
             file.parentFile?.mkdirs()
             val raf = RandomAccessFile(file, "rw")
